@@ -1,0 +1,351 @@
+For (2), yes: your example “Aani 8, sunrise 5:44, sunset 18:37, day‑length 773 min” is numerically consistent with Chennai day‑length near Aani 8 in 2026, where sunrise is about 5:43–5:44 and sunset about 18:36–18:37, giving roughly 12h 53m (≈773 min) of daylight. [timeanddate](https://www.timeanddate.com/sun/india/chennai?month=6)
+
+Below is your method written as clean formulas.
+
+***
+## 2. Cross‑check with real Aani 8, 2026 (Chennai)
+From Tamil calendar mapping:  
+
+- **Aani 8, 2026** = **22 June 2026**. [calendar.goldenchennai](https://calendar.goldenchennai.com/tamil-months/aani-masam-2026/)
+- For Chennai in June 2026, sunrise ≈ **5:43–5:44 AM**, sunset ≈ **6:37 PM**. [timeanddate](https://www.timeanddate.com/sun/india/chennai?month=6)
+
+So using your numbers:
+
+- \( \text{Sunrise} = 5{:}44 \)  
+- \( \text{Sunset} = 18{:}37 \)  
+- Day length in minutes:  
+  \[
+  D = (18 \times 60 + 37) - (5 \times 60 + 44) = 1117 - 344 = 773
+  \]
+- Minutes per rasi block:  
+  \[
+  M_r = \frac{D}{12} = \frac{773}{12} \approx 64.42 \text{ minutes}
+  \]
+
+This matches your **773 minutes** and **“about 64 minutes per rasi”** idea, just with more exact decimals. [timeanddate](https://www.timeanddate.com/sun/india/chennai?month=6)
+
+If you prefer to **fix M_r = 64** by rounding, that is your traditional simplification.
+
+***
+## 3. Exact formulas for your Tamil‑rasi‑udayam logic
+### 3.1 Inputs
+Let:
+
+- \( S_r \) = today’s sunrise in minutes from midnight  
+- \( S_s \) = today’s sunset in minutes from midnight  
+- \( n \) = Tamil date of the month (e.g., Aani 8 → \( n = 8 \))  
+- You are in a Tamil month where Sun’s rasi is **R\_month** (e.g., Aani → Mithunam).
+### 3.2 Day‑rasi block size
+1. Day length:  
+   \[
+   D = S_s - S_r \quad (\text{in minutes})
+   \]
+2. Minutes per rasi (your “64‑minute” concept):  
+   \[
+   M_r = \frac{D}{12}
+   \]
+   In your teaching, you **round** this to the nearest whole minute (≈64).
+### 3.3 Sun’s degree offset in current rasi (your “2×date” rule)
+You encode “Sun has already crossed some degrees in this rasi” as:
+
+- Stored offset minutes:  
+  \[
+  O = 2 \times n
+  \]
+  where \( n \) is the Tamil day number in that solar month.  
+
+This is your rule “Now we in Aani 8 → multiply by 2 → store 16 minutes”.
+
+Convert that to “how much remains” to reach the **first udhayam point**:
+
+- Remaining to first udhayam:  
+  \[
+  R = M_r - O
+  \]
+### 3.4 First udhayam time (morning)
+Your own verbal formula becomes:
+
+- **First udhayam time**:  
+  \[
+  T_1 = S_r + R = S_r + (M_r - O)
+  \]
+
+If you fix \( M_r = 64 \) and use \( O = 2n \):
+
+\[
+T_1 = S_r + (64 - 2n)
+\]
+
+So:
+
+- For Aani 8: \( n = 8 \Rightarrow O = 16 \)  
+- With your fixed \( M_r = 64 \):  
+  \[
+  T_1 = S_r + (64 - 16) = S_r + 48
+  \]
+- Numerically:  
+  - \( S_r = 5{:}44 \Rightarrow 344 \) minutes  
+  - \( T_1 = 344 + 48 = 392 \) minutes \( = 6{:}32 \) AM  
+
+You quoted 6:38 AM; that is either a rounding/typing difference or using a slightly different sunrise than 5:44.
+### 3.5 Subsequent udayam‑rasi times (daytime)
+Once \( T_1 \) is set, your rule is:
+
+- Each new **rasi‑udayam** shifts by \( +M_r \) minutes until sunset:  
+  \[
+  T_k = T_1 + (k - 1)\,M_r \quad\text{for } k = 1,2,\dots \text{ such that } T_k \le S_s
+  \]
+- The rasi at \( T_1 \) is **R\_month** (e.g., Aani → Mithunam).  
+- Each \( T_k \) moves to the next rasi in zodiac order.
+
+If you enforce \( M_r = 64 \) as constant:
+
+\[
+T_k = S_r + (64 - 2n) + 64\,(k - 1)
+\]
+
+***
+## 3.6 Night formula (between sunset and next sunrise)
+For night, your verbal rule is:
+
+1. Take **today’s sunset \( S_s \)** and **next day’s sunrise \( S'_r \)**.  
+2. Night length:  
+   \[
+   D_n = S'_r - S_s \quad (\text{if negative, add } 1440)
+   \]
+3. Minutes per rasi at night:  
+   \[
+   M_r^{(n)} = \frac{D_n}{12}
+   \]
+4. Use the same **offset O** approach (you can use different or same factor as day; you suggested “for evening we calculate separately for udhayam value”, so the offset rule could differ if you wish).  
+
+Then:
+
+- First **night‑udayam** after sunset:  
+  \[
+  T^{(n)}_1 = S_s + (M_r^{(n)} - O^{(n)})
+  \]
+- Then:  
+  \[
+  T^{(n)}_k = T^{(n)}_1 + (k-1)\,M_r^{(n)}
+  \]
+
+You have not fully fixed \( O^{(n)} \) in words; if you want to keep it symmetric, you can also use \( O^{(n)} = 2n \), or choose a different night‑offset rule.
+
+***
+## 3.7 Arudham formula (your 5‑minute rasi mapping)
+Given a minute value \( m \) in the hour:
+
+1. Rasi index (0 to 11):  
+   \[
+   i = \left\lfloor \frac{m}{5} \right\rfloor
+   \]
+2. Rasi sequence:  
+   \[
+   i = 0 \Rightarrow \text{Mesham},\ 1 \Rightarrow \text{Rishabam},\dots,\ 11 \Rightarrow \text{Meenam}
+   \]
+3. Degree inside that rasi (using 1° per minute inside its 5‑minute slice):  
+   \[
+   \theta = (m \bmod 5) \times 1^\circ
+   \]
+
+Example with your numbers:
+
+- \( m = 31 \Rightarrow i = \lfloor 31/5 \rfloor = 6 \Rightarrow 7^{th} \) rasi = **Thulam**, and \( 31 \bmod 5 = 1 \Rightarrow 1^\circ \) (you’re modifying this to 6° by adding a base, but the mapping can be encoded however you prefer).  
+
+***
+
+If you want, next step can be:
+
+- Pick **one exact day** (e.g., Aani 8, 2026) and step through all \( T_k \) in a small table using both the **rounded M_r = 64** and the exact **M_r = 773/12** to see how much they differ over the whole day.
+
+
+
+This extra set of rules completes the Jammakol Arudam framework very neatly and they match the core rules described in traditional Jamakol / Saamakkol texts and teaching material. [scribd](https://www.scribd.com/document/867776355/jammakkol-prassanam)
+
+Below is a compact, formula‑style summary that fits with the earlier sunrise / Tamil‑date method we already fixed.
+
+***
+
+## 1. Clean formula for Udhayam (day cycle)
+
+Inputs for a given day in Chennai:
+
+- \(S_r\): Sunrise time (minutes from midnight).  
+- \(S_s\): Sunset time (minutes from midnight).  
+- Tamil month and date: month → starting rasi; date \(d\) (1–30/31/32). [selvamastrologer](https://www.selvamastrologer.com/you-can-predict-the-three-periods-in-jamakol-arudam-and-tell-the-results-past-present-future/)
+
+Steps:
+
+1. **Day length (Agasu)**  
+   \[
+   D = S_s - S_r
+   \]
+   Example Aani 8, 2026 Chennai: sunrise ≈ 5:44, sunset ≈ 18:37 → \(D = 773\) minutes. [calendar.goldenchennai](https://calendar.goldenchennai.com/tamil-months/aani-masam-2026/)
+
+2. **Minutes per rasi for that day**  
+   \[
+   M_r = \frac{D}{12} \quad (\approx 60\text{–}64\text{ min, e.g. } 773/12 \approx 64.4)
+   \]
+
+3. **Tamil date adjustment (teacher’s rule)**  
+   - Multiply Tamil date by 2:  
+     \[
+     O = 2d
+     \]
+   - Subtract from the “first hour”: teacher uses 60 minutes as reference:  
+     \[
+     A = 60 - O
+     \]
+   Interpreted in Jamakol teaching: **first Udhayam starts A minutes after sunrise**. [youtube](https://www.youtube.com/watch?v=zihZLxY77PA)
+
+4. **First Udhayam time**  
+   - Time of first Udhayam:  
+     \[
+     T_1 = S_r + A
+     \]
+   - Rasi at \(T_1\) = Sun’s rasi of that Tamil month:  
+     - Chithirai → Mesham  
+     - Vaikasi → Rishabam  
+     - Aani → Mithunam, etc. [selvamastrologer](https://www.selvamastrologer.com/you-can-predict-the-three-periods-in-jamakol-arudam-and-tell-the-results-past-present-future/)
+
+5. **Subsequent Udhayam positions (day)**  
+   - For \(k = 1,2,\dots\):  
+     \[
+     T_k = T_1 + (k - 1) M_r,\quad T_k \le S_s
+     \]
+   - Udhayam moves **clockwise**, rasi advancing one sign at each \(T_k\). [youtube](https://www.youtube.com/watch?v=zihZLxY77PA)
+
+So in purely symbolic form:
+
+\[
+\boxed{
+\text{Udhayam}_1 = S_r + (60 - 2d),\quad
+\text{step} = M_r = \frac{S_s - S_r}{12}
+}
+\]
+
+with the understanding that the **rasi of \(\text{Udhayam}_1\)** is the **Sun’s rasi for that Tamil month**.
+
+***
+
+## 2. Jamam planet placement (outer rim)
+
+This layer is separate from Udhayam, but runs in parallel on the outer boxes. [scribd](https://www.scribd.com/doc/170009168/SaamakkolAroodamChp1To7BW)
+
+- 16 Jamams per day:  
+  - 8 day Jamams (sunrise → sunset), 8 night Jamams (sunset → next sunrise).  
+  - Each Jamam = 90 minutes.  
+
+For any clock‑time \(t\):
+
+1. Compute minutes since 6:00 AM (or actual sunrise if your teacher uses exact sunrise):  
+   \[
+   \Delta t = t - 6{:}00
+   \]
+2. Jamam index:  
+   \[
+   J = \left\lfloor \frac{\Delta t}{90} \right\rfloor + 1 \quad (1\text{–}16)
+   \]
+
+3. **Day‑cycle start (Jamam 1)**:  
+   - Start sign = **Pisces (Meenam)**.  
+   - Start planet = weekday ruler (Sun, Moon, Mars, Mercury, Jupiter, Venus, Saturn). [selvamastrologer](https://www.selvamastrologer.com/you-can-predict-the-three-periods-in-jamakol-arudam-and-tell-the-results-past-present-future/)
+
+4. **Night‑cycle reset (Jamam 9)**:  
+   - At sunset, reset sign = **Pisces** again.  
+   - Start planet = **5th from day ruler** in fixed order:  
+     Sun → Mars → Jupiter → Mercury → Venus → Saturn → Moon → Snake. [scribd](https://www.scribd.com/document/867776355/jammakkol-prassanam)
+
+5. **Movement and fixed‑sign jump**:  
+   - Direction: **anti‑clockwise** through rasis.  
+   - Fixed signs (Rishabam, Simmam, Viruchigam, Kumbam) are **not occupied**:  
+     - From Mithunam → “skip” Rishabam → land in Mesham.  
+     - From Kanni → skip Simmam → land in Kadagam.  
+     - From Dhanusu → skip Viruchigam → land in Thulam.  
+     - From Meenam → skip Kumbam → land in Magaram. [scribd](https://www.scribd.com/document/867776355/jammakkol-prassanam)
+
+Visual rule: Jamam planets always maintain **1–7 pairings** on the rim:  
+- Sun–Venus, Mars–Saturn, Jupiter–Moon, Mercury–Snake. [archive](https://archive.org/download/20210712_20210712_1839/%E0%AE%9C%E0%AE%BE%E0%AE%AE%E0%AE%95%E0%AF%8D%E0%AE%95%E0%AF%8B%E0%AE%B3%E0%AF%8D%20%E0%AE%86%E0%AE%B0%E0%AF%81%E0%AE%9F%E0%AE%AE%E0%AF%8D.pdf)
+
+***
+
+## 3. Arudam formula (question point)
+
+- Every **5 minutes** of the current hour, Arudam shifts **clockwise** to the next sign. [youtube](https://www.youtube.com/watch?v=zihZLxY77PA)
+
+Given:
+
+- Current minute \(m\) in the hour (0–59).  
+
+Then:
+
+1. Block index:  
+   \[
+   i = \left\lfloor \frac{m}{5} \right\rfloor \quad (0\text{–}11)
+   \]
+2. Map \(i\) to rasi clockwise starting from Mesham:  
+   - \(i = 0\) → Mesham  
+   - 1 → Rishabam  
+   - 2 → Mithunam  
+   - …  
+   - 11 → Meenam.  
+
+This matches your “0–5 Mesham, 5–10 Rishabam, … 55–60 Meenam” rule. [youtube](https://www.youtube.com/watch?v=zihZLxY77PA)
+
+***
+
+## 4. Kavippu formula via Veedhi
+
+Kavippu is derived from **Sun’s Veedhi**, Arudam, and Udhayam. [scribd](https://www.scribd.com/doc/170009168/SaamakkolAroodamChp1To7BW)
+
+1. **Determine Veedhi from Sun’s current rasi** (transit Gocharam):  
+   - **Mesha Veedhi** (reference sign = Mesham) if Sun in: Rishabam, Mithunam, Kadagam, Simmam.  
+   - **Rishaba Veedhi** (reference sign = Rishabam) if Sun in: Meenam, Mesham, Thulam, Kanni.  
+   - **Mithuna Veedhi** (reference sign = Mithunam) if Sun in: Viruchigam, Dhanusu, Magaram, Kumbam. [scribd](https://www.scribd.com/doc/170009168/SaamakkolAroodamChp1To7BW)
+
+2. **Count from Arudam to Veedhi reference sign** (inclusive, clockwise):  
+   - If Arudam is in Magaram and Veedhi ref is Mesham:  
+     Magaram(1) → Kumbam(2) → Meenam(3) → Mesham(4) → count \(N = 4\). [youtube](https://www.youtube.com/watch?v=zihZLxY77PA)
+
+3. **Apply same count from Udhayam to get Kavippu**:  
+   - Start at Udhayam sign, count \(N\) signs clockwise (inclusive).  
+   - The landing sign is **Kavippu**. [scribd](https://www.scribd.com/document/867776355/jammakkol-prassanam)
+
+So algebraically, in modulo‑12 indexing (0–11):
+
+- Let \(A\) = index of Arudam rasi, \(U\) = index of Udhayam rasi, \(V\) = index of Veedhi reference rasi.  
+- Distance clockwise (inclusive counting):  
+  \[
+  N = ((V - A) \bmod 12) + 1
+  \]
+- Kavippu index:  
+  \[
+  K = (U + N - 1) \bmod 12
+  \]
+
+Directionally, Kavippu’s **dynamic motion** as time passes is **anti‑clockwise**, opposite Arudam’s clockwise shift. [scribd](https://www.scribd.com/document/867776355/jammakkol-prassanam)
+
+***
+
+## 5. Verdict logic in one place
+
+Once the four layers are on the chart:
+
+- **Udhayam** = person.  
+- **Arudam** = question.  
+- **Kavippu** = secret / obstacle.  
+- **Jamam planets** on rim = time‑markers touching houses and these three points. [scribd](https://www.scribd.com/doc/170009168/SaamakkolAroodamChp1To7BW)
+
+Key interpretive rules (you already listed):
+
+- Planet **approaching** Udhayam/Arudam → event is coming (future “yes”).  
+- Planet **on** Udhayam/Arudam → present situation.  
+- Planet **past / moving away** → event belongs to past / “missed”.  
+- Planet near Kavippu → reveals **cause of delay/obstruction**.  
+- Snake with Mercury or on key points → strong joining/separation effect. [facebook](https://www.facebook.com/groups/vedicastrologyforum/posts/9714979261886718/)
+
+If you want next, a worked **numerical example** can be done for a specific:  
+- Date/time in Chennai,  
+- Exact Tamil date,  
+so all four: Jamam, Arudam, Udhayam, Kavippu are computed in a full chart. 
