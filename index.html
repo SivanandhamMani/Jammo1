@@ -314,7 +314,7 @@
 <div class="hero fi">
   <h1 id="h-title">JAMMAKOL PRASNAM</h1>
   <div class="hsub">ஜாம்மக்கோல் அருடம் · Classical Tamil Horary Astrology</div>
-  <div class="hdesc" id="h-desc">Day Lord placed at Pisces at Jamam 1; all 8 planets advance one non-fixed sign CCW every 90 min. Fixed signs (Taurus, Leo, Scorpio, Aquarius) are skipped. Opposite pairs (Sun↔Venus, Mars↔Saturn, Jupiter↔Moon, Mercury↔Snake) always occupy the 7th house from each other. Real-time Gochara transits + Mandi sit inside the chart cells.</div>
+  <div class="hdesc" id="h-desc">Eight Jamam planets rotate CCW on the outer rim in 1-7 pairs. Real-time Gochara transits + Mandi sit inside the chart cells. Arudam, Udhayam and Kavippu are calculated from prasnam time, Tamil date and Sun's Veedhi.</div>
 </div>
 
 <div class="notice"><span id="notice-txt">⚠️ Ask once with sincere intent. Never repeat the same question. The verdict is valid for up to 6 months.</span></div>
@@ -687,71 +687,51 @@ function sunSignFromDate(ds){
 //  JAMAM ENGINE
 // ═══════════════════════════════════════════════════════════════
 //
-//  RULES (classical Tamil Jammakol — Jamma Graha placement):
+//  RULES (from classical Tamil Jammakol):
+//  • All 8 planets START at Meenam (Pisces, ri=11) at Jamam 1 sunrise
+//  • They rotate CCW (Pi→Aq→Cp→Sa→Sc→Li→Vi→Le→Ca→Ge→Ta→Ar→Pi...)
+//  • Each Jamam = 45° of CCW movement = 90 minutes
+//  • Fixed signs (Taurus=1, Leo=4, Scorpio=7, Aquarius=10) are NOT
+//    occupied — planets SKIP them but carry those degrees forward,
+//    so entry degree into the next non-fixed sign = 15° (not 0°)
+//    e.g. 45° CCW from Pi = through Aq(fixed,30°) + 15° into Cp → Cp 15°
+//  • Day ruler by weekday starts at Pisces; others follow in sequence:
+//    Sun(0), Mars(1), Jup(2), Merc(3), Venus(4), Saturn(5), Moon(6), Snake(7)
+//  • Sunday  → Sun   starts Jamam 1 at Pisces
+//    Monday  → Moon  starts Jamam 1 at Pisces
+//    Tuesday → Mars  starts Jamam 1 at Pisces  ... etc.
 //
-//  SEQUENCE: Sun(0) → Mars(1) → Jupiter(2) → Mercury(3) →
-//            Venus(4) → Saturn(5) → Moon(6) → Snake/Rahu(7)
-//
-//  FIXED PAIRS (always 7th house / directly opposite):
-//    Sun(0) ↔ Venus(4)    |  Mars(1) ↔ Saturn(5)
-//    Jupiter(2) ↔ Moon(6) |  Mercury(3) ↔ Snake(7)
-//
-//  NON-FIXED signs in CCW order (8 slots — fixed signs Ta/Le/Sc/Aq skipped):
-//    Slot 0=Pi(11), 1=Cp(9), 2=Sa(8), 3=Li(6),
-//          4=Vi(5),  5=Ca(3), 6=Ge(2), 7=Ar(0)
-//
-//  JAMAM 1 (at sunrise): Day Lord placed at slot 0 (Pisces).
-//    Remaining 7 planets fill slots 1–7 in JM sequence order (CCW).
-//    This guarantees every pair is exactly 4 slots apart = 7th house.
-//
-//  MOVEMENT: Each new Jamam, the entire group shifts ONE slot CCW.
-//    slot for planet-p at jamam-j (both 0-indexed) = (p + j) % 8
-//    → Day Lord: slot j%8 · its pair partner: slot (j+4)%8 (always opposite)
-//
-//  DAY RULER by weekday (JS 0=Sun…6=Sat → JM index):
-//    Sun→0, Mon→6, Tue→1, Wed→3, Thu→2, Fri→4, Sat→5
-//  NIGHT RULER = dayRuler + 4 (mod 8)  [5th planet from day ruler]
-//
-//  DURATION: 1 Jamam = 90 minutes. 8 day + 8 night = 16 per 24 h.
-//  DAY Jamams: start at sunrise.  NIGHT Jamams: start at sunset.
+//  Non-fixed signs in CCW order (8 slots, each 30° wide in effective space):
+//  Slot 0=Pi(11), 1=Cp(9), 2=Sa(8), 3=Li(6), 4=Vi(5), 5=Ca(3), 6=Ge(2), 7=Ar(0)
+//  Effective circle = 8×30 = 240°
+//  Planet p at Jamam j (both 0-indexed): totalCCW = (p + j) × 45°
+//  → slot = floor(totalCCW % 240 / 30), deg = (totalCCW % 240) % 30
 
-var JM_NON_FIXED_CCW = [11, 9, 8, 6, 5, 3, 2, 0]; // Pi,Cp,Sa,Li,Vi,Ca,Ge,Ar (8 slots)
+var JM_NON_FIXED_CCW = [11, 9, 8, 6, 5, 3, 2, 0]; // Pi,Cp,Sa,Li,Vi,Ca,Ge,Ar
 
-// Each non-fixed sign is 45° wide (absorbs 15° from each adjacent fixed sign):
-//   Fixed sign Taurus  → 15° to Aries,      15° to Gemini
-//   Fixed sign Leo     → 15° to Cancer,      15° to Virgo
-//   Fixed sign Scorpio → 15° to Libra,       15° to Sagittarius
-//   Fixed sign Aquarius→ 15° to Capricorn,   15° to Pisces
-// Effective circle = 8 slots × 45° = 360°
-// Degree within a slot advances as the prasnam time moves through the 90-min Jamam:
-//   degInSlot = floor( (minutesElapsedInJamam / 90) * 45 )
+function jamPlanetPos(totalCCWDeg) {
+  // Map CCW degrees to (rasi, degree-in-sign), skipping fixed signs
+  var d = ((totalCCWDeg % 240) + 240) % 240;
+  var slotIdx = Math.floor(d / 30);
+  var degInSign = Math.floor(d % 30);
+  var minInSign = Math.round((d % 30 - degInSign) * 60);
+  return { ri: JM_NON_FIXED_CCW[slotIdx], deg: degInSign, min: minInSign };
+}
 
-function buildJamam(rulerIdx, j, jamStartMin, pMin) {
-  // rulerIdx    : JM sequence index of the day/night ruler
-  // j           : jamam index (0-based)
-  // jamStartMin : start time of this Jamam in minutes-of-day
-  // pMin        : prasnam time in minutes-of-day (used to calc degree within slot)
-  //
-  // slot for planet-p = (p + j) % 8
-  // degInSlot = floor( clamp(pMin - jamStartMin, 0, 89) / 90 * 45 )
-  var elapsed = pMin !== undefined ? Math.max(0, Math.min(89, pMin - jamStartMin)) : 0;
-  var degInSlot = Math.floor(elapsed / 90 * 45);
-  var minInDeg  = Math.floor((elapsed / 90 * 45 - degInSlot) * 60);
-
+function buildJamam(rulerIdx, j) {
+  // rulerIdx = JM sequence index of day/night ruler (starts at Pisces, Jamam 1)
+  // j = jamam index (0-based)
+  // Planet p (0=ruler, 1=next, ...) is (rulerIdx+p)%8 in JM_EN sequence
+  // Its position: totalCCW = (p + j) * 45 degrees
   var pls = [];
   for (var p = 0; p < 8; p++) {
-    var slot = (p + j) % 8;
-    pls.push({
-      jmIdx : (rulerIdx + p) % 8,
-      ri    : JM_NON_FIXED_CCW[slot],
-      deg   : degInSlot,
-      min   : minInDeg
-    });
+    var pos = jamPlanetPos((p + j) * 45);
+    pls.push({ jmIdx: (rulerIdx + p) % 8, ri: pos.ri, deg: pos.deg, min: pos.min });
   }
   return pls;
 }
 
-function calcAllJamams(dateStr, srMin, ssMin, pMin) {
+function calcAllJamams(dateStr, srMin, ssMin) {
   // Parse date parts directly to avoid timezone issues
   var parts = dateStr.split('-');
   var yr = parseInt(parts[0]), mo = parseInt(parts[1]), dy = parseInt(parts[2]);
@@ -763,26 +743,24 @@ function calcAllJamams(dateStr, srMin, ssMin, pMin) {
   var jams = [];
   // Day: 8 Jamams starting at sunrise, ruler planet starts at Pisces
   for (var j = 0; j < 8; j++) {
-    var start = srMin + j * JAMAM_DUR;
     jams.push({
       num: j + 1,
-      start: start,
-      end:   start + JAMAM_DUR,
+      start: srMin + j * JAMAM_DUR,
+      end:   srMin + (j + 1) * JAMAM_DUR,
       isNight: false,
       dur: JAMAM_DUR,
-      planets: buildJamam(dayR, j, start, pMin)
+      planets: buildJamam(dayR, j)
     });
   }
   // Night: 8 Jamams starting at sunset, night ruler starts at Pisces
   for (var j = 0; j < 8; j++) {
-    var start = ssMin + j * JAMAM_DUR;
     jams.push({
       num: j + 9,
-      start: start,
-      end:   start + JAMAM_DUR,
+      start: ssMin + j * JAMAM_DUR,
+      end:   ssMin + (j + 1) * JAMAM_DUR,
       isNight: true,
       dur: JAMAM_DUR,
-      planets: buildJamam(nightR, j, start, pMin)
+      planets: buildJamam(nightR, j)
     });
   }
   return jams;
@@ -1185,7 +1163,9 @@ function buildDualChart(jamPlanets, gochPlanets, aruRi, udhRi, kavRi, curJam, su
   function jamHtml(ri, vertical){
     var pls=jmMap[ri]||[];
     return pls.map(function(ji){
-      return '<span class="jm-side-pl" style="color:'+JM_CLR2[ji]+'">'+(T?JM_STA[ji]:JM_SEN[ji])+'</span>';
+      var gpIdx=GP_FOR_JM[ji];
+      var deg=goDegMap[gpIdx]!==undefined?' '+fmtDeg(goDegMap[gpIdx]):'';
+      return '<span class="jm-side-pl" style="color:'+JM_CLR2[ji]+'">'+(T?JM_STA[ji]:JM_SEN[ji])+deg+'</span>';
     }).join('');
   }
 
@@ -1262,9 +1242,9 @@ function buildDualChart(jamPlanets, gochPlanets, aruRi, udhRi, kavRi, curJam, su
       var pls=jmMap[ri]||[];
       var content=pls.map(function(p){
         var ji=p.jmIdx!==undefined?p.jmIdx:p;
-        var deg=p.deg!==undefined?' <span style="font-size:7px;opacity:.8;">'+p.deg+'°'+String(p.min||0).padStart(2,'0')+"'</span>":'';
+        var jamDeg=p.deg!==undefined?' <span style="font-size:8px;opacity:.85;">'+p.deg+'°</span>':'';
         return '<span style="display:block;color:'+JM_CLR2[ji]+';font-weight:700;font-size:9px;line-height:1.5;white-space:nowrap;">'+
-          (T?JM_STA[ji]:JM_SEN[ji])+deg+'</span>';
+          (T?JM_STA[ji]:JM_SEN[ji])+jamDeg+'</span>';
       }).join('');
       return '<td style="width:90px;min-width:90px;text-align:center;padding:2px 1px;border:none;'+
         'vertical-align:middle;" class="jm-strip-cell">'+content+'</td>';
@@ -1289,11 +1269,11 @@ function buildDualChart(jamPlanets, gochPlanets, aruRi, udhRi, kavRi, curJam, su
         var pls=jmMap[ri]||[];
         content=pls.map(function(p){
           var ji=p.jmIdx!==undefined?p.jmIdx:p;
-          var deg=p.deg!==undefined?' '+p.deg+'°'+String(p.min||0).padStart(2,'0')+"'":'';
+          var jamDeg=p.deg!==undefined?' '+p.deg+'°':'';
           return '<div style="writing-mode:vertical-rl;text-orientation:mixed;'+
             (isLeft?'transform:rotate(180deg);':'')+
             'color:'+JM_CLR2[ji]+';font-weight:700;font-size:9px;line-height:1.4;white-space:nowrap;">'+
-            (T?JM_STA[ji]:JM_SEN[ji])+deg+'</div>';
+            (T?JM_STA[ji]:JM_SEN[ji])+jamDeg+'</div>';
         }).join('');
       }
       return '<tr><td style="height:90px;width:22px;text-align:center;padding:1px 2px;border:none;'+
@@ -1362,7 +1342,7 @@ function calculate(){
   var sunRi=trans?trans.planets[0].ri:sunSignFromDate(dateStr);
 
   // Jamam
-  var jams=calcAllJamams(dateStr,srMin,ssMin,pMin);
+  var jams=calcAllJamams(dateStr,srMin,ssMin);
   var cj=currentJam(jams,pMin);
 
   // Three points
@@ -1436,7 +1416,7 @@ function renderResult(D){
       GP_SEN.slice(0,10).map(function(s,i){return '<span>'+s+'='+gN(i)+'</span>';}).join(' ')+
     '</div>'+
     '<div style="font-size:9px;margin-top:4px;color:var(--muted);">'+
-      '* = '+(T?"நிலையான ராசி (ஜாமம் கிரகங்கள் வருவதில்லை)":"Fixed sign (Jamam planets never occupy these)")+'</div>'+
+      '* = '+(T?"நிலையான ராசி (45° தாண்டல்)":"Fixed sign (45° jump rule)")+'</div>'+
   '</div>';
 
   // Current Jamam block planets table
