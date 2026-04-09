@@ -195,7 +195,16 @@
     .pair-badge{display:inline-block;font-size:7px;color:#6655aa;
       border:1px solid #3a2a5a;border-radius:3px;padding:0 3px;margin-top:1px;}
 
-    /* LOCATION MANAGER MODAL */
+    .v-kavippu-no{background:#1a0000;border-color:#ff0022;box-shadow:0 0 18px rgba(255,0,34,.25);}
+    [data-theme=light] .v-kavippu-no{background:#fff0f0;border-color:#cc0011;}
+    .kav-override-badge{display:inline-block;background:#ff0022;color:#fff;font-size:9px;font-weight:700;
+      border-radius:4px;padding:2px 8px;letter-spacing:1px;text-transform:uppercase;margin-bottom:8px;}
+    [data-theme=light] .kav-override-badge{background:#cc0011;}
+    .kav-pl-guide{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:6px;margin-top:8px;}
+    .kav-pl-item{background:var(--bg5);border:1px solid var(--bdr);border-radius:5px;
+      padding:6px 9px;font-size:10px;display:flex;gap:6px;align-items:flex-start;}
+    .kav-pl-item.active-kav{border-color:var(--red);background:#1a0000;}
+    [data-theme=light] .kav-pl-item.active-kav{background:#fff0f0;}
     .lm-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.7);
       z-index:9000;align-items:center;justify-content:center;}
     .lm-overlay.open{display:flex;}
@@ -244,6 +253,49 @@
     .def-badge{display:inline-flex;align-items:center;gap:4px;font-size:9px;
       color:var(--acc2);background:var(--bg4);border:1px solid var(--acc);
       border-radius:4px;padding:2px 6px;margin-left:6px;vertical-align:middle;}
+
+    /* THEORY SECTION */
+    .theory-toggle{display:flex;align-items:center;justify-content:space-between;
+      cursor:pointer;user-select:none;padding:10px 13px;
+      background:var(--bg4);border:1px solid var(--bdr);border-radius:9px;
+      margin-bottom:4px;transition:border-color .2s;}
+    .theory-toggle:hover{border-color:var(--purple);}
+    .theory-toggle-title{font-size:10px;font-weight:700;color:var(--purple);
+      letter-spacing:1px;text-transform:uppercase;}
+    .theory-toggle-arrow{font-size:12px;color:var(--muted);transition:transform .25s;}
+    .theory-toggle-arrow.open{transform:rotate(180deg);}
+    .theory-body{display:none;margin-bottom:12px;}
+    .theory-body.open{display:block;}
+    .theory-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px;}
+    @media(max-width:540px){.theory-grid{grid-template-columns:1fr;}}
+    .th-block{background:var(--bg5);border:1px solid var(--bdr);border-radius:7px;padding:11px 13px;}
+    .th-block.danger{border-color:var(--red);background:#150304;}
+    [data-theme=light] .th-block.danger{background:#fff4f4;}
+    .th-block-title{font-size:9px;font-weight:700;letter-spacing:1.5px;
+      text-transform:uppercase;margin-bottom:7px;padding-bottom:6px;
+      border-bottom:1px solid var(--bdr);}
+    .th-block-title.red{color:var(--red);}
+    .th-block-title.cyan{color:var(--cyan);}
+    .th-block-title.amber{color:var(--amber);}
+    .th-block-title.purple{color:var(--purple);}
+    .th-block-title.green{color:var(--green);}
+    .th-item{display:flex;gap:8px;margin-bottom:6px;font-size:10px;line-height:1.6;align-items:flex-start;}
+    .th-dot{flex-shrink:0;margin-top:3px;width:6px;height:6px;border-radius:50%;background:var(--muted);}
+    .th-dot.red{background:var(--red);}
+    .th-dot.cyan{background:var(--cyan);}
+    .th-dot.amber{background:var(--amber);}
+    .th-dot.purple{background:var(--purple);}
+    .th-dot.green{background:var(--green);}
+    .th-rule{font-size:10px;line-height:1.7;color:var(--txt);margin-bottom:5px;}
+    .th-rule b{color:var(--acc2);}
+    .th-sub{font-size:9px;color:var(--muted);margin-top:2px;}
+    .th-pill-row{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px;}
+    .th-pill{border-radius:5px;padding:4px 9px;font-size:9px;font-weight:700;
+      border:1px solid;letter-spacing:.5px;}
+    .th-example{background:var(--bg2);border:1px solid var(--bdrG);border-radius:6px;
+      padding:9px 11px;margin-top:8px;font-size:10px;line-height:1.7;color:var(--txt);}
+    .th-example-title{font-size:8px;font-weight:700;color:var(--acc2);
+      letter-spacing:1px;text-transform:uppercase;margin-bottom:5px;}
   </style>
 </head>
 <body>
@@ -314,10 +366,234 @@
 <div class="hero fi">
   <h1 id="h-title">JAMMAKOL PRASNAM</h1>
   <div class="hsub">ஜாம்மக்கோல் அருடம் · Classical Tamil Horary Astrology</div>
-  <div class="hdesc" id="h-desc">Day Lord placed at Pisces at Jamam 1; all 8 planets advance one non-fixed sign CCW every 90 min. Fixed signs (Taurus, Leo, Scorpio, Aquarius) are skipped. Opposite pairs (Sun↔Venus, Mars↔Saturn, Jupiter↔Moon, Mercury↔Snake) always occupy the 7th house from each other. Real-time Gochara transits + Mandi sit inside the chart cells.</div>
+  <div class="hdesc" id="h-desc">Day Lord placed at Pisces at Jamam 1 (sunrise); all 8 planets advance one non-fixed sign CCW every 90 min. Each Jamam = 90 min | 1° = 2 min | 45° per slot. Fixed signs (Taurus, Leo, Scorpio, Aquarius) are skipped. Opposite pairs (Sun↔Venus, Mars↔Saturn, Jupiter↔Moon, Mercury↔Snake) always occupy the 7th house from each other. Night cycle resets at sunset with the 5th planet from the day ruler in Pisces.</div>
 </div>
 
 <div class="notice"><span id="notice-txt">⚠️ Ask once with sincere intent. Never repeat the same question. The verdict is valid for up to 6 months.</span></div>
+
+<!-- THEORY & REFERENCE -->
+<div class="fi">
+  <div class="theory-toggle" onclick="toggleTheory(this)">
+    <span class="theory-toggle-title">📖 Theory & Reference — Maandi · Udayam · Kavippu</span>
+    <span class="theory-toggle-arrow">▼</span>
+  </div>
+  <div class="theory-body">
+    <div class="theory-grid">
+
+      <!-- USES OF MAANDI -->
+      <div class="th-block danger">
+        <div class="th-block-title red">☠ Uses of Maandi — Death &amp; Detriment</div>
+        <div class="th-rule">If <b>Udayam and Maandi have a relationship</b>, or if <b>Maandi has a relationship with the bhava</b> concerned to the querent's question, the outcome is <b>detrimental</b>.</div>
+        <div class="th-pill-row">
+          <span class="th-pill" style="color:var(--red);border-color:var(--red);">Maandi ↔ Udayam</span>
+          <span class="th-pill" style="color:var(--amber);border-color:var(--amber);">Maandi ↔ Relevant Bhava</span>
+          <span class="th-pill" style="color:var(--red);border-color:var(--red);">→ Conclude Detrimental</span>
+        </div>
+      </div>
+
+      <!-- KNOWING THE QUESTION -->
+      <div class="th-block">
+        <div class="th-block-title cyan">🔍 Knowing the Question</div>
+        <div class="th-item">
+          <div class="th-dot cyan"></div>
+          <div><b style="color:var(--cyan);">Udayam (Ascendant)</b> — the starting point of analysis</div>
+        </div>
+        <div class="th-item">
+          <div class="th-dot amber"></div>
+          <div><b style="color:var(--amber);">Lord of Udayam</b> — determines the <em>eligibility</em> of the question posted by the querent</div>
+        </div>
+        <div class="th-item">
+          <div class="th-dot purple"></div>
+          <div><b style="color:var(--purple);">Planets in Udayam</b> — whichever planet is posited in Udayam, the question will be concerned with the <em>karakatwas and bhava</em> of that planet</div>
+        </div>
+        <div class="th-item">
+          <div class="th-dot green"></div>
+          <div><b style="color:var(--green);">Kavippu</b> — indicates the <em>consequences</em> of the matter in question</div>
+        </div>
+      </div>
+
+      <!-- UDAYAM LORD RULE -->
+      <div class="th-block">
+        <div class="th-block-title amber">⚖ Lord of Udayam — Eligibility</div>
+        <div class="th-rule">The Udayam lord's position from Udayam reveals whether the querent's question is valid and achievable:</div>
+        <div class="th-item"><div class="th-dot green"></div><div><b>6th or 10th house</b> from Udayam → <b style="color:var(--green);">Positive signal</b> for the matter</div></div>
+        <div class="th-item"><div class="th-dot red"></div><div>Weak or debilitated placement → <b style="color:var(--red);">Negative signal</b></div></div>
+        <div class="th-item"><div class="th-dot amber"></div><div><b>Retrograde Udayam lord</b> → efforts will <b style="color:var(--amber);">not be successful</b></div></div>
+        <div class="th-item"><div class="th-dot cyan"></div><div>If <b>no planets in Udayam</b>, the Udayam lagna lord is taken — indicates the query is casual, no urgency</div></div>
+        <div class="th-item"><div class="th-dot cyan"></div><div>If the <b>Udayam lagnam lord sees the Udayam</b>, the native will take all efforts to complete the concerned thing</div></div>
+      </div>
+
+      <!-- KAVIPPU -->
+      <div class="th-block">
+        <div class="th-block-title green">🌿 Kavippu — Consequences</div>
+        <div class="th-rule">Kavippu indicates the <b>consequences</b> and effort level of the querent regarding the matter:</div>
+        <div class="th-item"><div class="th-dot amber"></div><div><b>Kavippu in 3</b> → querent has <b style="color:var(--amber);">put no efforts</b> regarding the matter</div></div>
+        <div class="th-item"><div class="th-dot red"></div><div>If the <b>question planet is in Kavippu</b> at the time of Prasnam → <b style="color:var(--red);">immediate NO</b></div></div>
+        <div class="th-rule" style="margin-top:6px;"><b>Inner &amp; Outer Planets:</b> Inner = Root strength. Outer = Branch. Only if inner transit planets are powerful can outer planets be considered powerful. If inner Venus is debilitated and outer Venus is exalted, Venus is still considered <b style="color:var(--red);">debilitated</b>.</div>
+        <div class="th-sub">Stambhana planets indicate religious conversion or inter-caste marriage in the family lineage. Validity of Prasnam question: <b>81 days</b>.</div>
+      </div>
+
+      <!-- DEBILITATED PLANETS IN UDAYAM -->
+      <div class="th-block" style="grid-column:1/-1;">
+        <div class="th-block-title purple">⚠ Debilitated Planets in Udayam</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+          <div class="th-item"><div class="th-dot red"></div><div>The querent will ask questions about things he is <b style="color:var(--red);">incapable of performing</b>.</div></div>
+          <div class="th-item"><div class="th-dot amber"></div><div>He will keep on talking <b style="color:var(--amber);">like a chatterbox</b> — all talk, no action.</div></div>
+        </div>
+        <!-- Example -->
+        <div class="th-example">
+          <div class="th-example-title">📊 Example Chart Illustration</div>
+          <b style="color:var(--cyan);">Planets in Udayam:</b> Jupiter is in Udayam → lord of 2nd &amp; 5th bhava + natural significator of children → question is about <b>wealth and children</b>.<br>
+          <b style="color:var(--amber);">Udayam Lord (Mars):</b> Posited in 6th and 10th house from Udayam → <b style="color:var(--green);">positive signal for wealth</b>, <b style="color:var(--red);">negative signal for progeny/childbirth</b>.<br>
+          <b style="color:var(--green);">Kavippu in 3:</b> Querent has <b>not put any efforts</b> regarding childbirth.
+        </div>
+      </div>
+
+      <!-- SIROSODAYAM / PRISTHODAYA / SIRO PRISTHODAYA -->
+      <div class="th-block" style="grid-column:1/-1;">
+        <div class="th-block-title cyan">🌀 Sirosodayam, Pristhodaya &amp; Siro Pristhodaya</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:8px;">
+          <div class="th-item"><div class="th-dot green"></div><div><b style="color:var(--green);">1 — Sirosodayam</b><div class="th-sub">Planets: Mercury, Jupiter, Venus, Rahu<br>Udayam → <b style="color:var(--green);">Success</b></div></div></div>
+          <div class="th-item"><div class="th-dot red"></div><div><b style="color:var(--red);">2 — Pristhodaya</b><div class="th-sub">Planets: Sun, Mars, Saturn<br>Udayam → <b style="color:var(--red);">Failure</b></div></div></div>
+          <div class="th-item"><div class="th-dot amber"></div><div><b style="color:var(--amber);">3 — Siro Pristhodaya</b><div class="th-sub">Planets: Kethu, Moon<br>Udayam → <b style="color:var(--amber);">Success after a delay</b></div></div></div>
+        </div>
+        <div class="th-rule">Siro planets in the Udayam → <b style="color:var(--green);">Success</b>. Pristhodaya planets in the Udayam → <b style="color:var(--red);">Failure</b>. Siro Pristhodaya planets → <b style="color:var(--amber);">Delay or success after delay</b>.</div>
+        <div class="th-sub" style="margin-top:4px;">⚠ These predictions apply <b>only if there are no planets in the Udayam</b>.</div>
+        <div style="margin-top:8px;font-size:9px;color:var(--muted);">
+          <b style="color:var(--acc2);">Rashi Types:</b>
+          &nbsp;|&nbsp; <b>Two-legged/Biped:</b> Gemini, Virgo, Libra, Aquarius, Pisces
+          &nbsp;|&nbsp; <b>Four-legged/Quadruped:</b> Aries, Taurus, Leo
+          &nbsp;|&nbsp; <b>Multi-legged:</b> Scorpio, Cancer
+          &nbsp;|&nbsp; <b>Bird Rashis:</b> Capricorn, Pisces
+        </div>
+      </div>
+
+      <!-- ADOMUKA / URDOMUKA / TRIYANGAMUKA -->
+      <div class="th-block">
+        <div class="th-block-title purple">👁 Adomuka · Urdomuka · Triyangamuka</div>
+        <div class="th-item"><div class="th-dot red"></div><div><b style="color:var(--red);">Adomuka</b> — Downward looking<div class="th-sub">Rashi where <b>Sun is posited</b> + its Kendras (4th, 7th, 10th from Sun)</div></div></div>
+        <div class="th-item"><div class="th-dot green"></div><div><b style="color:var(--green);">Urdomuka</b> — Upward looking<div class="th-sub"><b>12th house from Sun</b> + its Kendras</div></div></div>
+        <div class="th-item"><div class="th-dot amber"></div><div><b style="color:var(--amber);">Triyangamuka</b> — Both up and down<div class="th-sub"><b>2nd house from Sun</b> + its Kendras</div></div></div>
+        <div class="th-example" style="margin-top:8px;">
+          <div class="th-example-title">Verdict by Udayam Mukha</div>
+          <span style="color:var(--green);">Udayam = Urdomuka</span> → Predict <b style="color:var(--green);">Success</b><br>
+          <span style="color:var(--red);">Udayam = Adomuka</span> → Predict <b style="color:var(--red);">Failure</b><br>
+          <span style="color:var(--amber);">Udayam = Triyangamuka</span> → Predict <b style="color:var(--amber);">Success after Failure</b><br>
+          <span style="color:var(--muted);font-size:9px;">⚠ Apply only when there are no planets in the Udayam</span>
+        </div>
+      </div>
+
+      <!-- SUBHA ARUDAM & SUBHA UDAYAM -->
+      <div class="th-block">
+        <div class="th-block-title amber">☀ Subha Arudam &amp; Subha Udayam</div>
+        <div class="th-item"><div class="th-dot amber"></div><div><b style="color:var(--amber);">Udayam = Lagna</b> → ruled by <b>Sun</b></div></div>
+        <div class="th-item"><div class="th-dot cyan"></div><div><b style="color:var(--cyan);">Arudam = Lagnam</b> → ruled by <b>Moon</b></div></div>
+        <div class="th-rule" style="margin-top:6px;"><b style="color:var(--amber);">Subha Udayam:</b> Houses Leo → Capricorn belong to Sun. If Udayam falls in any of these rashis → <b style="color:var(--green);">Subha Udayam</b>. Otherwise → <b style="color:var(--red);">Asubha Udayam</b>.</div>
+        <div class="th-rule"><b style="color:var(--cyan);">Subha Arudam:</b> Houses Cancer → Aquarius belong to Moon. If Arudam falls in any of these rashis → <b style="color:var(--green);">Subha Arudam</b>. Otherwise → <b style="color:var(--red);">Asubha Arudam</b>.</div>
+        <div class="th-example" style="margin-top:8px;">
+          <div class="th-example-title">Verdict</div>
+          Both Udayam &amp; Arudam <b style="color:var(--green);">Subha</b> → <b style="color:var(--green);">Good / Favorable results</b><br>
+          Both Udayam &amp; Arudam <b style="color:var(--red);">Asubha</b> → <b style="color:var(--red);">Bad / Unfavorable results</b><br>
+          <span style="color:var(--muted);font-size:9px;">⚠ Apply only when there are no planets in Arudam and Udayam</span>
+        </div>
+      </div>
+
+      <!-- DIAMOND RULES -->
+      <div class="th-block" style="grid-column:1/-1;border-color:var(--acc);background:#0e0a00;">
+        <div class="th-block-title" style="color:var(--acc2);">💎 Diamond Rules in Jammakol Prasnam</div>
+        <div class="th-pill-row" style="margin-bottom:10px;">
+          <span class="th-pill" style="color:var(--acc2);border-color:var(--acc);">1. Planets Approaching Udayam</span>
+          <span class="th-pill" style="color:var(--acc2);border-color:var(--acc);">2. Planets Crossed Udayam</span>
+          <span class="th-pill" style="color:var(--acc2);border-color:var(--acc);">3. Placement of Arudam from Udayam</span>
+          <span class="th-pill" style="color:var(--acc2);border-color:var(--acc);">4. Placement of Kavippu</span>
+          <span class="th-pill" style="color:var(--acc2);border-color:var(--acc);">5. Exalted Planets</span>
+          <span class="th-pill" style="color:var(--acc2);border-color:var(--acc);">6. Debilitated Planets</span>
+          <span class="th-pill" style="color:var(--acc2);border-color:var(--acc);">7. Inner Transit vs Outer Jama Planets</span>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+
+          <div class="th-block" style="margin:0;">
+            <div class="th-block-title amber">1 · Planets Approaching Udayam</div>
+            <div class="th-rule">Whichever planet is <b>approaching the Udayam</b>, the question will be related to the <b>karakatwas of that planet</b>.</div>
+            <div class="th-example" style="margin-top:6px;">
+              <div class="th-example-title">Example — Sun Approaching Udayam</div>
+              Question relates to: Father, Government, Status, Elder son, Heart, Eyes, Gold, Father-in-law, etc.
+            </div>
+          </div>
+
+          <div class="th-block" style="margin:0;">
+            <div class="th-block-title red">2 · Planets Crossed Udayam</div>
+            <div class="th-rule">Indicates the <b>problems faced by the querent in the past</b> — matters already passed or dealt with before the Prasnam.</div>
+          </div>
+
+          <div class="th-block" style="margin:0;">
+            <div class="th-block-title cyan">3 · Placement of Arudam from Udayam</div>
+            <div class="th-rule">Whichever bhava Arudam is placed from Udayam → the <b>question relates to that bhava's significations</b>.</div>
+            <div class="th-example" style="margin-top:6px;">
+              <div class="th-example-title">Example</div>
+              Arudam in <b>6th from Udayam</b> → question related to disease, debts, enemies, etc.
+            </div>
+          </div>
+
+          <div class="th-block" style="margin:0;">
+            <div class="th-block-title red">4 · Placement of Kavippu</div>
+            <div class="th-rule">Whichever bhava Kavippu is placed from Udayam → <b>significance of that bhava will suffer</b>. Any planet placed inside Kavippu <b>loses its karakatwas</b>.</div>
+            <div class="th-example" style="margin-top:6px;">
+              <div class="th-example-title">Examples</div>
+              <b>Kavippu in 7th</b> from Udayam → person will not get married.<br>
+              <b>Saturn in Kavippu</b> → concerned person will not get a job.
+            </div>
+          </div>
+
+          <div class="th-block" style="margin:0;">
+            <div class="th-block-title green">5 · Exalted Planets</div>
+            <div class="th-rule">Indicate <b>prosperity of the karakatwas</b> of the concerned planet.</div>
+            <div class="th-sub" style="margin-top:4px;">⚠ Always check the placement of Kavippu — exaltation loses effect if planet is in Kavippu.</div>
+          </div>
+
+          <div class="th-block" style="margin:0;">
+            <div class="th-block-title red">6 · Debilitated Planets</div>
+            <div class="th-rule">The querent asks questions about things he is <b>incapable of performing</b>. He will keep talking <b>like a chatterbox</b> — all words, no action.</div>
+          </div>
+
+          <div class="th-block" style="margin:0;grid-column:1/-1;">
+            <div class="th-block-title purple">7 · Inner Transit Planets vs Outer Jama Planets</div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+              <div class="th-item"><div class="th-dot green"></div><div><b style="color:var(--green);">Inner = Root</b> — indicates <b>real strength</b>. Inner planets must be powerful for outer planets to matter.</div></div>
+              <div class="th-item"><div class="th-dot amber"></div><div><b style="color:var(--amber);">Outer = Branch</b> — only considered powerful if the corresponding inner planet is powerful.</div></div>
+            </div>
+            <div class="th-example" style="margin-top:6px;">
+              <div class="th-example-title">Key Rule</div>
+              If <b>inner Venus is debilitated</b> and outer Venus is exalted → Venus is still considered <b style="color:var(--red);">debilitated</b>. Inner always overrides outer.
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- PREDICTIONS OF SUCCESS AND FAILURE -->
+      <div class="th-block" style="grid-column:1/-1;">
+        <div class="th-block-title green">📋 Predictions of Success &amp; Failure in Jammakol Prasnam</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+          <div>
+            <div style="font-size:9px;font-weight:700;color:var(--green);margin-bottom:6px;text-transform:uppercase;letter-spacing:1px;">✅ Indicators of Success</div>
+            <div class="th-item"><div class="th-dot green"></div><div>Udayam and <b>10th lord getting connected</b> → Success</div></div>
+            <div class="th-item"><div class="th-dot green"></div><div>Udayam and <b>11th lord getting connected</b> → Success</div></div>
+            <div class="th-item"><div class="th-dot green"></div><div><b>Exchange between Udayam and 10th lord</b> → Success</div></div>
+            <div class="th-item"><div class="th-dot green"></div><div><b>Exchange between Udayam and 11th lord</b> → Success</div></div>
+          </div>
+          <div>
+            <div style="font-size:9px;font-weight:700;color:var(--red);margin-bottom:6px;text-transform:uppercase;letter-spacing:1px;">❌ Indicators of Failure</div>
+            <div class="th-item"><div class="th-dot red"></div><div>Arudam in <b>6th, 8th or 12th</b> from Udayam → Failure</div></div>
+            <div class="th-item"><div class="th-dot red"></div><div><b>Udayam lord debilitated</b> → Failure</div></div>
+            <div class="th-item"><div class="th-dot red"></div><div><b>Kavippu in 2nd</b> to Udayam → Failure or Obstacle</div></div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
 
 <!-- INPUT -->
 <div class="card fi">
@@ -352,6 +628,30 @@
     </div>
     <div><label id="lbl-q">Question (optional)</label><input type="text" id="inp-q" placeholder="e.g. Will I get the job?"/></div>
   </div>
+  <div class="frow" style="margin-bottom:10px;">
+    <div>
+      <label id="lbl-qpl" style="display:flex;align-items:center;gap:5px;">
+        Question Planet
+        <span style="background:#300;border:1px solid var(--red);border-radius:3px;color:var(--red);font-size:8px;padding:1px 5px;font-weight:700;">KAVIPPU CHECK</span>
+      </label>
+      <select id="inp-qpl">
+        <option value="-1">— Select (optional) —</option>
+        <option value="0">☀️ Sun — Authority, Govt, Father, Health, Soul</option>
+        <option value="1">♂ Mars — Land, Property, Siblings, Courage, Surgery</option>
+        <option value="2">♃ Jupiter — Wealth, Children, Guru, Education, Dharma</option>
+        <option value="3">☿ Mercury — Business, Communication, Travel, Intellect</option>
+        <option value="4">♀ Venus — Marriage, Love, Vehicles, Luxury, Relationship</option>
+        <option value="5">♄ Saturn — Delays, Service, Longevity, Karma, Labour</option>
+        <option value="6">☽ Moon — Mind, Mother, Water, Emotions, Peace</option>
+        <option value="7">🐍 Snake (Rahu) — Hidden matters, Foreign, Poison, Sudden events</option>
+      </select>
+    </div>
+    <div style="display:flex;align-items:flex-end;">
+      <div class="calc-box" style="margin:0;font-size:10px;line-height:1.7;flex:1;">
+        <b style="color:var(--red);">🔴 Kavippu Rule:</b> If your question's planet is in Kavippu at the time of Prasnam, the answer is an <b>immediate NO</b> — no further analysis needed.
+      </div>
+    </div>
+  </div>
   <div class="frow">
     <div>
       <label id="lbl-tm">Tamil Month</label>
@@ -374,6 +674,7 @@
   </div>
   <div class="calc-box" id="tamil-info">ℹ️ Sunrise/Sunset auto-calculated from location — verify with your Panchangam and correct if needed. Tamil month auto-estimated from Sun position. Verify Tamil date with your Panchangam.</div>
   <button class="btn-p" onclick="calculate()">🔮 <span id="btn-txt">Calculate Jammakol Prasnam</span></button>
+  <div style="font-size:10px;color:var(--muted);margin-top:6px;text-align:center;">🔄 Chart auto-refreshes every minute to track the current Jamam in real time</div>
 </div>
 
 <div id="result" style="display:none;"></div>
@@ -383,6 +684,14 @@
 // ═══════════════════════════════════════════════════════════════
 //  CONSTANTS & DATA
 // ═══════════════════════════════════════════════════════════════
+// Theory section toggle
+function toggleTheory(el){
+  var arrow=el.querySelector('.theory-toggle-arrow');
+  var body=el.nextElementSibling;
+  var open=body.classList.toggle('open');
+  arrow.classList.toggle('open',open);
+}
+
 var RS_EN=["Aries","Taurus","Gemini","Cancer","Leo","Virgo","Libra","Scorpio","Sagittarius","Capricorn","Aquarius","Pisces"];
 var RS_TA=["மேஷம்","ரிஷபம்","மிதுனம்","கடகம்","சிம்மம்","கன்னி","துலாம்","விருச்சிகம்","தனுசு","மகரம்","கும்பம்","மீனம்"];
 var RS_SH=["Ar","Ta","Ge","Ca","Le","Vi","Li","Sc","Sa","Cp","Aq","Pi"];
@@ -729,56 +1038,71 @@ var JM_NON_FIXED_CCW = [11, 9, 8, 6, 5, 3, 2, 0]; // Pi,Cp,Sa,Li,Vi,Ca,Ge,Ar (8 
 function buildJamam(rulerIdx, j, jamStartMin, pMin, jamaDur) {
   // rulerIdx    : JM sequence index of the day/night ruler
   // j           : jamam index (0-based)
-  // jamStartMin : start time of this Jamam in minutes-of-day
+  // jamStartMin : start time of this Jamam in minutes-of-day (= srMin for day, ssMin for night)
   // pMin        : prasnam time in minutes-of-day
-  // jamaDur     : actual duration of this Jama in minutes (variable or 90)
+  // jamaDur     : not used for degree calc (kept for elapsed/remaining display)
   //
-  // DEGREE FORMULA — verified against jamakkol.com reference values:
-  //   8 non-fixed slots × 45° = 360°  (fixed signs Ta/Le/Sc/Aq absorbed into adjacent slots)
-  //   degInSlot = elapsed / jamaDur * 45   (0–44°, same for ALL 8 planets in a Jama)
+  // DEGREE FORMULA — Classical Tamil Jammakol rule:
+  //   1 minute elapsed since sunrise/sunset = 1 degree fallen
+  //   All 8 planets start at the TOP of their slot (45°) at sunrise/sunset
+  //   and count DOWN together: 45° → 0° over 45 minutes, then move to next slot
   //
-  //   OUTER RIM ABSOLUTE LONGITUDE = slotStart(ri) + degInSlot
-  //   where slotStart is the 45° slot boundary (CW from Aries=0°):
-  //     Ar=0°, Ge=45°, Ca=90°, Vi=135°, Li=180°, Sa=225°, Cp=270°, Pi=315°
+  //   8 non-fixed slots × 45° = 360° total circle
+  //   Slot start absolute longitudes (CW from Aries=0°):
+  //     Ar=0°,  Ge=45°, Ca=90°,  Vi=135°,
+  //     Li=180°, Sa=225°, Cp=270°, Pi=315°
+  //   Each planet starts at slotStart + 45° = TOP of slot, counts down to slotStart + 0°
+  //   After 45 min it moves CCW to next non-fixed slot.
   //
-  //   Verified: Su(Ar)=0+34=34°54' ✓  Snake(Ge)=45+34=79°54' ✓
-  //             Sa(Pi)=315+34=349°54' ✓  Ju(Cp)=270+34=304°54' ✓
+  //   degInSlot = 45 - (minutesElapsedSinceSunrise % 45)   [counts DOWN 45→1, then 45 again]
+  //   ri for planet-p at elapsed minute e:
+  //     slotIndex = (p + j + floor(e/45)) % 8
+  //     ri = JM_NON_FIXED_CCW[slotIndex]
 
-  // Slot start degrees (CW from Aries, 45° each, fixed signs absorbed)
+  // Slot start absolute longitudes (CW from Aries, 45° each)
   var SLOT_START = {0:0, 2:45, 3:90, 5:135, 6:180, 8:225, 9:270, 11:315};
 
   var dur      = (jamaDur && jamaDur > 0) ? jamaDur : 90;
-  var jamEnd   = jamStartMin + dur;
-  // COUNTDOWN formula (verified against jamakkol.com):
-  // degree = time REMAINING in jama / jamaDur * 45
-  // As time progresses within a Jama, degrees count DOWN from 45 toward 0
-  var remaining = pMin !== undefined
-    ? Math.max(0, Math.min(dur, jamEnd - pMin))
-    : dur;
 
-  var degFrac = remaining / dur * 45;              // 45→0° as jama progresses
-  var deg     = Math.floor(degFrac);               // whole degrees within slot
-  var arcMin  = Math.floor((degFrac - deg) * 60);  // arc-minutes
+  // Minutes elapsed since the start of this Jamam (clamped 0..90)
+  // Each Jamam = 90 minutes; each degree = 2 minutes (45 degrees per 90 minutes)
+  var elapsedInJama = pMin !== undefined
+    ? Math.max(0, Math.min(90, pMin - jamStartMin))
+    : 0;
+
+  // Degree within slot: counts DOWN from 45 to 1 over 90 minutes
+  // 1 degree = 2 minutes  →  degInSlot = 45 - floor(elapsedInJama / 2)
+  // At elapsed=0  → degInSlot=45  (planet at top of 45° slot)
+  // At elapsed=88 → degInSlot=1
+  // At elapsed=90 → planet moves to next slot, degInSlot resets to 45
+  var degInSlot = 45 - Math.floor(elapsedInJama / 2);  // integer degrees, 45→1
+  var deg       = Math.max(1, degInSlot);
+  // 1 degree = 2 minutes; fractional remainder gives arc-minutes
+  // elapsedInJama may have fractional seconds (pMin includes s/60)
+  var arcMin    = Math.floor((elapsedInJama % 2) / 2 * 60);
 
   var pls = [];
   for (var p = 0; p < 8; p++) {
-    // JM_NON_FIXED_CCW[0] = Pisces (11), so slot 0 = Pisces.
-    // At Jama 1 (j=0), p=0 (day ruler) → slot 0 → Pi(11) ✓
-    // Opposite pairs land 4 slots apart → 7th non-fixed sign away ✓
-    var slot    = (p + j) % 8;
-    var ri      = JM_NON_FIXED_CCW[slot];
-    var slotSt  = SLOT_START[ri] !== undefined ? SLOT_START[ri] : ri * 30;
-    var absDeg  = (slotSt + deg) % 360;       // absolute longitude (0–359°), slotStart+degInSlot
+    // slot for planet p at jama j: (p + j) % 8
+    // JM_NON_FIXED_CCW[0] = Pisces(11) — day ruler starts at Pisces slot 0 ✓
+    var slot   = (p + j) % 8;
+    var ri     = JM_NON_FIXED_CCW[slot];
+    var slotSt = SLOT_START[ri] !== undefined ? SLOT_START[ri] : ri * 30;
+
+    // Absolute longitude = slotStart + degInSlot
+    // Pisces(315) + 45 = 360° at sunrise, counts down to 315° after 45 min ✓
+    var absDeg = (slotSt + deg) % 360;
+
     pls.push({
-      jmIdx    : (rulerIdx + p) % 8,
-      ri       : ri,
-      deg      : deg,       // degrees within 45° slot (0–44)
-      min      : arcMin,    // arc-minutes
-      absDeg   : absDeg,    // absolute longitude for outer rim display
-      absMin   : arcMin,    // arc-minutes (same as min)
-      elapsed  : dur - remaining,  // minutes elapsed since jama start
-      remaining: remaining,        // minutes remaining in Jama (countdown)
-      jamaDur  : dur
+      jmIdx     : (rulerIdx + p) % 8,
+      ri        : ri,
+      deg       : deg,              // degrees within 45° slot (45→1, countdown)
+      min       : arcMin,           // arc-minutes
+      absDeg    : absDeg,           // absolute longitude for display
+      absMin    : arcMin,
+      elapsed   : elapsedInJama,    // minutes elapsed in this jama
+      remaining : 90 - elapsedInJama, // minutes remaining in this 90-min jamam
+      jamaDur   : dur
     });
   }
   return pls;
@@ -786,49 +1110,47 @@ function buildJamam(rulerIdx, j, jamStartMin, pMin, jamaDur) {
 
 function calcAllJamams(dateStr, srMin, ssMin, pMin) {
   // ─────────────────────────────────────────────────────────────
-  //  Variable-Jama (Tri-Vadi) engine:
-  //    Day Jama duration   = (ssMin - srMin) / 8
-  //    Night Jama duration = (srMin + 1440 - ssMin) / 8
-  //  When sunrise/sunset equal 6:00/18:00, both = 90 min exactly.
+  //  Classical Tamil Jammakol — Fixed 90-minute Jamas
+  //    1 degree = 2 minutes  (45 degrees per 90-minute Jamam)
+  //    Each planet slot = 45°  (absorbs 15° from each adjacent fixed sign)
+  //    8 day Jamas × 90 min = 720 min (12 hours) starting at sunrise
+  //    8 night Jamas × 90 min = 720 min (12 hours) starting at sunset
+  //    Total: 16 Jamas covering the full 24-hour cycle
   // ─────────────────────────────────────────────────────────────
+  var JAMA_DUR = 90; // fixed — 1 Jamam = 90 minutes, 1 degree = 2 minutes
+
   var parts = dateStr.split('-');
   var yr = parseInt(parts[0]), mo = parseInt(parts[1]), dy = parseInt(parts[2]);
   var wd = new Date(yr, mo - 1, dy).getDay(); // 0=Sun..6=Sat
 
-  var dayR   = WD_JM[wd];          // day ruler index in JM sequence
-  var nightR = (dayR + 4) % 8;     // night ruler = 5th from day ruler
-
-  // Actual durations (variable Jama)
-  var dayTotalMin   = ssMin - srMin;
-  var nightTotalMin = (srMin + 1440) - ssMin;   // handles post-midnight next sunrise
-  var dayJamaDur    = dayTotalMin   / 8;         // minutes per day-Jama
-  var nightJamaDur  = nightTotalMin / 8;         // minutes per night-Jama
+  var dayR   = WD_JM[wd];        // day ruler index in JM sequence
+  var nightR = (dayR + 4) % 8;   // night ruler = 5th from day ruler
 
   var jams = [];
 
-  // Day: 8 Jamams starting at sunrise
+  // Day: 8 Jamams starting at sunrise, 45 min each
   for (var j = 0; j < 8; j++) {
-    var start = srMin + j * dayJamaDur;
+    var start = srMin + j * JAMA_DUR;
     jams.push({
-      num      : j + 1,
-      start    : start,
-      end      : start + dayJamaDur,
-      isNight  : false,
-      dur      : dayJamaDur,
-      planets  : buildJamam(dayR, j, start, pMin, dayJamaDur)
+      num     : j + 1,
+      start   : start,
+      end     : start + JAMA_DUR,
+      isNight : false,
+      dur     : JAMA_DUR,
+      planets : buildJamam(dayR, j, start, pMin, JAMA_DUR)
     });
   }
 
-  // Night: 8 Jamams starting at sunset
+  // Night: 8 Jamams starting at sunset, 45 min each
   for (var j = 0; j < 8; j++) {
-    var start = ssMin + j * nightJamaDur;
+    var start = ssMin + j * JAMA_DUR;
     jams.push({
-      num      : j + 9,
-      start    : start,
-      end      : start + nightJamaDur,
-      isNight  : true,
-      dur      : nightJamaDur,
-      planets  : buildJamam(nightR, j, start, pMin, nightJamaDur)
+      num     : j + 9,
+      start   : start,
+      end     : start + JAMA_DUR,
+      isNight : true,
+      dur     : JAMA_DUR,
+      planets : buildJamam(nightR, j, start, pMin, JAMA_DUR)
     });
   }
 
@@ -910,14 +1232,18 @@ function calcUdhayam(pMin, srMin, ssMin, nextSrMin, tMonth, tDate, sunSidDeg){
   };
 }
 
-function calcKavippu(aruRi,udhRi,sunRi,udh){
+function calcKavippu(aruRi,udhRi,sunRi,udh,aru){
   var v=VEEDHI[sunRi]||VEEDHI[0];
-  var dist=((v.start - aruRi + 12) % 12) + 1;
-  var kavRi=(udhRi + dist - 1) % 12;
-  // Kavippu has same fractional degree as Udhayam within its sign
-  var deg=udh?udh.deg:0;
-  var min=udh?udh.min:0;
-  return{ri:kavRi, veedhi:v, dist:dist, deg:deg, min:min};
+  // Step 1: Count CCW from Arudam to Veedhi base sign (anti-clockwise)
+  var dist=((aruRi - v.start + 12) % 12) + 1;
+  // Step 2: Apply same count CCW from Udhayam → Kavippu rasi (anti-clockwise)
+  var kavRi=((udhRi - dist + 1) % 12 + 12) % 12;
+  // Kavippu degree counts DOWN 30→1 (anti-clockwise within sign)
+  // aru.deg = 0..29 as time progresses within 5-min rasi slot (6°/min)
+  // Kavippu inverts this: at slot start → 30°, at slot end → 1°
+  var kavDeg = aru ? Math.max(1, 30 - aru.deg) : 30;
+  var min = aru ? aru.min : 0;
+  return{ri:kavRi, veedhi:v, dist:dist, deg:kavDeg, min:min};
 }
 
 // ═══════════════════════════════════════════════════════════════
@@ -926,7 +1252,7 @@ function calcKavippu(aruRi,udhRi,sunRi,udh){
 var BENEFICS=[2,4,6]; // Jupiter,Venus,Moon
 var MALEFICS=[1,5,7]; // Mars,Saturn,Snake
 
-function getVerdict(jam,aruRi,udhRi,kavRi){
+function getVerdict(jam,aruRi,udhRi,kavRi,qPlanet){
   var pls=jam.planets;
   var onUdh=pls.filter(function(p){return p.ri===udhRi;});
   var onAru=pls.filter(function(p){return p.ri===aruRi;});
@@ -942,6 +1268,25 @@ function getVerdict(jam,aruRi,udhRi,kavRi){
   function ben(ji){return BENEFICS.indexOf(ji)!==-1;}
 
   var verdict,cls,icon,detail,keyPl=null;
+  var kavippuOverride=false;
+
+  // ══════════════════════════════════════════════════════════════
+  //  KAVIPPU PLANET OVERRIDE — Classical rule:
+  //  If the planet governing the question is in Kavippu → direct NO
+  // ══════════════════════════════════════════════════════════════
+  if(qPlanet!==undefined && qPlanet>=0 && qPlanet<=7){
+    var qPlanetRi = pls.find(function(p){return p.jmIdx===qPlanet;});
+    if(qPlanetRi && qPlanetRi.ri===kavRi){
+      kavippuOverride=true;
+      keyPl=qPlanetRi;
+      verdict=T?"நேரடி இல்லை — கவிப்பு முடிவு":"DIRECT NO — Kavippu Override";
+      cls="v-no v-kavippu-no";icon="🔴";
+      detail=(T?
+        "⚠️ கவிப்பு உச்ச தீர்ப்பு: "+jN(qPlanet)+" (கேள்வி கிரகம்) கவிப்பு ராசியில் ("+rN(kavRi)+") நிற்கிறது. இது நேரடி இல்லை — வேறு எதையும் சரிபார்க்க வேண்டாம். கவிப்பு = 10 ராகுவுக்கு சமம். முடிவு இறுதியானது மற்றும் மாறாதது.":
+        "⚠️ Kavippu Supreme Authority: "+jN(qPlanet)+" (the planet of your question) stands in Kavippu ("+rN(kavRi)+"). This is an immediate NO — no further analysis needed. Kavippu = equal to 10 Rahus. The result is final and cannot be reversed.");
+      return{verdict,cls,icon,detail,keyPl,onUdh,onAru,onKav,apprUdh,kavippuOverride,qPlanet};
+    }
+  }
 
   if(onUdh.length>0){
     keyPl=onUdh[0];var b=ben(keyPl.jmIdx);
@@ -1017,7 +1362,7 @@ function getVerdict(jam,aruRi,udhRi,kavRi){
   }
   if(keyPl&&keyPl.jmIdx===7) detail+=" "+(T?"🐍 பாம்பு கலந்துள்ளது — முடிவு திடீரென்றும் திட்டவட்டமாகவும் இருக்கும்.":
     "🐍 Snake active — result will be sudden and definitive.");
-  return{verdict,cls,icon,detail,keyPl,onUdh,onAru,onKav,apprUdh};
+  return{verdict,cls,icon,detail,keyPl,onUdh,onAru,onKav,apprUdh,kavippuOverride:false,qPlanet:qPlanet};
 }
 
 // ═══════════════════════════════════════════════════════════════
@@ -1313,7 +1658,8 @@ function buildDualChart(jamPlanets, gochPlanets, aruRi, udhRi, kavRi, curJam, su
         // Show absolute sidereal longitude (rasi*30 + degInSlot) like jamakkol.com
         var absLbl='';
         if(p.absDeg!==undefined){
-          absLbl=' <span style="font-size:7px;opacity:.85;">'+p.absDeg+'°'+String(p.absMin||0).padStart(2,'0')+"'</span>";
+          var outerDeg=(p.absDeg-1+360)%360;
+          absLbl=' <span style="font-size:7px;opacity:.85;">'+outerDeg+'°'+String(p.absMin||0).padStart(2,'0')+"'</span>";
         }
         return '<span style="display:block;color:'+JM_CLR2[ji]+';font-weight:700;font-size:9px;line-height:1.5;white-space:nowrap;">'+
           (T?JM_STA[ji]:JM_SEN[ji])+absLbl+'</span>';
@@ -1342,7 +1688,7 @@ function buildDualChart(jamPlanets, gochPlanets, aruRi, udhRi, kavRi, curJam, su
         content=pls.map(function(p){
           var ji=p.jmIdx!==undefined?p.jmIdx:p;
           // Absolute sidereal longitude for side strips
-          var absLbl=p.absDeg!==undefined?' '+p.absDeg+'°'+String(p.absMin||0).padStart(2,'0')+"'":'';
+          var absLbl=p.absDeg!==undefined?' '+((p.absDeg-1+360)%360)+'°'+String(p.absMin||0).padStart(2,'0')+"'":'';
           return '<div style="writing-mode:vertical-rl;text-orientation:mixed;'+
             (isLeft?'transform:rotate(180deg);':'')+
             'color:'+JM_CLR2[ji]+';font-weight:700;font-size:9px;line-height:1.4;white-space:nowrap;">'+
@@ -1397,6 +1743,7 @@ function calculate(){
   var tMonth =parseInt(document.getElementById("inp-tm").value);
   var tDate  =parseInt(document.getElementById("inp-td").value);
   var qText  =document.getElementById("inp-q").value||"";
+  var qPlanet=parseInt(document.getElementById("inp-qpl").value); // -1 = none
 
   if(!dateStr||!timeStr){alert("Enter Prasnam Date and Time.");return;}
   var pMin=toMin(timeStr),srMin=toMin(srStr),ssMin=toMin(ssStr);
@@ -1425,23 +1772,15 @@ function calculate(){
   var sunSidDeg = trans ? trans.planets[0].sidDeg : (tMonth * 30 + 15);
   var udh=calcUdhayam(pMin,srMin,ssMin,nextSrMin,tMonth,tDate,sunSidDeg);
   var udhRi=udh.ri;
-  var kav=calcKavippu(aruRi,udhRi,sunRi,udh);
+  var kav=calcKavippu(aruRi,udhRi,sunRi,udh,aru);
   var kavRi=kav.ri;
 
   // Verdict
-  var v=getVerdict(cj,aruRi,udhRi,kavRi);
+  var v=getVerdict(cj,aruRi,udhRi,kavRi,qPlanet);
 
-  // Rahu Kalam — the DAY Jamam where Snake (jmIdx=7) appears
-  // Snake is the 8th planet in the sequence; its day Jamam defines Rahu Kalam
-  var rahuKalamJam=null;
-  for(var ri=0;ri<8;ri++){
-    var jm=jams[ri]; // day Jamams only (indices 0-7)
-    var snakePl=jm.planets.find(function(p){return p.jmIdx===7;});
-    if(snakePl){rahuKalamJam=jm;break;}
-  }
 
   renderResult({dateStr,timeStr,pMin,srMin,ssMin,lat,lon,
-    tMonth,tDate,qText,sunRi,sunSidDeg,jams,cj,aru,aruRi,udh,udhRi,kav,kavRi,v,trans,rahuKalamJam});
+    tMonth,tDate,qText,qPlanet,sunRi,sunSidDeg,jams,cj,aru,aruRi,udh,udhRi,kav,kavRi,v,trans});
 }
 
 // ═══════════════════════════════════════════════════════════════
@@ -1460,29 +1799,19 @@ function renderResult(D){
 
   // Verdict
   h+='<div class="verdict '+a.cls+'">'+
+    (a.kavippuOverride?'<div class="kav-override-badge">🔴 KAVIPPU OVERRIDE — SUPREME AUTHORITY</div>':'') +
     '<div class="v-icon">'+a.icon+'</div>'+
     '<div class="v-lbl">'+(T?"ஜாம்மக்கோல் அருடம் முடிவு":"Jammakol Arudam Verdict")+'</div>'+
-    '<div class="v-main" style="color:'+(a.cls==="v-yes"?"var(--green)":a.cls==="v-no"?"var(--red)":"var(--amber)")+'">'+a.verdict+'</div>'+
+    '<div class="v-main" style="color:'+(a.cls.indexOf("v-yes")!==-1?"var(--green)":a.cls.indexOf("v-no")!==-1?"var(--red)":"var(--amber)")+'">'+a.verdict+'</div>'+
     '<div class="v-detail">'+a.detail+'</div>'+
     (D.qText?'<div style="margin-top:8px;font-size:11px;color:var(--muted);font-style:italic;">"'+D.qText+'"</div>':'')+
+    (a.kavippuOverride?'<div style="margin-top:10px;font-size:10px;line-height:1.8;color:var(--muted);border-top:1px solid #440000;padding-top:8px;">'+
+      '<b style="color:var(--red);">Classical rule:</b> Kavippu is anti-clockwise, equal to 10 Rahus in strength. '+
+      'Its result is detrimental and final. The deciding authority of Kavippu cannot be overridden by any other factor. '+
+      '<br>Ask again at a different time / Jamam when the planet of your question has moved out of Kavippu.</div>':'')+
   '</div>';
 
-  // Three points summary
-  h+='<div class="card"><div class="ctitle">'+(T?"மூன்று அடிப்படை புள்ளிகள்":"Three Key Points")+'</div>'+
-    '<div class="pt-row">'+
-    ptPill("var(--cyan)","#030810",T?"அருடம்":"Arudam",rN(D.aruRi),RS_SYM[D.aruRi]+" "+D.aru.deg+"°"+String(D.aru.min).padStart(2,'0')+"' "+(T?"கேள்வி":"Question"))+
-    ptPill("var(--green)","#031008",T?"உதயம்":"Udhayam",rN(D.udhRi),RS_SYM[D.udhRi]+" "+D.udh.deg+"°"+String(D.udh.min).padStart(2,'0')+"' "+(T?"கேள்வியாளர்":"Querent"))+
-    ptPill("var(--red)","#100308",T?"கவிப்பு":"Kavippu",rN(D.kavRi),RS_SYM[D.kavRi]+" "+D.kav.deg+"°"+String(D.kav.min).padStart(2,'0')+"' "+(T?"தடை":"Obstacle"))+
-    ptPill("var(--acc)","#0e0800",T?"சூரியன் வீதி":"Sun Veedhi",
-      (T?D.kav.veedhi.nameTA:D.kav.veedhi.name),(T?"சூ:":"Sun:")+rN(D.sunRi))+
-    (D.rahuKalamJam?ptPill("var(--purple)","#0a0018",T?"ராகு காலம்":"Rahu Kalam",
-      toHM(D.rahuKalamJam.start)+"–"+toHM(D.rahuKalamJam.end),
-      "🐍 "+(T?"ஜாமம் #":"Jamam #")+D.rahuKalamJam.num):'')+
-    '</div>'+
-    calcBox(D,T)+
-  '</div>';
-
-  // Dual-layer chart
+  // Dual-layer chart — shown first, right after verdict
   h+='<div class="card"><div class="ctitle">'+(T?"ஜாம்மக்கோல் + கோச்சாரம் கட்டம்":"Jammakol + Gochara Dual-Layer Chart")+'</div>'+
     '<div style="font-size:10px;color:var(--muted);margin-bottom:8px;">'+
       (T?"வெளி ஓரம் = ஜாமம் கிரகங்கள் (CCW சுழற்சி) · உள்ளே = கோச்சாரம் + மாந்தி + 3 புள்ளிகள்":
@@ -1501,6 +1830,18 @@ function renderResult(D){
     '</div>'+
     '<div style="font-size:9px;margin-top:4px;color:var(--muted);">'+
       '* = '+(T?"நிலையான ராசி (ஜாமம் கிரகங்கள் வருவதில்லை)":"Fixed sign (Jamam planets never occupy these)")+'</div>'+
+  '</div>';
+
+  // Three points summary
+  h+='<div class="card"><div class="ctitle">'+(T?"மூன்று அடிப்படை புள்ளிகள்":"Three Key Points")+'</div>'+
+    '<div class="pt-row">'+
+    ptPill("var(--cyan)","#030810",T?"அருடம்":"Arudam",rN(D.aruRi),RS_SYM[D.aruRi]+" "+D.aru.deg+"°"+String(D.aru.min).padStart(2,'0')+"' "+(T?"கேள்வி":"Question"))+
+    ptPill("var(--green)","#031008",T?"உதயம்":"Udhayam",rN(D.udhRi),RS_SYM[D.udhRi]+" "+D.udh.deg+"°"+String(D.udh.min).padStart(2,'0')+"' "+(T?"கேள்வியாளர்":"Querent"))+
+    ptPill("var(--red)","#100308",T?"கவிப்பு":"Kavippu",rN(D.kavRi),RS_SYM[D.kavRi]+" "+D.kav.deg+"°"+String(D.kav.min).padStart(2,'0')+"' "+(T?"தடை":"Obstacle"))+
+    ptPill("var(--acc)","#0e0800",T?"சூரியன் வீதி":"Sun Veedhi",
+      (T?D.kav.veedhi.nameTA:D.kav.veedhi.name),(T?"சூ:":"Sun:")+rN(D.sunRi))+
+    '</div>'+
+    calcBox(D,T)+
   '</div>';
 
   // Current Jamam block planets table
@@ -1565,46 +1906,15 @@ function renderResult(D){
       '</div></div>';
   }
 
-  // Rahu Kalam card
-  if(D.rahuKalamJam){
-    var rkj=D.rahuKalamJam;
-    var isNowRK=(D.pMin>=rkj.start&&D.pMin<rkj.end);
-    h+='<div class="card" style="border-color:#cc88ff55;">'+
-      '<div class="ctitle" style="color:#cc88ff;">🐍 '+(T?"ராகு காலம் — பாம்பு கிரக நேரம்":"Rahu Kalam — Snake Planet Time")+'</div>'+
-      '<div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:8px;">'+
-        '<div style="background:#0a0018;border:2px solid '+(isNowRK?'#cc88ff':'#553366')+';border-radius:8px;padding:10px 18px;text-align:center;">'+
-          '<div style="font-size:9px;color:#9966cc;letter-spacing:1px;text-transform:uppercase;margin-bottom:2px;">'+(T?"ராகு காலம்":"RAHU KALAM")+'</div>'+
-          '<div style="font-size:15px;font-weight:700;color:#cc88ff;">'+toHM(rkj.start)+'&nbsp;–&nbsp;'+toHM(rkj.end)+'</div>'+
-          '<div style="font-size:9px;color:#9966cc;margin-top:2px;">🐍 '+(T?"ஜாமம்":"Jamam")+" #"+rkj.num+' &nbsp;|&nbsp; '+rkj.dur.toFixed(0)+' min</div>'+
-          (isNowRK?'<div style="font-size:9px;color:#ff88cc;font-weight:700;margin-top:3px;">⚠ '+(T?"இப்போது ராகு காலம்!":"NOW IN RAHU KALAM!")+'</div>':'')+
-        '</div>'+
-        '<div style="flex:1;min-width:180px;font-size:11px;color:var(--txt);line-height:1.8;">'+
-          (T?
-            '• பாம்பு கிரகம் <b style="color:#cc88ff;">'+rN(rkj.planets.find(function(p){return p.jmIdx===7;}).ri)+'</b> ராசியில் நிற்கிறது<br/>'+
-            '• ராகு காலத்தில் புதிய தொழில் / முக்கிய காரியங்கள் தவிர்க்கவும்<br/>'+
-            '• இந்த ஜாமம் பாம்பு (ராகு) ஆட்சி செய்கிறது — மறைக்கப்பட்ட அபாயங்கள் உண்டு':
-            '• Snake planet stands in <b style="color:#cc88ff;">'+rN(rkj.planets.find(function(p){return p.jmIdx===7;}).ri)+'</b> during this Jama<br/>'+
-            '• Avoid starting new ventures or important acts during Rahu Kalam<br/>'+
-            '• Snake (Rahu) rules this Jama — hidden dangers and sudden reversals possible')+
-        '</div>'+
-      '</div>'+
-      (isNowRK?'<div style="background:#1a0030;border:1px solid #cc88ff;border-radius:6px;padding:8px 12px;font-size:11px;color:#ff88cc;">'+
-        '⚠ <b>'+(T?"எச்சரிக்கை:":"Warning:")+'</b> '+(T?"தற்போதைய நேரம் ராகு காலத்தில் உள்ளது. இந்த நேரத்தில் கேட்கப்பட்ட பிரசினம் குறித்து கவனமாக இருக்கவும்.":
-          "Current Prasnam time falls within Rahu Kalam. Exercise extra caution with the interpretation of this query.")+
-      '</div>':'')+
-    '</div>';
-  }
 
   // Full 16-Jamam timeline
   h+='<div class="card"><div class="ctitle">'+(T?"16 ஜாமம் அட்டவணை":"16-Jamam Timeline")+'</div>';
   D.jams.forEach(function(jm){
     var cur=jm.num===cj.num;
-    var isRK=D.rahuKalamJam&&jm.num===D.rahuKalamJam.num;
-    h+='<div class="tl-row'+(cur?" tl-now":"")+(isRK?" tl-rk":"")+'"'+(isRK?' style="border-color:#cc88ff;background:#0a0018;"':'')+'>'+
-      '<span class="tl-jn">'+(cur?"▶ ":isRK?"🐍 ":"")+jm.num+'</span>'+
+    h+='<div class="tl-row'+(cur?" tl-now":"")+""+'"'+'>'+
+      '<span class="tl-jn">'+(cur?"▶ ":"")+jm.num+'</span>'+
       '<span class="tl-tm">'+toHM(jm.start)+'–'+toHM(jm.end)+'</span>'+
       '<span class="tl-ic">'+(jm.isNight?"🌙":"☀️")+'</span>'+
-      (isRK?'<span style="font-size:9px;font-weight:700;color:#cc88ff;flex-shrink:0;margin-right:3px;">'+(T?"ராகு":"RK")+'</span>':'')+
       '<span class="tl-pl">'+jm.planets.map(function(p){
         var isUdh=(p.ri===D.udhRi), isAru=(p.ri===D.aruRi), isKav=(p.ri===D.kavRi);
         var isSnake=(p.jmIdx===7);
@@ -1617,17 +1927,14 @@ function renderResult(D){
       }).join(' ')+'</span>'+
     '</div>';
   });
-  h+='<div style="font-size:9px;color:var(--muted);margin-top:4px;padding:4px 8px;background:var(--bg5);border-radius:4px;">'+
-    '🐍 = '+(T?"ராகு காலம் ஜாமம் (பாம்பு கிரகம் நிற்கும் நேரம்)":"Rahu Kalam Jamam (time when Snake planet occupies its slot)")+
-  '</div>';
   h+='</div>';
 
   // Analysis grid
   h+='<div class="card"><div class="ctitle">'+(T?"விளக்க பகுப்பாய்வு":"Detailed Analysis")+'</div>'+
     '<div class="agrid">'+
     abox("var(--purple)",T?"ஜாமம் — 8 கிரக நியதிகள்":"Jamam — 8 Planet Rules",
-      (T?'• வரிசை: சூ,செ,கு,பு,சுக்,சனி,சந்,பாம்பு<br/>• நிலையான ராசிகளை (ரி,சி,விரு,கும்) தவிர்க்கும்<br/>• பகல் ஆட்சியாளர்: '+jN(D.jams[0].planets[0].jmIdx)+'<br/>• இரவு ஆட்சியாளர்: '+jN(D.jams[8].planets[0].jmIdx)+'<br/>• 1 ஜாமம் = 30° | ஜாமா கால ÷ 30 = 1°க்கு நிமிடங்கள்<br/>• தற்போதைய ஜாமம் கால: '+D.cj.dur.toFixed(1)+' நிமிடம் | 1° = '+(D.cj.dur/30).toFixed(2)+' நி':
-       '• Sequence: Su,Ma,Ju,Me,Ve,Sa,Mo,Snake<br/>• Fixed signs (Ta,Le,Sc,Aq) always skipped<br/>• Day ruler: '+jN(D.jams[0].planets[0].jmIdx)+'<br/>• Night ruler: '+jN(D.jams[8].planets[0].jmIdx)+'<br/>• 1 Jama = 30° | jamaDur ÷ 30 = min per 1°<br/>• Current Jama: '+D.cj.dur.toFixed(1)+' min | 1° = '+(D.cj.dur/30).toFixed(2)+' min'))+
+      (T?'• வரிசை: சூ,செ,கு,பு,சுக்,சனி,சந்,பாம்பு<br/>• நிலையான ராசிகளை (ரி,சி,விரு,கும்) தவிர்க்கும்<br/>• பகல் ஆட்சியாளர்: '+jN(D.jams[0].planets[0].jmIdx)+'<br/>• இரவு ஆட்சியாளர்: '+jN(D.jams[8].planets[0].jmIdx)+'<br/>• 1 ஜாமம் = 90 நிமிடம் | 1° = 2 நிமிடம் | slot = 45°<br/>• தற்போதைய ஜாமம்: 90 நிமிடம்':
+      '• Sequence: Su,Ma,Ju,Me,Ve,Sa,Mo,Snake<br/>• Fixed signs (Ta,Le,Sc,Aq) always skipped<br/>• Day ruler: '+jN(D.jams[0].planets[0].jmIdx)+'<br/>• Night ruler: '+jN(D.jams[8].planets[0].jmIdx)+'<br/>• 1 Jama = 90 min | 1° = 2 min | slot = 45°<br/>• Current Jama duration: 90 min'))+
     abox("var(--acc2)",T?"1-7 இணை கிரகங்கள்":"1-7 Paired Planets",
       (T?'• சூ↔சுக்: அரசு & செழிப்பு<br/>• செ↔சனி: தளபதி & படை<br/>• கு↔சந்: சுபர்கள் இணை<br/>• பு↔பாம்பு: அறிவு & இரசாயனம்':
        '• Su↔Ve: Royal & Abundance<br/>• Ma↔Sa: Commander & Army<br/>• Ju↔Mo: Natural benefic pair<br/>• Me↔Snake: Intellect & Reaction'))+
@@ -1635,27 +1942,66 @@ function renderResult(D){
       (T?'• சூரியன் தீர்க்க: '+D.udh.sunSidDeg.toFixed(1)+'° ('+rN(D.sunRi)+')<br/>• Factor A: '+D.udh.factorA.toFixed(4)+' நிமிட/°<br/>• Factor B (கடந்தது): '+D.udh.factorB.toFixed(1)+' நிமிடம்<br/>• Factor C: '+D.udh.factorC.toFixed(1)+'° | மொத்தம்: '+D.udh.rawDeg.toFixed(1)+'° → '+rN(D.udhRi):
        '• Sun sidereal: '+D.udh.sunSidDeg.toFixed(1)+'° ('+rN(D.sunRi)+')<br/>• Factor A: '+D.udh.factorA.toFixed(4)+' min/°<br/>• Factor B (elapsed): '+D.udh.factorB.toFixed(1)+' min<br/>• Factor C: '+D.udh.factorC.toFixed(1)+'° | Raw: '+D.udh.rawDeg.toFixed(1)+'° → '+rN(D.udhRi)))+
     abox("var(--red)",T?"கவிப்பு கணக்கு":"Kavippu Calculation",
-      (T?'• வீதி: '+D.kav.veedhi.nameTA+'<br/>• அருடம் ('+rN(D.aruRi)+') → வீதி ('+rN(D.kav.veedhi.start)+') = '+D.kav.dist+' CW<br/>• உதயம் ('+rN(D.udhRi)+') + '+D.kav.dist+' CW = '+rN(D.kavRi):
-       '• Veedhi: '+D.kav.veedhi.name+'<br/>• Arudam ('+rN(D.aruRi)+') → Veedhi ('+rN(D.kav.veedhi.start)+') = '+D.kav.dist+' CW<br/>• Udhayam ('+rN(D.udhRi)+') + '+D.kav.dist+' CW = '+rN(D.kavRi)))+
+      (T?'• வீதி: '+D.kav.veedhi.nameTA+' | வீதி அடி: '+rN(D.kav.veedhi.start)+'<br/>'+
+          '• அருடம் ('+rN(D.aruRi)+') → வீதி அடி ('+rN(D.kav.veedhi.start)+') CW = '+D.kav.dist+' படிகள்<br/>'+
+          '• உதயம் ('+rN(D.udhRi)+') + '+D.kav.dist+' CW = <b>'+rN(D.kavRi)+'</b><br/>'+
+          '• கவிப்பு எதிர் திசையில் (CCW) நகர்கிறது — ஜாமம் கிரகங்கள் போல்':
+       '• Veedhi: '+D.kav.veedhi.name+' | Base: '+rN(D.kav.veedhi.start)+'<br/>'+
+          '• Arudam ('+rN(D.aruRi)+') → Veedhi base ('+rN(D.kav.veedhi.start)+') CW = '+D.kav.dist+' steps<br/>'+
+          '• Udhayam ('+rN(D.udhRi)+') + '+D.kav.dist+' CW = <b>'+rN(D.kavRi)+'</b><br/>'+
+          '• Kavippu moves anti-clockwise (CCW) — same direction as Jama planets'))+
+    '</div></div>';
+
+  // Kavippu Planet Guide
+  var KAV_GUIDE=[
+    {ji:0,icon:"☀️",topics:T?"அதிகாரம், அரசு, தந்தை, ஆரோக்கியம், ஆத்மா":"Authority, Govt, Father, Health, Soul"},
+    {ji:1,icon:"♂",topics:T?"நிலம், சொத்து, சகோதரர், தைரியம், அறுவை":"Land, Property, Siblings, Courage, Surgery"},
+    {ji:2,icon:"♃",topics:T?"செல்வம், குழந்தைகள், குரு, கல்வி, தர்மம்":"Wealth, Children, Guru, Education, Dharma"},
+    {ji:3,icon:"☿",topics:T?"வியாபாரம், பயணம், புத்தி, தகவல் தொடர்பு":"Business, Travel, Intellect, Communication"},
+    {ji:4,icon:"♀",topics:T?"திருமணம், காதல், வாகனம், ஆடம்பரம்":"Marriage, Love, Vehicles, Luxury, Relationship"},
+    {ji:5,icon:"♄",topics:T?"தாமதம், சேவை, ஆயுள், கர்மா, உழைப்பு":"Delays, Service, Longevity, Karma, Labour"},
+    {ji:6,icon:"☽",topics:T?"மனம், தாய், தண்ணீர், உணர்வு, சாந்தி":"Mind, Mother, Water, Emotions, Peace"},
+    {ji:7,icon:"🐍",topics:T?"மறைவான காரியம், வெளிநாடு, விஷம், திடீர் நிகழ்வு":"Hidden matters, Foreign, Poison, Sudden events"}
+  ];
+  var kavPl=D.qPlanet;
+  h+='<div class="card"><div class="ctitle">'+(T?"கவிப்பு கிரக வழிகாட்டி — எந்த கிரகம் உங்கள் கேள்விக்கு?":"Kavippu Planet Guide — Which Planet Rules Your Question?")+'</div>'+
+    '<div style="font-size:10px;color:var(--muted);margin-bottom:8px;">'+
+      (T?"உங்கள் கேள்விக்கு உரிய கிரகம் கவிப்பு ராசியில் இருந்தால் — நேரடி இல்லை என்பதே இறுதி முடிவு.":
+         "If the planet of your question occupies Kavippu ("+rN(D.kavRi)+") → answer is an immediate NO, final.")+
+    '</div>'+
+    '<div class="kav-pl-guide">'+
+    KAV_GUIDE.map(function(k){
+      var pInKav=D.cj.planets.find(function(p){return p.jmIdx===k.ji && p.ri===D.kavRi;});
+      var isQPl=(kavPl===k.ji);
+      var isOverride=(isQPl && pInKav);
+      return '<div class="kav-pl-item'+(pInKav?' active-kav':'')+'">'+
+        '<span style="font-size:14px;">'+k.icon+'</span>'+
+        '<div>'+
+          '<div style="font-weight:700;color:'+(isOverride?'var(--red)':pInKav?'var(--amber)':'var(--txt)')+';">'+
+            jN(k.ji)+(pInKav?' <span style="color:var(--red);font-weight:700;">⚠ IN KAVIPPU</span>':'')+
+            (isQPl?' <span style="font-size:8px;background:var(--purple);color:#fff;border-radius:3px;padding:1px 4px;">YOUR Q</span>':'')+
+          '</div>'+
+          '<div style="font-size:9px;color:var(--muted);">'+k.topics+'</div>'+
+        '</div>'+
+      '</div>';
+    }).join('')+
     '</div></div>';
 
   // Classical note
   h+='<div class="card" style="border-color:var(--bdrG);"><div class="ctitle">'+(T?"கிளாசிக்கல் குறிப்புகள்":"Classical Notes — Jammakol System")+'</div>'+
     '<div style="font-size:11px;color:var(--txt);line-height:1.9;">'+
     (T?
-      '• கவிப்பு = கேள்வியாளருக்கு தெரியாத மறைந்த தடையின் காரணம்<br/>'+
+      '• கவிப்பு (மறை பொருள்) = அருடம் & உதயம் இடையிலான மறைந்த இரகசியம்<br/>'+
       '• ஒரு ஜாமம் கிரகம் உதயத்தை நோக்கி வரும்போது — நிகழ்வு வருகிறது (எதிர்காலம்)<br/>'+
       '• ஒரு ஜாமம் கிரகம் உதயத்தை கடந்தால் — அந்த நிகழ்வு கடந்தது (இறந்தகாலம்)<br/>'+
       '• கோச்சாரம் + ஜாமம் ஒரே ராசியில் = இரட்டை உறுதிப்படுத்தல்<br/>'+
       '• முடிவு அதிகபட்சம் 6 மாதங்கள் செல்லுபடியாகும்<br/>'+
-      '• 🐍 ராகு காலம் = பாம்பு கிரகம் எந்த ஜாமத்தில் இருக்கிறதோ அந்த நேரம் — அது அந்த நாளின் ராகு காலம்<br/>'+
       '• ஜாம்மக்கோல் கண்ணாடி போன்றது — அந்த தருணத்தின் உண்மையை மட்டுமே காட்டும்':
-      '• Kavippu = hidden reason for delay/failure the querent does not know<br/>'+
+      '• Kavippu (மறை பொருள்) = hidden secret/mystery between Arudam & Udhayam<br/>'+
       '• Jamam planet approaching Udhayam = event is coming (future/yes)<br/>'+
       '• Jamam planet past Udhayam = that event has already occurred (past)<br/>'+
       '• Gochara + Jamam planet in same sign = double confirmation of verdict<br/>'+
       '• Verdict is valid for a maximum of 6 months<br/>'+
-      '• 🐍 Rahu Kalam = the day Jamam where the Snake planet sits — that slot defines Rahu Kalam for the day<br/>'+
       '• Jammakol is a mirror — reflects only the truth of that exact moment')+
     '</div></div>';
 
@@ -1688,7 +2034,7 @@ function calcBox(D,T){
   // Kavippu
   var vStart=D.kav.veedhi.start;
   var vName=T?D.kav.veedhi.nameTA:D.kav.veedhi.name;
-  var cwCount=(((vStart-D.aruRi)+12)%12)+1;
+  var cwCount=(((D.aruRi-vStart)+12)%12)+1;  // CCW distance
 
   return '<div class="calc-box" style="line-height:2;">'+
     '<div style="font-size:10px;font-weight:700;color:var(--acc2);margin-bottom:4px;border-bottom:1px solid var(--bdr);padding-bottom:3px;">'+
@@ -1737,22 +2083,20 @@ function calcBox(D,T){
 
     // ── JAMMAM DEGREES ──
     '<div style="margin:8px 0 2px;font-weight:700;color:var(--acc2);">🪐 '+(T?'ஜாமம் கிரக டிகிரி கணக்கு':'Jammam Planet Degree Calculation')+'</div>'+
-    '<div style="font-size:9px;color:var(--muted);margin-bottom:3px;">'+(T?'(8 non-fixed slots × 45° = 360° | elapsed ÷ jamaDur × 45 = degInSlot | rasi×30 + deg = absolute longitude)':'(8 slots × 45° = 360° | elapsed ÷ jamaDur × 45 = deg | rasi×30+deg = absolute lon)')+'</div>'+
+    '<div style="font-size:9px;color:var(--muted);margin-bottom:3px;">'+(T?'(8 non-fixed slots × 45° = 360° | 1 ஜாமம் = 90 நிமிடம் | 1° = 2 நிமிடம் | slot-உள் deg = 45 − floor(elapsed÷2))':'(8 slots × 45° = 360° | 1 Jamam = 90 min | 1° = 2 min | degInSlot = 45 − floor(elapsed÷2))')+'</div>'+
     (function(){
       var cj=D.cj, T2=T;
       var jamDur=cj.dur.toFixed(2);
       var pl0=cj.planets[0];
-      var elapsed=pl0.elapsed!==undefined?pl0.elapsed.toFixed(2):'0';
-      var remaining=pl0.remaining!==undefined?pl0.remaining:cj.dur;
-      var minPerDeg=(cj.dur/45).toFixed(4);
-      var degFrac=(pl0.remaining!==undefined?pl0.remaining*45/cj.dur:0).toFixed(4);
+      var elapsed=pl0.elapsed!==undefined?pl0.elapsed.toFixed(0):'0';
+      var remaining=pl0.remaining!==undefined?pl0.remaining:90;
+      var minPerDeg=2;
       var degResult=pl0.deg+'°'+String(pl0.min).padStart(2,'0')+"'";
-      var isStd=Math.abs(cj.dur-90)<0.5;
       var dayTotal=(D.ssMin-D.srMin).toFixed(0);
-      return '<div>→ <b>S1 '+(T2?'ஜாமம் கால':'Jama duration')+':</b> '+(T2?'பகல் கால':'Day total')+' ('+dayTotal+' '+(T2?'நி':'min')+') ÷ 8 = <b>'+jamDur+' '+(T2?'நிமிடம்':'min')+'</b>'+(isStd?' ✓ '+(T2?'நிலையான 90 நிமிடம்':'standard 90-min'):'  ⚡ '+(T2?'மாறும் ஜாமம் (Tri-Vadi)':'variable — Tri-Vadi'))+'</div>'+
-             '<div>→ <b>S2 '+(T2?'min/° (slot 45°)':'Min per degree (45° slot)')+':</b> '+jamDur+' ÷ 45 = <b>'+(cj.dur/45).toFixed(4)+' '+(T2?'நி/°':'min/°')+'</b>'+(isStd?'&nbsp;<span style="font-size:9px;color:var(--muted);">(90÷45=2 min/°)</span>':'')+'</div>'+
-             '<div>→ <b>S3 '+(T2?'கடந்த நேரம்':'Elapsed in Jama')+':</b> '+toHM(cj.start)+' → '+toHM(D.pMin)+' = <b>'+elapsed+' '+(T2?'நிமிடம்':'min')+'</b></div>'+
-             '<div>→ <b>S4 '+(T2?'டிகிரி (slot-உள்) — countdown':'Degree in slot — countdown formula')+':</b> '+remaining.toFixed(2)+' × 45 ÷ '+jamDur+' = <b>'+degFrac+'°</b> in slot → <b style="color:var(--acc2);">Abs: '+cj.planets[0].absDeg+'°'+String(cj.planets[0].absMin).padStart(2,'0')+"'</b> "+(T2?'(rasi×30 + deg)':'(rasi×30 + degInSlot)')+'</div>'+
+      return '<div>→ <b>S1 '+(T2?'ஜாமம் கால':'Jama duration')+':</b> <b>90 '+(T2?'நி':'min')+'</b> (1° = 2 min, 45° per Jamam) ✓</div>'+
+             '<div>→ <b>S2 '+(T2?'கடந்த நேரம்':'Elapsed in Jama')+':</b> '+toHM(cj.start)+' → '+toHM(D.pMin)+' = <b>'+elapsed+' '+(T2?'நிமிடம்':'min')+'</b></div>'+
+             '<div>→ <b>S3 '+(T2?'slot-உள் டிகிரி (countdown)':'Degree in slot — countdown')+':</b> 45 − floor('+elapsed+' ÷ 2) = <b>'+pl0.deg+'°</b></div>'+
+             '<div>→ <b>S4 '+(T2?'முழுமையான தீர்க்கம்':'Absolute longitude')+':</b> rasi×30 + deg = <b style="color:var(--acc2);">'+cj.planets[0].absDeg+'°'+String(cj.planets[0].absMin).padStart(2,'0')+"'</b> "+(T2?'(rasi×30 + degInSlot)':'(rasi×30 + degInSlot)')+'</div>'+
              '<div style="font-size:9px;color:var(--muted);">&nbsp;&nbsp;'+(T2?'அனைத்து 8 கிரகங்களும் ஒரே ஜாமத்தில் ஒரே டிகிரி':'All 8 Jammam planets share this degree in their respective signs')+'</div>';
     })()+
 
@@ -1785,16 +2129,21 @@ function calcBox(D,T){
     '<div style="margin:8px 0 2px;font-weight:700;color:var(--red);">⚠ '+(T?'கவிப்பு':'Kavippu')+'</div>'+
     '<div>→ '+(T?'சூரியன் ராசி':'Sun rasi')+': <b>'+rN(D.sunRi)+'</b> → '+(T?'வீதி':'Veedhi')+': <b>'+vName+'</b></div>'+
     '<div>→ '+(T?'வீதி தொடக்க ராசி':'Veedhi start rasi')+': <b>'+rN(vStart)+'</b></div>'+
-    '<div>→ '+(T?'அருடம் முதல் வீதி வரை CW':'Count CW Arudam to Veedhi')+': '+rN(D.aruRi)+' → '+rN(vStart)+' = <b>'+cwCount+' '+(T?'படிகள்':'steps')+'</b></div>'+
+    '<div>→ '+(T?'அருடம் முதல் வீதி வரை CCW':'Count CCW Arudam to Veedhi')+': '+rN(D.aruRi)+' → '+rN(vStart)+' = <b>'+cwCount+' '+(T?'படிகள்':'steps')+'</b></div>'+
     '<div>&nbsp;&nbsp;'+
-      Array.from({length:cwCount},function(_,i){return rN((D.aruRi+i)%12)+'('+(i+1)+')'}).join(' → ')+
+      Array.from({length:cwCount},function(_,i){return rN(((D.aruRi-i)%12+12)%12)+'('+(i+1)+')'}).join(' → ')+
     '</div>'+
-    '<div>→ '+(T?'உதயம் முதல் '+cwCount+' CW':'Udhayam + '+cwCount+' CW')+': '+rN(D.udhRi)+' → </div>'+
+    '<div>→ '+(T?'உதயம் முதல் '+cwCount+' CCW (எதிர் திசை)':'Udhayam − '+cwCount+' CCW (anti-clockwise)')+': '+rN(D.udhRi)+' → </div>'+
     '<div>&nbsp;&nbsp;'+
-      Array.from({length:cwCount},function(_,i){return rN((D.udhRi+i)%12)+'('+(i+1)+')'}).join(' → ')+
+      Array.from({length:cwCount},function(_,i){return rN(((D.udhRi - i)%12+12)%12)+'('+(i+1)+')'}).join(' → ')+
     '</div>'+
+    '<div style="font-size:9px;color:var(--muted);">↺ '+(T?'கவிப்பு டிகிரி 30→1 எதிர் திசையில் (CCW) நகர்கிறது':'Kavippu degree moves 30→1 anti-clockwise (CCW)')+'</div>'+
     '<div>→ '+(T?'கவிப்பு ராசி':'Kavippu rasi')+': <b style="color:var(--red);">'+rN(D.kavRi)+'</b></div>'+
     '<div>→ '+(T?'டிகிரி':'Degree')+': <b>'+D.kav.deg+'°'+String(D.kav.min).padStart(2,'0')+"'</b></div>"+
+    '<div style="font-size:9px;color:var(--muted);margin-top:4px;padding:4px 6px;background:var(--bg5);border-radius:4px;">'+
+      '↺ '+(T?'கவிப்பு எதிர் திசையில் (CCW) நகர்கிறது — ஜாமம் கிரகங்கள் போல் | கடந்த = வெளிப்பட்ட இரகசியம் | நிகழ் = மறைந்த தடை | எதிர் = வரவிருக்கும் இரகசியம்':
+             'Kavippu moves anti-clockwise (CCW) like Jama planets | Past = revealed secret | Present = hidden obstacle | Future = upcoming secret')+
+    '</div>'+
   '</div>';
 }
 function abox(clr,title,content){
@@ -1984,10 +2333,11 @@ window.addEventListener("DOMContentLoaded",function(){
     document.getElementById("inp-date").value=y+"-"+m+"-"+dy;
     document.getElementById("inp-time").value=String(now.getHours()).padStart(2,'0')+":"+String(now.getMinutes()).padStart(2,'0')+":"+String(now.getSeconds()).padStart(2,'0');
     document.getElementById("inp-tm").value=String(sunSignFromDate(y+"-"+m+"-"+dy));
+    // No auto-recalculate — chart stays fixed at the time it was generated
   }
   updateTime();          // populate date first
   autoFillSunTimes();   // then calculate sunrise/sunset with correct date + coords
-  setInterval(updateTime,5000);
+  setInterval(updateTime,1000);
 });
 
 // ═══════════════════════════════════════════════════════════════
