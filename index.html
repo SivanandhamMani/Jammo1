@@ -3096,7 +3096,234 @@ function updateLiveRays() {
   }
 
   // --- Render ---
-  var html = '<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px;">';
+  var html = '';
+
+  // ══════════════════════════════════════════
+  // SECTION 1 — Planets in Udayam: Question Topic
+  // ══════════════════════════════════════════
+  var PLANET_TOPICS = {
+    Sun:     { icon:'☀️', clr:'#ffaa22', topics:['Government job or authority matter','Father or paternal figure','Social status or prestige','Elder son','Soul, leadership, confidence'] },
+    Moon:    { icon:'🌙', clr:'#7799ff', topics:['Mother or maternal figure','Mind, emotions, mental health','Travel or water-related','Home, domestic matters','Pregnancy or childbirth'] },
+    Mars:    { icon:'♂️', clr:'#ff5555', topics:['Brothers or siblings','Land, property, real estate','Courage or conflict','Surgery or injury','Police, military, authority'] },
+    Mercury: { icon:'☿',  clr:'#44ddaa', topics:['Business or trade','Education or exams','Communication, documents','Younger siblings','Calculations, finance'] },
+    Jupiter: { icon:'♃',  clr:'#ffcc44', topics:['Children or pregnancy','Husband (for female querent)','Religion, temple, dharma','Wealth, prosperity','Teacher or guru'] },
+    Venus:   { icon:'♀️', clr:'#ff88cc', topics:['Wife or female partner','Marriage or relationship','Luxury, vehicle, comfort','Arts, beauty, jewellery','Pleasure or enjoyment'] },
+    Saturn:  { icon:'♄',  clr:'#aaaacc', topics:['Servants or employees','Old age, chronic illness','Delays, obstacles','Longevity, death','Labour, hard work'] },
+    Snake:   { icon:'🐍', clr:'#88ffaa', topics:['Medical question (positive for this)','Childbirth confirmation','Hidden or secretive matter','Ancestral or past-karma issue','Negative for marriage/job questions'] }
+  };
+  var RASHI_LORD = ['Mars','Venus','Mercury','Moon','Sun','Mercury','Venus','Mars','Jupiter','Saturn','Saturn','Jupiter'];
+  var tenth_ri = (udayamRI + 9) % 12;
+  var tenthRashi = RS_EN[tenth_ri];
+  var tenthSign  = RS_SIGN[tenth_ri];
+  var tenthLord  = RASHI_LORD[tenth_ri];
+  var tenthLordRi = -1;
+  allPlanets.forEach(function(p){ if((JM_NAMES[p.jmIdx]||'')===tenthLord){ tenthLordRi = p.ri; } });
+  var tenthLordHouse = tenthLordRi >= 0 ? ((tenthLordRi - udayamRI + 12) % 12) + 1 : -1;
+  var planetsIn10th = [];
+  allPlanets.forEach(function(p){ if(p.ri === tenth_ri){ var n=JM_NAMES[p.jmIdx]||''; if(n) planetsIn10th.push(n); } });
+
+  html += '<div style="margin-top:14px;padding:12px 13px;background:rgba(0,0,0,.28);border:1px solid #2a1a4a;border-radius:9px;">';
+  html += '<div style="font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--acc2);margin-bottom:10px;padding-bottom:7px;border-bottom:1px solid var(--bdrG);">🔍 Planets in Udayam — Question Topic Revealed</div>';
+
+  if (planetsInUdayam.length === 0) {
+    html += '<div style="font-size:10px;color:var(--muted);padding:8px 0;">No planets in Udayam. Question topic is determined by the Udayam rashi lord (<b style="color:var(--acc2);">'+RASHI_LORD[udayamRI]+'</b>) and the 10th house analysis below.</div>';
+  } else {
+    planetsInUdayam.forEach(function(p) {
+      var d = PLANET_TOPICS[p.name];
+      if (!d) return;
+      html += '<div style="margin-bottom:10px;padding:10px 12px;background:'+d.clr+'0d;border:1px solid '+d.clr+'33;border-radius:8px;">';
+      html += '<div style="display:flex;align-items:center;gap:8px;margin-bottom:7px;">';
+      html += '<span style="font-size:20px;">'+d.icon+'</span>';
+      html += '<div><div style="font-size:12px;font-weight:700;color:'+d.clr+';">'+p.name+' in Udayam</div>';
+      html += '<div style="font-size:9px;color:var(--muted);">This planet in Udayam reveals the nature of the question</div></div></div>';
+      d.topics.forEach(function(t){ html += '<div style="font-size:10px;color:var(--txt);line-height:1.7;padding-left:4px;">▸ '+t+'</div>'; });
+      html += '</div>';
+    });
+  }
+  html += '</div>';
+
+  // ══════════════════════════════════════════
+  // SECTION 2 — 10th House from Udayam
+  // ══════════════════════════════════════════
+  html += '<div style="margin-top:10px;padding:10px 12px;background:rgba(85,221,255,.06);border:1px solid #55ddff33;border-left:3px solid #55ddff;border-radius:0 7px 7px 0;">';
+  html += '<div style="font-size:9px;font-weight:700;color:#55ddff;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:6px;">10TH HOUSE FROM UDAYAM <span style="font-size:8px;opacity:.7;">(உச்சியல் சிந்தனை)</span></div>';
+  html += '<div style="font-size:10px;color:var(--txt);line-height:1.8;margin-bottom:5px;">';
+  html += 'Udayam ('+udayamRashi+') → 10th house: <b style="color:#55ddff;">'+tenthSign+' '+tenthRashi+'</b>. ';
+  html += 'Wherever the 10th lord (<b style="color:var(--acc2);">'+tenthLord+'</b>) sits, the question is related to that bhava.';
+  html += '</div>';
+  if (tenthLordRi >= 0) {
+    html += '<div style="font-size:10px;color:var(--txt);margin-bottom:4px;">↳ <b style="color:var(--acc2);">'+tenthLord+'</b> sits in <b style="color:#55ddff;">'+RS_SIGN[tenthLordRi]+' '+RS_EN[tenthLordRi]+'</b> — House <b style="color:#ffdd44;">'+tenthLordHouse+'</b> from Udayam</div>';
+  }
+  if (planetsIn10th.length > 0) {
+    html += '<div style="font-size:10px;color:var(--green);margin-top:4px;">✓ Planets in 10th from Udayam: <b>'+planetsIn10th.join(', ')+'</b> — question topic confirmation possible</div>';
+  } else {
+    html += '<div style="font-size:10px;color:var(--muted);margin-top:4px;">— No planets in 10th house from Udayam</div>';
+  }
+  html += '</div>';
+
+  // ══════════════════════════════════════════
+  // SECTION 3 — Diamond Rules (full port)
+  // ══════════════════════════════════════════
+  var _aruRi  = window._lastAruRi !== undefined ? window._lastAruRi : -1;
+  var _kavRi  = window._lastKavRi !== undefined ? window._lastKavRi : -1;
+  var _sunRi  = window._lastSunRi !== undefined ? window._lastSunRi : -1;
+  var _cj     = window._lastCj || null;
+  var _gpl    = (window._lastTrans && window._lastTrans.planets) ? window._lastTrans.planets : [];
+  var _rN     = function(ri){ return RS_EN[ri] || ''; };
+  function _ccw(ri,n){ return (ri - n + 120) % 12; }
+
+  var _KAR = [
+    { name:"Sun",    icon:"☀️", topics:["Father","1st son","Heart","Right eye","Government job","Status","Politics","Prestige","Promotion"] },
+    { name:"Mars",   icon:"♂",  topics:["Land","Brother","Husband (female)","Teeth","Fights","Surgery","Property"] },
+    { name:"Jupiter",icon:"♃",  topics:["Children / child birth","Money","Gold","Higher education","Banking","Teacher"] },
+    { name:"Mercury",icon:"☿",  topics:["Marriage matchmaking","Love affairs","Education","Agreements","Publishing","Astrology"] },
+    { name:"Venus",  icon:"♀",  topics:["Wife (for male)","Money","Vehicles","Luxury","Comforts"] },
+    { name:"Saturn", icon:"♄",  topics:["Job","Longevity","Servants","Profession","Chronic illness"] },
+    { name:"Moon",   icon:"🌙", topics:["Mother","Mother-in-law","Food items","Water","Extra-marital affair","Blood related disorders"] },
+    { name:"Snake",  icon:"🐍", topics:["Pregnancy","Foreign travel","Black magic","Devil","Alcohol","Witches","Spirits","Poison"] }
+  ];
+  var _ABHA = ["Native himself","Income, family, marriage","Brother, communication","Property, mother, water, vehicles","Children, love affairs, mantra siddhi, higher education","Disease, debts, court cases, servants","Marriage, spouse, business partnership, signing agreement, 2nd child birth","Longevity","Foreign travel, pilgrimage, father","Profession","Elder brother, profits","Medical expense, overseas travel"];
+  var _KBHA = ["Person asking is severely affected — all questions indicate failure","Problem related to family, income","Problem related to brother, communication","Problem related to mother, vehicle, graduation, property","Problem related to children, higher education, mantra siddhi, no divine blessings","Problem related to disease, money","Problem related to marriage, business relation, spouse","Problem related to longevity","Problem related to father, foreign travel, doing Pooja","Problem related to profession","Problem related to elder brother","Problem related to profession, medical expense"];
+  var _EX = {0:0,1:9,2:3,3:5,4:11,5:6,6:1};
+  var _DB = {0:6,1:3,2:9,3:11,4:5,5:0,6:7};
+  var _SIRO_JM=[2,3,4], _PRIST_JM=[0,1,5], _SP_JM=[6];
+  var _SIRO_GP=[3,4,5,7], _PRIST_GP=[0,2,6], _SP_GP=[1,8];
+  var _GP_NAMES=['Sun','Moon','Mars','Mercury','Jupiter','Venus','Saturn','Rahu','Kethu','Maandi'];
+
+  html += '<div class="card"><div class="ctitle">🔮 DIAMOND RULES — AUTOMATIC ANALYSIS</div>';
+  html += '<div style="font-size:10px;color:var(--muted);margin-bottom:10px;">Applying all 6 Diamond Rules + General Prediction Rules to current chart positions:</div>';
+
+  if (!_cj || _aruRi < 0) {
+    html += '<div style="font-size:10px;color:var(--muted);padding:10px 0;text-align:center;">Calculate a Prasnam chart first to see Diamond Rules analysis.</div>';
+  } else {
+    var _cp = _cj.planets || [];
+    var _arudamHouse = ((_aruRi - udayamRI + 12) % 12) + 1;
+    var _kavHouse    = ((_kavRi  - udayamRI + 12) % 12) + 1;
+    var _inKav       = _cp.filter(function(p){ return p.ri === _kavRi; });
+    var _eleRi       = (udayamRI + 10) % 12;
+    var _inElev      = _cp.filter(function(p){ return p.ri === _eleRi; });
+    var _jmUdh       = _cp.filter(function(p){ return p.ri === udayamRI; });
+    var _gpUdh       = _gpl.filter(function(p){ return p.ri === udayamRI; });
+    var _jmAru       = _cp.filter(function(p){ return p.ri === _aruRi; });
+    var _noUdh       = (_jmUdh.length === 0 && _gpUdh.length === 0);
+    var _noUdhAru    = _noUdh && _jmAru.length === 0;
+
+    // Rule 1
+    var _appr = _cp.filter(function(p){ return _ccw(p.ri,1) === udayamRI; });
+    html += '<div class="rb-box rb-a"><div class="rb-title rb-ta">💎 Rule 1 — Jama Graha Approaching Udayam ('+_rN(udayamRI)+')</div>';
+    if(_appr.length){ _appr.forEach(function(p){ var k=_KAR[p.jmIdx]||{}; html+='<div class="rb-row"><b style="color:var(--amber);">'+(k.icon||'')+' '+(k.name||'')+'</b> is approaching Udayam → Question is likely about: <b>'+(k.topics||[]).join(', ')+'</b></div>'; }); }
+    else { html+='<div class="rb-muted">No Jama Graha currently approaching Udayam ('+_rN(udayamRI)+').</div>'; }
+    html += '</div>';
+
+    // Rule 2
+    var _cross = _cp.filter(function(p){ return _ccw(udayamRI,1) === p.ri; });
+    html += '<div class="rb-box rb-r"><div class="rb-title rb-tr">💎 Rule 2 — Jama Graha Crossed Udayam (Past Problems)</div>';
+    if(_cross.length){ _cross.forEach(function(p){ var k=_KAR[p.jmIdx]||{}; html+='<div class="rb-row"><b style="color:var(--red);">'+(k.icon||'')+' '+(k.name||'')+'</b> has just crossed Udayam → Native has <b>already faced past problems</b> related to: <b>'+(k.topics||[]).join(', ')+'</b></div>'; }); }
+    else { html+='<div class="rb-muted">No Jama Graha has just crossed Udayam ('+_rN(udayamRI)+') in the immediately preceding sign.</div>'; }
+    html += '</div>';
+
+    // Rule 3
+    html += '<div class="rb-box rb-c"><div class="rb-title rb-tc">💎 Rule 3 — Arudam ('+_rN(_aruRi)+') is '+_arudamHouse+' from Udayam ('+_rN(udayamRI)+')</div>';
+    html += '<div class="ci-val">Question is related to: <b>'+_ABHA[_arudamHouse-1]+'</b></div>';
+    if(_arudamHouse===3||_arudamHouse===11) html+='<div class="rb-ok">✅ Arudam in '+_arudamHouse+'th from Udayam → <b>Indicates Success</b> (note Kavippu position)</div>';
+    if(_arudamHouse===6||_arudamHouse===8||_arudamHouse===12) html+='<div class="rb-no">❌ Arudam in '+_arudamHouse+'th from Udayam → <b>Indicates Failure/Obstacle</b></div>';
+    html += '</div>';
+
+    // Rule 4
+    html += '<div class="rb-box rb-rr"><div class="rb-title rb-tr">💎 Rule 4 — Kavippu ('+_rN(_kavRi)+') is '+_kavHouse+' from Udayam ('+_rN(udayamRI)+')</div>';
+    html += '<div class="rb-row">⚠ <b>'+_KBHA[_kavHouse-1]+'</b></div>';
+    if(_kavHouse===2||_kavHouse===11) html+='<div class="rb-warn">⚠ Kavippu in '+_kavHouse+'th → <b>Several obstacles</b> in performing the concerned act</div>';
+    if(_inKav.length){ _inKav.forEach(function(p){ var k=_KAR[p.jmIdx]||{}; html+='<div class="rb-no">🔴 <b>'+(k.icon||'')+' '+(k.name||'')+' is in Kavippu</b> → All matters related to <b>'+(k.topics||[]).slice(0,3).join(', ')+'</b> → <b>Negative / NO</b></div>'; }); }
+    else { html+='<div style="font-size:10px;color:var(--muted);margin-top:4px;">No Jama planet currently in Kavippu sign ('+_rN(_kavRi)+').</div>'; }
+    html += '</div>';
+
+    // Rule 5
+    html += '<div class="rb-box rb-g"><div class="rb-title rb-tg">💎 Rule 5 — Exalted &amp; Debilitated Grahas</div>';
+    var _fnd=false;
+    _cp.forEach(function(p){ var k=_KAR[p.jmIdx]||{};
+      if(_EX[p.jmIdx]!==undefined&&p.ri===_EX[p.jmIdx]){ html+='<div style="font-size:10px;color:var(--green);line-height:1.8;margin-bottom:3px;">✅ <b>'+(k.icon||'')+' '+(k.name||'')+' is EXALTED in '+_rN(p.ri)+'</b> → All karakatwas ('+(k.topics||[]).slice(0,3).join(', ')+') are <b>positive &amp; favourable</b> (check Kavippu)</div>'; _fnd=true; }
+      if(_DB[p.jmIdx]!==undefined&&p.ri===_DB[p.jmIdx]){ html+='<div style="font-size:10px;color:var(--red);line-height:1.8;margin-bottom:3px;">❌ <b>'+(k.icon||'')+' '+(k.name||'')+' is DEBILITATED in '+_rN(p.ri)+'</b> → Querent asks about things they <b>cannot perform</b> — all talk, no action</div>'; _fnd=true; }
+    });
+    if(!_fnd) html+='<div class="rb-muted">No currently exalted or debilitated Jama planets detected.</div>';
+    html += '</div>';
+
+    // Rule 6
+    var _nxtUdh = _cp.filter(function(p){ return _ccw(p.ri,1)===udayamRI || p.ri===udayamRI; });
+    html += '<div class="rb-box rb-p"><div style="font-size:10px;font-weight:700;color:var(--purple);margin-bottom:6px;">💎 Rule 6 — Inner Gochara &amp; Outer Jama (Planet next to Udayam)</div>';
+    if(_nxtUdh.length){ _nxtUdh.forEach(function(p){ var k=_KAR[p.jmIdx]||{}; html+='<div style="font-size:10px;color:var(--txt);line-height:1.8;margin-bottom:4px;"><b style="color:var(--purple);">'+(k.icon||'')+' '+(k.name||'')+'</b> is next to / at Udayam → See karakatwas: <b>'+(k.topics||[]).join(', ')+'</b> — question and result will be affected</div>'; }); }
+    else { html+='<div class="rb-muted">No Jama planet at or next to Udayam currently.</div>'; }
+    html += '</div>';
+
+    // General Prediction Rules
+    var _paambu = _cp.filter(function(p){ return p.jmIdx===7 && _ccw(p.ri,1)===udayamRI; });
+    var _debFound = false;
+    html += '<div style="background:#0a0800;border:1px solid var(--acc);border-left:4px solid var(--acc2);border-radius:7px;padding:10px 13px;margin-bottom:8px;">';
+    html += '<div style="font-size:10px;font-weight:700;color:var(--acc2);margin-bottom:8px;">📜 General Prediction Rules — Summary</div>';
+    if(_inElev.length) html+='<div style="font-size:10px;color:var(--green);line-height:1.8;margin-bottom:4px;">✅ <b>Planet(s) in 11th from Udayam ('+_rN(_eleRi)+'): '+_inElev.map(function(p){return(_KAR[p.jmIdx]||{}).name||'';}).join(', ')+'</b> → Indicates <b>Success</b> (note Kavippu)</div>';
+    if(_arudamHouse===3||_arudamHouse===11) html+='<div style="font-size:10px;color:var(--green);line-height:1.8;margin-bottom:4px;">✅ Arudam in '+_arudamHouse+' from Udayam → <b>Success indicated</b></div>';
+    if(_kavHouse===2||_kavHouse===11) html+='<div style="font-size:10px;color:var(--amber);line-height:1.8;margin-bottom:4px;">⚠ Kavippu in '+_kavHouse+' from Udayam → <b>Obstacles present</b> in the concerned matter</div>';
+    if(_arudamHouse===6||_arudamHouse===8||_arudamHouse===12) html+='<div style="font-size:10px;color:var(--red);line-height:1.8;margin-bottom:4px;">❌ Arudam in '+_arudamHouse+' from Udayam → <b>Failure / Unfavourable</b></div>';
+    _cp.forEach(function(p){ if(_DB[p.jmIdx]!==undefined&&p.ri===_DB[p.jmIdx]){ var k=_KAR[p.jmIdx]||{}; html+='<div style="font-size:10px;color:var(--red);line-height:1.8;margin-bottom:4px;">❌ <b>'+(k.name||'')+' is debilitated</b> → Karaka graha weak → Gives <b>negative answer</b> for related questions</div>'; _debFound=true; } });
+    if(_inKav.length) html+='<div style="font-size:10px;color:var(--red);line-height:1.8;margin-bottom:4px;">❌ <b>Planet in Kavippu</b> → Karaka graha in Kavippu → <b>Negative answer</b> for related questions</div>';
+    if(_paambu.length) html+='<div style="font-size:10px;color:var(--purple);line-height:1.8;margin-bottom:4px;">🐍 <b>Paambu (Snake) is approaching Udayam</b> → The problem might be because of a <b>third person</b>, or the person might be having talks related to <b>foreign journey / travel abroad</b></div>';
+    if(!_inElev.length&&_arudamHouse!==3&&_arudamHouse!==11&&!_debFound&&!_inKav.length&&_kavHouse!==2&&_kavHouse!==11&&!_paambu.length) html+='<div class="rb-muted">No strong general prediction triggers detected at this time. Review the Diamond Rules above for detailed analysis.</div>';
+    html += '</div>';
+
+    // Adomuka / Urdomuka
+    function _kend(b){ return [b,(b+3)%12,(b+6)%12,(b+9)%12]; }
+    var _adoSet=_kend(_sunRi), _urdoSet=_kend((_sunRi+11)%12), _triyaSet=_kend((_sunRi+1)%12);
+    html += '<div style="background:var(--bg5);border:1px solid #4a3a6a;border-left:4px solid #9966cc;border-radius:7px;padding:10px 13px;margin-bottom:8px;">';
+    html += '<div style="font-size:10px;font-weight:700;color:#cc99ff;margin-bottom:6px;">🔱 Adomuka / Urdomuka / Triyangamuka</div>';
+    html += '<div style="font-size:9px;color:var(--muted);margin-bottom:7px;">Sun in <b style="color:var(--acc2);">'+_rN(_sunRi)+'</b> &nbsp;&nbsp; <b>AdoMuka</b> (↓ Failure): '+_adoSet.map(_rN).join(', ')+' &nbsp;&nbsp; <b>Urdomuka</b> (↑ Success): '+_urdoSet.map(_rN).join(', ')+' &nbsp;&nbsp; <b>Triyanga</b> (↕ Mixed): '+_triyaSet.map(_rN).join(', ')+'</div>';
+    if(!_noUdh){ html+='<div style="font-size:10px;color:var(--muted);font-style:italic;">⚠ Planet(s) present in Udayam — this rule applies only when Udayam is empty.</div>'; }
+    else if(_urdoSet.indexOf(udayamRI)!==-1){ html+='<div style="font-size:12px;margin-bottom:4px;">⬆️ <b style="color:var(--green);">Urdomuka (Upward Looking)</b></div><div class="ci-val">Udayam <b>('+_rN(udayamRI)+')</b> is in the 12th from Sun or its Kendra → <b style="color:var(--green);">Predict SUCCESS</b>.</div>'; }
+    else if(_adoSet.indexOf(udayamRI)!==-1){ html+='<div style="font-size:12px;margin-bottom:4px;">⬇️ <b style="color:var(--red);">Adomuka (Downward Looking)</b></div><div class="ci-val">Udayam <b>('+_rN(udayamRI)+')</b> is in Sun\'s rasi or its Kendra → <b style="color:var(--red);">Predict FAILURE</b>.</div>'; }
+    else if(_triyaSet.indexOf(udayamRI)!==-1){ html+='<div style="font-size:12px;margin-bottom:4px;">↕️ <b style="color:var(--amber);">Triyangamuka (Both Up &amp; Down)</b></div><div class="ci-val">Udayam <b>('+_rN(udayamRI)+')</b> is in the 2nd from Sun or its Kendra → <b style="color:var(--amber);">Success after Failure</b>.</div>'; }
+    else { html+='<div class="rb-muted">Udayam ('+_rN(udayamRI)+') does not fall in any Muka classification.</div>'; }
+    html += '</div>';
+
+    // Sirsodaya / Pristhodaya
+    html += '<div style="background:var(--bg5);border:1px solid #2a4a3a;border-left:4px solid var(--cyan);border-radius:7px;padding:10px 13px;margin-bottom:8px;">';
+    html += '<div class="rb-title rb-tc">🌅 Sirsodaya  Pristhodaya  Siro-Pristhodaya</div>';
+    html += '<div style="font-size:9px;color:var(--muted);margin-bottom:7px;"><span style="color:var(--green);">Sirsodaya ↑ Success:</span> Me, Ju, Ve, Rahu &nbsp;|&nbsp; <span style="color:var(--red);">Pristhodaya ↓ Failure:</span> Su, Ma, Sa &nbsp;|&nbsp; <span style="color:var(--amber);">Siro-Pristhodaya ↕ Delay:</span> Ke, Mo</div>';
+    if(!(_jmUdh.length||_gpUdh.length)){ html+='<div style="font-size:10px;color:var(--muted);font-style:italic;">No planets in Udayam — this rule requires planets to be present in Udayam.</div>'; }
+    else {
+      var _sirs=[],_prist=[],_sp=[];
+      _jmUdh.forEach(function(p){ var n=_KAR[p.jmIdx]?_KAR[p.jmIdx].name:''; if(_SIRO_JM.indexOf(p.jmIdx)!==-1) _sirs.push('<b style="color:var(--green);">'+n+'</b> (Jamam)'); else if(_PRIST_JM.indexOf(p.jmIdx)!==-1) _prist.push('<b style="color:var(--red);">'+n+'</b> (Jamam)'); else if(_SP_JM.indexOf(p.jmIdx)!==-1) _sp.push('<b style="color:var(--amber);">'+n+'</b> (Jamam)'); });
+      _gpUdh.forEach(function(p){ var n=_GP_NAMES[p.pi]||''; if(_SIRO_GP.indexOf(p.pi)!==-1) _sirs.push('<b style="color:var(--green);">'+n+'</b> (Gochara)'); else if(_PRIST_GP.indexOf(p.pi)!==-1) _prist.push('<b style="color:var(--red);">'+n+'</b> (Gochara)'); else if(_SP_GP.indexOf(p.pi)!==-1) _sp.push('<b style="color:var(--amber);">'+n+'</b> (Gochara)'); });
+      if(_sirs.length)  html+='<div style="font-size:10px;color:var(--txt);line-height:1.9;margin-bottom:4px;">⬆️ <b style="color:var(--green);">Sirsodaya in Udayam:</b> '+_sirs.join(', ')+' → <b style="color:var(--green);">SUCCESS</b></div>';
+      if(_prist.length) html+='<div style="font-size:10px;color:var(--txt);line-height:1.9;margin-bottom:4px;">⬇️ <b style="color:var(--red);">Pristhodaya in Udayam:</b> '+_prist.join(', ')+' → <b style="color:var(--red);">FAILURE</b></div>';
+      if(_sp.length)    html+='<div style="font-size:10px;color:var(--txt);line-height:1.9;margin-bottom:4px;">↕️ <b style="color:var(--amber);">Siro-Pristhodaya in Udayam:</b> '+_sp.join(', ')+' → <b style="color:var(--amber);">Success after Delay</b></div>';
+      if(!_sirs.length&&!_prist.length&&!_sp.length) html+='<div class="rb-muted">Planets in Udayam do not fall into a clear Sirsodaya/Pristhodaya category.</div>';
+    }
+    html += '</div>';
+
+    // Subha Udayam & Subha Arudam
+    var _subhaU=[4,5,6,7,8,9], _subhaA=[3,4,5,6,7,8,9,10];
+    var _isSubU=_subhaU.indexOf(udayamRI)!==-1, _isSubA=_subhaA.indexOf(_aruRi)!==-1;
+    html += '<div class="rb-box rb-a2"><div class="rb-title rb-tac">🌞 Subha Udayam &amp; Subha Arudam</div>';
+    html += '<div style="font-size:9px;color:var(--muted);margin-bottom:7px;"><span style="color:var(--acc2);">Subha Udayam (Sun — Le to Ma):</span> Le, Vi, Li, Sc, Dh, Ma &nbsp;|&nbsp; <span style="color:var(--cyan);">Subha Arudam (Moon — Ca to Ku):</span> Ca, Le, Vi, Li, Sc, Dh, Ma, Ku</div>';
+    if(!_noUdhAru){ html+='<div style="font-size:10px;color:var(--muted);font-style:italic;">⚠ Planet(s) present in Udayam or Arudam — this rule applies only when both are empty.</div>'; }
+    else {
+      html+=(_isSubU?'✅ <b style="color:var(--green);">Subha Udayam</b>':'❌ <b style="color:var(--red);">Asubha Udayam</b>')+' ('+_rN(udayamRI)+')<br>';
+      html+=(_isSubA?'✅ <b style="color:var(--green);">Subha Arudam</b>':'❌ <b style="color:var(--red);">Asubha Arudam</b>')+' ('+_rN(_aruRi)+')';
+      if(_isSubU&&_isSubA) html+='<div class="rb-verdict g">✅ Both Subha → Favourable — Good result predicted.</div>';
+      else if(!_isSubU&&!_isSubA) html+='<div class="rb-verdict r">❌ Both Asubha → Unfavourable — Negative result predicted.</div>';
+      else html+='<div class="rb-verdict a">⚠ Mixed → One Subha, one Asubha — partial or uncertain outcome.</div>';
+    }
+    html += '</div>';
+  }
+  html += '</div>'; // end diamond rules card
+
+  // ══════════════════════════════════════════
+  // Formula note
+  // ══════════════════════════════════════════
+  html += '<div style="font-size:9px;color:var(--muted);line-height:1.7;padding:8px 10px;background:rgba(0,0,0,.2);border-radius:6px;margin-top:10px;">';
+  html += '✨ Formula: Planets in Udayam + Aspecting Planets + Rashi Rays = Total. ';
+  html += 'Exalted ×3 &nbsp;|&nbsp; Own House ×2 &nbsp;|&nbsp; Debilitated ÷2 &nbsp;|&nbsp; Retrograde ÷2 &nbsp;|&nbsp; Kavippu ÷2';
+  html += '</div>';
+
+  html += '<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px;">';
   html += '<div style="background:rgba(255,221,68,.08);border:1px solid #ffdd4444;border-radius:8px;padding:12px;text-align:center;">';
   html += '<div style="font-size:9px;color:#ffdd44;letter-spacing:1px;text-transform:uppercase;margin-bottom:4px;">Total Rays</div>';
   html += '<div style="font-size:28px;font-weight:700;color:#ffdd44;">'+totalRays+'</div>';
@@ -3119,10 +3346,34 @@ function updateLiveRays() {
 
   html += moonTimingHTML;
 
-  html += '<div style="font-size:9px;color:var(--muted);line-height:1.7;padding:8px 10px;background:rgba(0,0,0,.2);border-radius:6px;margin-top:10px;">';
-  html += '✨ Formula: Planets in Udayam + Aspecting Planets + Rashi Rays = Total. ';
-  html += 'Exalted ×3 &nbsp;|&nbsp; Own House ×2 &nbsp;|&nbsp; Debilitated ÷2 &nbsp;|&nbsp; Retrograde ÷2 &nbsp;|&nbsp; Kavippu ÷2';
-  html += '</div>';
+  // --- Lagna vs Moon Timing Comparison ---
+  html += '<div style="margin-top:14px;padding:12px 13px;background:rgba(0,0,0,.25);border:1px solid #3a2a6a;border-radius:9px;">';
+  html += '<div style="font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--acc2);margin-bottom:10px;padding-bottom:7px;border-bottom:1px solid var(--bdrG);">📖 Lagna Timing vs Moon Timing — Key Difference</div>';
+  html += '<table style="width:100%;border-collapse:collapse;font-size:10px;">';
+  html += '<thead><tr>';
+  html += '<th style="padding:6px 9px;text-align:left;color:var(--muted);font-size:9px;border-bottom:1px solid var(--bdr);font-weight:700;letter-spacing:.5px;">ASPECT</th>';
+  html += '<th style="padding:6px 9px;text-align:left;border-bottom:1px solid var(--bdr);"><span style="font-size:9px;font-weight:700;color:#ffdd44;letter-spacing:.5px;">⬆ LAGNA TIMING</span></th>';
+  html += '<th style="padding:6px 9px;text-align:left;border-bottom:1px solid var(--bdr);"><span style="font-size:9px;font-weight:700;color:#7799ff;letter-spacing:.5px;">🌙 MOON TIMING</span></th>';
+  html += '</tr></thead><tbody>';
+  var rows = [
+    ['Based on',    'Rising sign (Udayam)',         "Moon's current Rashi"],
+    ['Changes every','~2 hours',                    '~2.5 days'],
+    ['Signifies',   'The moment / event itself',    "Querent's mind & readiness"],
+    ['Used for',    'Chart foundation & rays total','Days until event (×rashis)'],
+    ['Strength cue','Planet rays + Rashi rays',     'Moon rays × rashi count'],
+  ];
+  rows.forEach(function(r, i) {
+    var bg = i%2===0 ? 'background:rgba(255,255,255,.02);' : '';
+    html += '<tr style="'+bg+'">';
+    html += '<td style="padding:5px 9px;color:var(--muted);font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;white-space:nowrap;">'+r[0]+'</td>';
+    html += '<td style="padding:5px 9px;color:#ffdd44;font-size:10px;">'+r[1]+'</td>';
+    html += '<td style="padding:5px 9px;color:#7799ff;font-size:10px;">'+r[2]+'</td>';
+    html += '</tr>';
+  });
+  html += '</tbody></table>';
+  html += '<div style="margin-top:9px;padding:7px 10px;background:rgba(119,153,255,.07);border-left:3px solid #7799ff;border-radius:0 5px 5px 0;font-size:10px;color:var(--txt);line-height:1.7;">';
+  html += '<b style="color:var(--acc2);">When both align</b> — Lagna rays and Moon days point to the same window → the reading is <b style="color:var(--green);">highly reliable</b>. When they conflict, use Lagna timing as primary and Moon timing as confirmation range.';
+  html += '</div></div>';
   
   panel.innerHTML = html;
 }
@@ -3987,6 +4238,11 @@ function calculate(){
   var udhRi=udh.ri;
   var kav=calcKavippu(aruRi,udhRi,sunRi,udh,aru);
   var kavRi=kav.ri;
+  window._lastAruRi=aruRi;
+  window._lastKavRi=kavRi;
+  window._lastSunRi=sunRi;
+  window._lastCj=cj;
+  window._lastTrans=trans;
 
   var v=getVerdict(cj,aruRi,udhRi,kavRi,qPlanet);
 
@@ -4327,8 +4583,6 @@ function renderResult(D){
       '* = '+(T?"நிலையான ராசி (ஜாமம் கிரகங்கள் வருவதில்லை)":"Fixed sign (Jamam planets never occupy these)")+'</div>'+
   '</div>';
 
-  h += rb;
-
   h+='<div class="card"><div class="ctitle">'+(T?"மூன்று அடிப்படை புள்ளிகள்":"Three Key Points")+'</div>'+
     '<div class="pt-row">'+
     ptPill("var(--cyan)","#030810",T?"அருடம்":"Arudam",rN(D.aruRi),RS_SYM[D.aruRi]+" "+D.aru.deg+""+String(D.aru.min).padStart(2,'0')+"' "+(T?"கேள்வி":"Question"))+
@@ -4341,7 +4595,7 @@ function renderResult(D){
       var id='calc-breakdown-'+Date.now();
       var lbl=T?'📊 முழு கணக்கீடு':'📊 Full Calculation Breakdown';
       return '<div style="margin-top:10px;">'+
-        '<button onclick="var el=document.getElementById(\''+id+'\');var btn=this;el.style.display=(el.style.display===\'none\'?\'\':\'none\');btn.textContent=(el.style.display===\'none\'?(T?\'📊 முழு கணக்கீடு காட்டு\':\'📊 Show Full Calculation Breakdown\'):(T?\'📊 முழு கணக்கீடு மறை\':\'📊 Hide Full Calculation Breakdown\'));" '+
+        '<button onclick="var el=document.getElementById(\''+id+'\');var btn=this;el.style.display=(el.style.display===\'none\'?\'\':\'none\');btn.textContent=(el.style.display===\'none\'?((LANG===\'ta\')?\'📊 முழு கணக்கீடு காட்டு\':\'📊 Show Full Calculation Breakdown\'):((LANG===\'ta\')?\'📊 முழு கணக்கீடு மறை\':\'📊 Hide Full Calculation Breakdown\'));" '+
           'style="background:transparent;border:1px solid var(--bdr);border-radius:6px;color:var(--muted);cursor:pointer;font-size:11px;padding:6px 12px;font-family:var(--fB);width:100%;text-align:left;">'+
           '📊 '+(T?'முழு கணக்கீடு காட்டு':'Show Full Calculation Breakdown')+
         '</button>'+
@@ -4474,6 +4728,8 @@ function renderResult(D){
   '</div>';
 
   h += '</div>'; // end Planets in Udayam card
+
+  h += rb;
 
   h+='<div class="card"><div class="ctitle">'+(T?"தற்போதைய ஜாமம் #"+cj.num+" — கிரக நிலைகள்":
     "Current Jamam #"+cj.num+" — "+toHM(cj.start)+" to "+toHM(cj.end))+'</div>'+
