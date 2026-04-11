@@ -493,10 +493,6 @@
 <nav class="nav">
 <div class="nav-brand">⭐ AstroIGen</div>
 <div class="nav-tabs">
-<a href="KPAstrology_v2-1.html" class="ntab">KP Chart</a>
-<a href="KPAstrology_v2-1.html" class="ntab">Shodashavarga</a>
-<a href="KPAstrology_v2-1.html" class="ntab">KP Lookup</a>
-<a href="KPAstrology_v2-1.html" class="ntab">Gochara</a>
 <a href="jammakol.html" class="ntab active">Jammakol Prasnam</a>
 </div>
 <div class="nav-r">
@@ -515,7 +511,7 @@
 <div class="lm-overlay" id="lm-overlay" onclick="lmOverlayClick(event)">
 <div class="lm-modal">
 <div class="lm-head">
-<div class="lm-title">Ÿ“ Location Manager</div>
+<div class="lm-title">📍 Location Manager</div>
 <button class="lm-close" onclick="closeLM()">✕</button>
 </div>
 <div class="lm-section">
@@ -568,7 +564,7 @@
 <div class="hero fi">
 <h1 id="h-title">JAMMAKOL PRASNAM</h1>
 <div class="hsub">ஜாம்மக்கோல் அருடம்  Classical Tamil Horary Astrology</div>
-<div class="hdesc" id="h-desc">Day Lord placed at Pisces at Jamam 1 (sunrise); all 8 planets advance one non-fixed sign CCW every 90 min. Each Jamam = 90 min | 1 = 2 min | 45 per slot. Fixed signs (Taurus, Leo, Scorpio, Aquarius) are skipped. Opposite pairs (Sun↔Venus, Mars↔Saturn, Jupiter↔Moon, Mercury↔Snake) always occupy the 7th house from each other. Night cycle resets at sunset with the 5th planet from the day ruler in Pisces.</div>
+
 </div>
 <div class="notice"><span id="notice-txt">⚠️ Ask once with sincere intent. Never repeat the same question. The verdict is valid for up to 6 months.</span></div>
 <!-- Calculation always visible -->
@@ -577,7 +573,13 @@
 <div class="ctitle" id="form-title">PRASNAM INPUT</div>
 <div class="frow">
 <div><label id="lbl-date">Prasnam Date</label><input type="date" id="inp-date" onchange="autoFillSunTimes()"/></div>
-<div><label id="lbl-time">Prasnam Time (Local IST)</label><input type="time" id="inp-time" step="1"/></div>
+<div>
+<label id="lbl-time">Prasnam Time (Local IST)</label>
+<div style="display:flex;gap:6px;align-items:center;">
+<input type="time" id="inp-time" step="1" style="flex:1;"/>
+<button onclick="resetToCurrentTime()" title="Reset to current time" style="background:transparent;border:1px solid var(--bdr);border-radius:6px;color:var(--muted);cursor:pointer;font-size:13px;padding:5px 9px;line-height:1;flex-shrink:0;">🔄</button>
+</div>
+</div>
 </div>
 <div class="frow">
 <div><label id="lbl-sr">Sunrise <span style="font-size:9px;color:var(--muted);">(auto, editable)</span></label><input type="time" id="inp-sr" value="06:00"/></div>
@@ -586,7 +588,7 @@
 <div style="margin-bottom:10px;position:relative;">
 <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px;">
 <label id="lbl-loc" style="margin-bottom:0;">Location <span id="def-badge-wrap"></span></label>
-<button class="btn-gold" onclick="openLM()" style="font-size:10px;padding:3px 10px;">Ÿ“ Manage</button>
+<button class="btn-gold" onclick="openLM()" style="font-size:10px;padding:3px 10px;">📍 Manage</button>
 </div>
 <input type="text" id="inp-loc" placeholder="Type city name e.g. Chennai, Madurai..." autocomplete="off"
       style="width:100%;" oninput="searchLocation(this.value)" onblur="setTimeout(function(){document.getElementById('loc-results').style.display='none';},200)"/>
@@ -605,33 +607,8 @@
 </div>
 <div><label id="lbl-q">Question (optional)</label><input type="text" id="inp-q" placeholder="e.g. Will I get the job?"/></div>
 </div>
-<div class="frow" style="margin-bottom:10px;">
-<div>
-<label id="lbl-qpl" style="display:flex;align-items:center;gap:5px;">
-        Question Planet
-        <span style="background:#300;border:1px solid var(--red);border-radius:3px;color:var(--red);font-size:8px;padding:1px 5px;font-weight:700;">KAVIPPU CHECK</span>
-</label>
-<select id="inp-qpl">
-<option value="-1">— Select (optional) —</option>
-<option value="0">☀️ Sun — Authority, Govt, Father, Health, Soul</option>
-<option value="1">♂ Mars — Land, Property, Siblings, Courage, Surgery</option>
-<option value="2">♃ Jupiter — Wealth, Children, Guru, Education, Dharma</option>
-<option value="3">☿ Mercury — Business, Communication, Travel, Intellect</option>
-<option value="4">♀ Venus — Marriage, Love, Vehicles, Luxury, Relationship</option>
-<option value="5">♄ Saturn — Delays, Service, Longevity, Karma, Labour</option>
-<option value="6">☽ Moon — Mind, Mother, Water, Emotions, Peace</option>
-<option value="7">Ÿ Snake (Rahu) — Hidden matters, Foreign, Poison, Sudden events</option>
-</select>
-</div>
-<div style="display:flex;align-items:flex-end;">
-<div class="calc-box" style="margin:0;font-size:10px;line-height:1.7;flex:1;">
-<b style="color:var(--red);">🔴 Kavippu Rule:</b> If your question's planet is in Kavippu at the time of Prasnam, the answer is an <b>immediate NO</b> — no further analysis needed.
-      </div>
-</div>
-</div>
-<div class="frow">
-<div>
-<label id="lbl-tm">Tamil Month</label>
+
+<div style="display:none;">
 <select id="inp-tm">
 <option value="0">Chithirai — Aries</option>
 <option value="1">Vaikasi — Taurus</option>
@@ -646,8 +623,7 @@
 <option value="10">Maasi — Aquarius</option>
 <option value="11">Panguni — Pisces</option>
 </select>
-</div>
-<div><label id="lbl-td">Tamil Date (1–32)</label><input type="number" id="inp-td" min="1" max="32" value="1"/></div>
+<input type="number" id="inp-td" min="1" max="32" value="1"/>
 </div>
 <div class="calc-box" id="tamil-info">ℹ️ Sunrise/Sunset auto-calculated from location — verify with your Panchangam and correct if needed. Tamil month auto-estimated from Sun position. Verify Tamil date with your Panchangam.</div>
 <button class="btn-p" onclick="calculate()">🔮 <span id="btn-txt">Calculate Jammakol Prasnam</span></button>
@@ -669,6 +645,136 @@
   </div>
 </div>
 </div>
+</div>
+<div class="jm-tab-section" id="tab-guide">
+<div class="page">
+<div class="hero fi" style="background:linear-gradient(135deg,#060820 0%,#0a1020 50%,#060820 100%);border-color:#1a2a45;">
+<h1 style="font-family:var(--fD);font-size:17px;color:var(--acc2);letter-spacing:2px;">📖 PREDICTION GUIDE</h1>
+<div class="hsub" style="color:var(--cyan);">Planets in Udayam  Veda  Kavippu Rules  Requirements</div>
+<div class="hdesc">Step-by-step guide for reading the Jammakol Prasnam chart and delivering accurate verdicts.</div>
+</div>
+<div class="theory-grid">
+<div class="theory-grid">
+<div class="th-block full" style="border-color:var(--red);background:#150304;">
+<div class="th-block-title red">⚠ Kavippu Planet Guide — Which Planet Rules Your Question?</div>
+<div style="font-size:10px;color:var(--muted);margin-bottom:10px;line-height:1.7;">If the planet of your question is in Kavippu at the time of Prasnam → answer is an <b style="color:var(--red);">immediate NO</b>, final.</div>
+<div class="kav-pl-guide">
+<div class="kav-pl-item"><span style="font-size:14px;">☀️</span><div><div style="font-weight:700;">Sun</div><div style="font-size:9px;color:var(--muted);">Authority, Govt, Father, Health, Soul</div></div></div>
+<div class="kav-pl-item"><span style="font-size:14px;">♂</span><div><div style="font-weight:700;">Mars</div><div style="font-size:9px;color:var(--muted);">Land, Property, Siblings, Courage, Surgery</div></div></div>
+<div class="kav-pl-item"><span style="font-size:14px;">♃</span><div><div style="font-weight:700;">Jupiter</div><div style="font-size:9px;color:var(--muted);">Wealth, Children, Guru, Education, Dharma</div></div></div>
+<div class="kav-pl-item"><span style="font-size:14px;">☿</span><div><div style="font-weight:700;">Mercury</div><div style="font-size:9px;color:var(--muted);">Business, Travel, Intellect, Communication</div></div></div>
+<div class="kav-pl-item"><span style="font-size:14px;">♀</span><div><div style="font-weight:700;">Venus</div><div style="font-size:9px;color:var(--muted);">Marriage, Love, Vehicles, Luxury, Relationship</div></div></div>
+<div class="kav-pl-item"><span style="font-size:14px;">♄</span><div><div style="font-weight:700;">Saturn</div><div style="font-size:9px;color:var(--muted);">Delays, Service, Longevity, Karma, Labour</div></div></div>
+<div class="kav-pl-item"><span style="font-size:14px;">☽</span><div><div style="font-weight:700;">Moon</div><div style="font-size:9px;color:var(--muted);">Mind, Mother, Water, Emotions, Peace</div></div></div>
+<div class="kav-pl-item"><span style="font-size:14px;">🐍</span><div><div style="font-weight:700;">Snake (Rahu)</div><div style="font-size:9px;color:var(--muted);">Hidden matters, Foreign, Poison, Sudden events</div></div></div>
+</div>
+</div>
+<div class="th-block full" style="border-color:var(--acc);background:#080600;">
+<div class="th-block-title" style="color:var(--acc2);">📋 Requirements at the Time of Prediction</div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:4px;">
+<div style="font-size:10px;padding:7px 10px;background:var(--bg5);border-radius:5px;border-left:3px solid var(--acc2);">👤 <b>Gender</b> of the client</div>
+<div style="font-size:10px;padding:7px 10px;background:var(--bg5);border-radius:5px;border-left:3px solid var(--acc2);">🎂 <b>Age</b> of the client</div>
+<div style="font-size:10px;padding:7px 10px;background:var(--bg5);border-radius:5px;border-left:3px solid var(--cyan);">👂 <b>Hear the question properly</b> and interpret the correct meaning</div>
+<div style="font-size:10px;padding:7px 10px;background:var(--bg5);border-radius:5px;border-left:3px solid var(--green);">✅ Client question should be <b>genuine</b></div>
+</div>
+</div>
+<div class="th-block" style="border-color:var(--red);background:#150304;">
+<div class="th-block-title red">⬇️ Debilitated Planets in Udayam</div>
+<div class="th-item"><div class="th-dot red"></div><div>The querent will ask a question about something <b style="color:var(--red);">incapable of performing</b>.</div></div>
+<div class="th-item"><div class="th-dot amber"></div><div>He will keep on <b style="color:var(--amber);">speaking endlessly</b> without taking action.</div></div>
+</div>
+<div class="th-block" style="border-color:var(--purple);">
+<div class="th-block-title purple">🔮 Planets in Udayam — What Question?</div>
+<div style="display:flex;flex-direction:column;gap:6px;margin-top:2px;">
+<div style="background:var(--bg5);border-left:3px solid #44ddaa;border-radius:5px;padding:7px 10px;">
+<div class="ci-lbl mer">☿ Mercury in Udayam</div>
+<div class="ci-val">Based on age — either <b>education</b> or <b>love</b>. Also: name change, marriage matchmaking. If Mercury is in Udayam at the time of matchmaking → <b style="color:var(--green);">predict success</b>.</div>
+</div>
+<div style="background:var(--bg5);border-left:3px solid #aaaacc;border-radius:5px;padding:7px 10px;">
+<div class="ci-lbl sat">♄ Saturn in Udayam</div>
+<div class="ci-val">Some priest or god comes on body in their family (Samiyadi). Good worker. <b>No interest in marriage life or house</b>.</div>
+</div>
+<div style="background:var(--bg5);border-left:3px solid #ff88cc;border-radius:5px;padding:7px 10px;">
+<div class="ci-lbl pk">♀ Venus in Udayam</div>
+<div class="ci-val">Person has two names (e.g., Rama Chandra). Question regarding <b>money</b> or <b>wife</b> (in case of males). Also marriage matchmaking.</div>
+</div>
+<div style="background:var(--bg5);border-left:3px solid #ff5555;border-radius:5px;padding:7px 10px;">
+<div class="ci-lbl r">♂ Mars in Udayam</div>
+<div class="ci-val">In <b>theft Prasannam</b> — ask client to go to police station. Question regarding <b>husband</b> (female) or <b>brothers</b> (male). Will have lot of wish for money but won't express it outside.</div>
+</div>
+<div style="background:var(--bg5);border-left:3px solid #7799ff;border-radius:5px;padding:7px 10px;">
+<div class="ci-lbl b">☽ Moon in Udayam</div>
+<div class="ci-val">Question regarding <b>mother</b> or <b>travelling</b>. Achieves results in a <b>short span of time</b>.</div>
+</div>
+<div style="background:var(--bg5);border-left:3px solid #ffaa22;border-radius:5px;padding:7px 10px;">
+<div class="ci-lbl sun">☉ Sun in Udayam</div>
+<div class="ci-val">Question regarding <b>father</b>, <b>government job</b>, or <b>status</b>.</div>
+</div>
+<div style="background:var(--bg5);border-left:3px solid #88ffaa;border-radius:5px;padding:7px 10px;">
+<div style="font-size:9px;font-weight:700;color:#88ffaa;margin-bottom:3px;">🐍 Paambu in Udayam</div>
+<div class="ci-val">Question related to <b>medical</b>. Positive only for medical and <b>child birth</b>. For marriage and other aspects it is <b style="color:var(--red);">bad</b>. Pregnancy confirmed.</div>
+</div>
+</div>
+</div>
+
+<div class="th-block full" style="border-color:#ffdd44;background:#0a0900;">
+<div class="th-block-title" style="color:#ffdd44;">🌅 Planets in Udayam — Rays &amp; Modifiers</div>
+<div style="font-size:10px;color:var(--muted);margin-bottom:10px;line-height:1.7;">
+          The total rays of Udayam = <b style="color:#ffdd44;">Planet(s) in Udayam</b> + <b style="color:#ffdd44;">Planets aspecting Udayam</b> + <b style="color:#ffdd44;">Rashi rays of Udayam</b>.
+          These rays determine the timing and strength of the event.
+        </div>
+<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:7px;margin-bottom:14px;">
+<div style="background:rgba(68,255,136,.07);border:1px solid var(--green);border-radius:7px;padding:9px 12px;">
+<div style="font-size:9px;font-weight:700;color:var(--green);letter-spacing:1px;text-transform:uppercase;margin-bottom:4px;">🏠 Own House</div>
+<div style="font-size:11px;font-weight:700;color:var(--green);"> 2 (Double Rays)</div>
+<div style="font-size:10px;color:var(--muted);margin-top:3px;">Planet in its own rashi → gives twice its base rays</div>
+</div>
+<div style="background:rgba(68,255,136,.07);border:1px solid #44ff88;border-radius:7px;padding:9px 12px;">
+<div style="font-size:9px;font-weight:700;color:#44ff88;letter-spacing:1px;text-transform:uppercase;margin-bottom:4px;">⬆️ Exalted</div>
+<div style="font-size:11px;font-weight:700;color:#44ff88;"> 3 (Triple Rays)</div>
+<div style="font-size:10px;color:var(--muted);margin-top:3px;">Exalted planet → gives thrice its base rays</div>
+</div>
+<div style="background:rgba(255,68,85,.07);border:1px solid var(--red);border-radius:7px;padding:9px 12px;">
+<div style="font-size:9px;font-weight:700;color:var(--red);letter-spacing:1px;text-transform:uppercase;margin-bottom:4px;">⬇️ Debilitated</div>
+<div style="font-size:11px;font-weight:700;color:var(--red);"> 2 (Half Rays)</div>
+<div style="font-size:10px;color:var(--muted);margin-top:3px;">Debilitated planet → reduces to half its base rays</div>
+</div>
+<div style="background:rgba(255,68,85,.07);border:1px solid var(--amber);border-radius:7px;padding:9px 12px;">
+<div style="font-size:9px;font-weight:700;color:var(--amber);letter-spacing:1px;text-transform:uppercase;margin-bottom:4px;">🔄 Retrograde</div>
+<div style="font-size:11px;font-weight:700;color:var(--amber);"> 2 (Half Rays)</div>
+<div style="font-size:10px;color:var(--muted);margin-top:3px;">Retrograde planet → reduces to half its base rays</div>
+</div>
+<div style="background:rgba(255,68,85,.07);border:1px solid #ff4455;border-radius:7px;padding:9px 12px;">
+<div style="font-size:9px;font-weight:700;color:var(--red);letter-spacing:1px;text-transform:uppercase;margin-bottom:4px;">🔥 Kavippu</div>
+<div style="font-size:11px;font-weight:700;color:var(--red);"> 2 (Half Rays)</div>
+<div style="font-size:10px;color:var(--muted);margin-top:3px;">Planet in Kavippu → reduces to half its base rays</div>
+</div>
+</div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px;">
+<div class="th-example">
+<div class="th-example-title">Example 1 — Vrischika Udayam</div>
+            Udayam: <b>Vrischika</b> (Scorpio)  Jupiter in Udayam  Mars in Leo (aspecting)<br><br>
+<table style="width:100%;border-collapse:collapse;font-size:10px;">
+<tr style="border-bottom:1px solid var(--bdr);"><td style="padding:3px 5px;color:var(--muted);">Jupiter in Udayam</td><td style="text-align:right;font-weight:700;color:#ffdd44;">10</td></tr>
+<tr style="border-bottom:1px solid var(--bdr);"><td style="padding:3px 5px;color:var(--muted);">Mars aspecting Udayam</td><td style="text-align:right;font-weight:700;color:#ffdd44;">8</td></tr>
+<tr><td style="padding:3px 5px;color:var(--muted);">Vrischika Rashi</td><td style="text-align:right;font-weight:700;color:#ffdd44;">4</td></tr>
+<tr style="border-top:2px solid var(--acc);"><td style="padding:4px 5px;font-weight:700;color:var(--acc2);">Total Rays</td><td style="text-align:right;font-size:14px;font-weight:700;color:var(--acc2);">22</td></tr>
+</table>
+</div>
+<div class="th-example">
+<div class="th-example-title">Example 2 — Moon + Jupiter in Vrischika Udayam</div>
+            Udayam: <b>Vrischika</b>  Moon (debilitated) + Jupiter in Udayam  Mars in Leo (aspecting)<br><br>
+<table style="width:100%;border-collapse:collapse;font-size:10px;">
+<tr style="border-bottom:1px solid var(--bdr);"><td style="padding:3px 5px;color:var(--muted);">Moon (debil → 2 = 10.5)</td><td style="text-align:right;font-weight:700;color:#ffdd44;">10.5</td></tr>
+<tr style="border-bottom:1px solid var(--bdr);"><td style="padding:3px 5px;color:var(--muted);">Jupiter in Udayam</td><td style="text-align:right;font-weight:700;color:#ffdd44;">10</td></tr>
+<tr style="border-bottom:1px solid var(--bdr);"><td style="padding:3px 5px;color:var(--muted);">Mars aspecting Udayam</td><td style="text-align:right;font-weight:700;color:#ffdd44;">8</td></tr>
+<tr><td style="padding:3px 5px;color:var(--muted);">Vrischika Rashi</td><td style="text-align:right;font-weight:700;color:#ffdd44;">4</td></tr>
+<tr style="border-top:2px solid var(--acc);"><td style="padding:4px 5px;font-weight:700;color:var(--acc2);">Total Rays</td><td style="text-align:right;font-size:14px;font-weight:700;color:var(--acc2);">32.5</td></tr>
+</table>
+</div>
+</div>
+</div>
+
 <div class="th-block full" style="border-color:#ffdd44;background:#0a0900;">
 <div class="th-block-title" style="color:#ffdd44;">✨ Planetary Rays (Rashmi / Kiranam)</div>
 <div style="font-size:10px;color:var(--muted);margin-bottom:10px;">Used for: <b style="color:#ffdd44;">Time Duration  Weight  Price  Measurement</b><br>
@@ -738,9 +844,12 @@
 <div>
 <label style="font-size:9px;color:var(--muted);display:block;margin-bottom:3px;text-transform:uppercase;">Condition</label>
 <select id="rc-cond" style="width:100%;background:var(--bg5);border:1px solid var(--bdr);border-radius:5px;padding:5px 8px;color:var(--txt);font-size:11px;" onchange="calcRays()">
-<option value="normal">Normal</option>
-<option value="exalted">Exalted (3)</option>
-<option value="debilitated">Debilitated (0)</option>
+<option value="normal">Normal (×1)</option>
+<option value="own">🏠 Own House (×2)</option>
+<option value="exalted">⬆️ Exalted (×3)</option>
+<option value="debilitated">⬇️ Debilitated (÷2)</option>
+<option value="retrograde">🔄 Retrograde (÷2)</option>
+<option value="kavippu">🔥 Kavippu (÷2)</option>
 </select>
 </div>
 <div>
@@ -763,9 +872,12 @@
 <div>
 <label style="font-size:9px;color:var(--muted);display:block;margin-bottom:3px;text-transform:uppercase;">Aspecting Condition</label>
 <select id="rc-asp-cond" style="width:100%;background:var(--bg5);border:1px solid var(--bdr);border-radius:5px;padding:5px 8px;color:var(--txt);font-size:11px;" onchange="calcRays()">
-<option value="normal">Normal</option>
-<option value="exalted">Exalted (3)</option>
-<option value="debilitated">Debilitated (0)</option>
+<option value="normal">Normal (×1)</option>
+<option value="own">🏠 Own House (×2)</option>
+<option value="exalted">⬆️ Exalted (×3)</option>
+<option value="debilitated">⬇️ Debilitated (÷2)</option>
+<option value="retrograde">🔄 Retrograde (÷2)</option>
+<option value="kavippu">🔥 Kavippu (÷2)</option>
 </select>
 </div>
 <div>
@@ -806,65 +918,41 @@
 </div>
 </div>
 </div>
+
+<div class="th-block full" style="border-color:#7799ff;background:#060818;">
+<div class="th-block-title" style="color:#7799ff;">🌙 Moon Timing — When Will the Event Occur?</div>
+<div style="font-size:10px;color:var(--muted);margin-bottom:10px;line-height:1.7;">
+          If <b style="color:#7799ff;">Moon touches the Udayam</b>, the event will take place. The number of days is calculated from Moon's rays and its distance to Udayam.
+        </div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px;">
+<div style="background:rgba(119,153,255,.07);border:1px solid #7799ff44;border-radius:7px;padding:10px 12px;">
+<div style="font-size:9px;font-weight:700;color:#7799ff;letter-spacing:1px;text-transform:uppercase;margin-bottom:6px;">📍 Formula</div>
+<div style="font-size:12px;font-weight:700;color:#ffdd44;text-align:center;padding:8px;background:rgba(0,0,0,.3);border-radius:6px;margin-bottom:8px;">
+              Days = Moon's Rays  Distance (Rashi count to Udayam)
+            </div>
+<div class="ci-val">
+              • Moon's base rays = <b style="color:#7799ff;">21</b><br>
+              • Count the number of rashis from Moon to Udayam<br>
+              • If Moon is <b>outside</b> Udayam → count <b style="color:var(--amber);">anti-clockwise</b><br>
+              • Multiply Moon's rays  rashi count = days until event
+            </div>
 </div>
-<div class="jm-tab-section" id="tab-guide">
-<div class="page">
-<div class="hero fi" style="background:linear-gradient(135deg,#060820 0%,#0a1020 50%,#060820 100%);border-color:#1a2a45;">
-<h1 style="font-family:var(--fD);font-size:17px;color:var(--acc2);letter-spacing:2px;">📖 PREDICTION GUIDE</h1>
-<div class="hsub" style="color:var(--cyan);">Planets in Udayam  Veda  Kavippu Rules  Requirements</div>
-<div class="hdesc">Step-by-step guide for reading the Jammakol Prasnam chart and delivering accurate verdicts.</div>
-</div>
-<div class="theory-grid">
-<div class="theory-grid">
-<div class="th-block full" style="border-color:var(--acc);background:#080600;">
-<div class="th-block-title" style="color:var(--acc2);">📋 Requirements at the Time of Prediction</div>
-<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:4px;">
-<div style="font-size:10px;padding:7px 10px;background:var(--bg5);border-radius:5px;border-left:3px solid var(--acc2);">👤 <b>Gender</b> of the client</div>
-<div style="font-size:10px;padding:7px 10px;background:var(--bg5);border-radius:5px;border-left:3px solid var(--acc2);">🎂 <b>Age</b> of the client</div>
-<div style="font-size:10px;padding:7px 10px;background:var(--bg5);border-radius:5px;border-left:3px solid var(--cyan);">👂 <b>Hear the question properly</b> and interpret the correct meaning</div>
-<div style="font-size:10px;padding:7px 10px;background:var(--bg5);border-radius:5px;border-left:3px solid var(--green);">✅ Client question should be <b>genuine</b></div>
-</div>
-</div>
-<div class="th-block" style="border-color:var(--red);background:#150304;">
-<div class="th-block-title red">⬇️ Debilitated Planets in Udayam</div>
-<div class="th-item"><div class="th-dot red"></div><div>The querent will ask a question about something <b style="color:var(--red);">incapable of performing</b>.</div></div>
-<div class="th-item"><div class="th-dot amber"></div><div>He will keep on <b style="color:var(--amber);">speaking endlessly</b> without taking action.</div></div>
-</div>
-<div class="th-block" style="border-color:var(--purple);">
-<div class="th-block-title purple">Ÿ Planets in Udayam — What Question?</div>
-<div style="display:flex;flex-direction:column;gap:6px;margin-top:2px;">
-<div style="background:var(--bg5);border-left:3px solid #44ddaa;border-radius:5px;padding:7px 10px;">
-<div class="ci-lbl mer">☿ Mercury in Udayam</div>
-<div class="ci-val">Based on age — either <b>education</b> or <b>love</b>. Also: name change, marriage matchmaking. If Mercury is in Udayam at the time of matchmaking → <b style="color:var(--green);">predict success</b>.</div>
-</div>
-<div style="background:var(--bg5);border-left:3px solid #aaaacc;border-radius:5px;padding:7px 10px;">
-<div class="ci-lbl sat">♄ Saturn in Udayam</div>
-<div class="ci-val">Some priest or god comes on body in their family (Samiyadi). Good worker. <b>No interest in marriage life or house</b>.</div>
-</div>
-<div style="background:var(--bg5);border-left:3px solid #ff88cc;border-radius:5px;padding:7px 10px;">
-<div class="ci-lbl pk">♀ Venus in Udayam</div>
-<div class="ci-val">Person has two names (e.g., Rama Chandra). Question regarding <b>money</b> or <b>wife</b> (in case of males). Also marriage matchmaking.</div>
-</div>
-<div style="background:var(--bg5);border-left:3px solid #ff5555;border-radius:5px;padding:7px 10px;">
-<div class="ci-lbl r">♂ Mars in Udayam</div>
-<div class="ci-val">In <b>theft Prasannam</b> — ask client to go to police station. Question regarding <b>husband</b> (female) or <b>brothers</b> (male). Will have lot of wish for money but won't express it outside.</div>
-</div>
-<div style="background:var(--bg5);border-left:3px solid #7799ff;border-radius:5px;padding:7px 10px;">
-<div class="ci-lbl b">☽ Moon in Udayam</div>
-<div class="ci-val">Question regarding <b>mother</b> or <b>travelling</b>. Achieves results in a <b>short span of time</b>.</div>
-</div>
-<div style="background:var(--bg5);border-left:3px solid #ffaa22;border-radius:5px;padding:7px 10px;">
-<div class="ci-lbl sun">☉ Sun in Udayam</div>
-<div class="ci-val">Question regarding <b>father</b>, <b>government job</b>, or <b>status</b>.</div>
-</div>
-<div style="background:var(--bg5);border-left:3px solid #88ffaa;border-radius:5px;padding:7px 10px;">
-<div style="font-size:9px;font-weight:700;color:#88ffaa;margin-bottom:3px;">Ÿ Paambu in Udayam</div>
-<div class="ci-val">Question related to <b>medical</b>. Positive only for medical and <b>child birth</b>. For marriage and other aspects it is <b style="color:var(--red);">bad</b>. Pregnancy confirmed.</div>
+<div class="th-example">
+<div class="th-example-title">Example — Tula Udayam, Moon in Mithuna</div>
+            Moon is <b>outside</b> Udayam → count anti-clockwise<br><br>
+<table style="width:100%;border-collapse:collapse;font-size:10px;">
+<tr style="border-bottom:1px solid var(--bdr);"><td style="padding:3px 5px;color:var(--muted);">Moon's Rays</td><td style="text-align:right;font-weight:700;color:#7799ff;">21</td></tr>
+<tr style="border-bottom:1px solid var(--bdr);"><td style="padding:3px 5px;color:var(--muted);">Rashi count (Mithuna → Tula anti-clockwise)</td><td style="text-align:right;font-weight:700;color:#7799ff;">9</td></tr>
+<tr style="border-top:2px solid #7799ff;"><td style="padding:4px 5px;font-weight:700;color:#7799ff;">Days until event</td><td style="text-align:right;font-size:14px;font-weight:700;color:#7799ff;">189</td></tr>
+</table>
+<div style="font-size:9px;color:var(--muted);margin-top:6px;">21  9 = 189 days from Prasnam date</div>
 </div>
 </div>
 </div>
+
+
 <div class="th-block" style="border-color:var(--cyan);">
-<div class="th-block-title cyan">Ÿ Udayam &amp; 10th House (Ucchiyalsindanai)</div>
+<div class="th-block-title cyan">🔭 Udayam &amp; 10th House (Ucchiyalsindanai)</div>
 <div class="th-item"><div class="th-dot cyan"></div><div>Wherever the <b>10th lord is placed</b>, the question is related to that Bhava.</div></div>
 <div class="th-item"><div class="th-dot green"></div><div>The question asked by the querent can be <b>verified</b> this way.</div></div>
 </div>
@@ -904,97 +992,7 @@
 </div>
 </div>
 
-<div class="th-block full" style="border-color:#ffdd44;background:#0a0900;">
-<div class="th-block-title" style="color:#ffdd44;">🌅 Planets in Udayam — Rays &amp; Modifiers</div>
-<div style="font-size:10px;color:var(--muted);margin-bottom:10px;line-height:1.7;">
-          The total rays of Udayam = <b style="color:#ffdd44;">Planet(s) in Udayam</b> + <b style="color:#ffdd44;">Planets aspecting Udayam</b> + <b style="color:#ffdd44;">Rashi rays of Udayam</b>.
-          These rays determine the timing and strength of the event.
-        </div>
-<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:7px;margin-bottom:14px;">
-<div style="background:rgba(68,255,136,.07);border:1px solid var(--green);border-radius:7px;padding:9px 12px;">
-<div style="font-size:9px;font-weight:700;color:var(--green);letter-spacing:1px;text-transform:uppercase;margin-bottom:4px;">Ÿ Own House</div>
-<div style="font-size:11px;font-weight:700;color:var(--green);"> 2 (Double Rays)</div>
-<div style="font-size:10px;color:var(--muted);margin-top:3px;">Planet in its own rashi → gives twice its base rays</div>
-</div>
-<div style="background:rgba(68,255,136,.07);border:1px solid #44ff88;border-radius:7px;padding:9px 12px;">
-<div style="font-size:9px;font-weight:700;color:#44ff88;letter-spacing:1px;text-transform:uppercase;margin-bottom:4px;">⬆️ Exalted</div>
-<div style="font-size:11px;font-weight:700;color:#44ff88;"> 3 (Triple Rays)</div>
-<div style="font-size:10px;color:var(--muted);margin-top:3px;">Exalted planet → gives thrice its base rays</div>
-</div>
-<div style="background:rgba(255,68,85,.07);border:1px solid var(--red);border-radius:7px;padding:9px 12px;">
-<div style="font-size:9px;font-weight:700;color:var(--red);letter-spacing:1px;text-transform:uppercase;margin-bottom:4px;">⬇️ Debilitated</div>
-<div style="font-size:11px;font-weight:700;color:var(--red);"> 2 (Half Rays)</div>
-<div style="font-size:10px;color:var(--muted);margin-top:3px;">Debilitated planet → reduces to half its base rays</div>
-</div>
-<div style="background:rgba(255,68,85,.07);border:1px solid var(--amber);border-radius:7px;padding:9px 12px;">
-<div style="font-size:9px;font-weight:700;color:var(--amber);letter-spacing:1px;text-transform:uppercase;margin-bottom:4px;">🔄 Retrograde</div>
-<div style="font-size:11px;font-weight:700;color:var(--amber);"> 2 (Half Rays)</div>
-<div style="font-size:10px;color:var(--muted);margin-top:3px;">Retrograde planet → reduces to half its base rays</div>
-</div>
-<div style="background:rgba(255,68,85,.07);border:1px solid #ff4455;border-radius:7px;padding:9px 12px;">
-<div style="font-size:9px;font-weight:700;color:var(--red);letter-spacing:1px;text-transform:uppercase;margin-bottom:4px;">🔥 Kavippu</div>
-<div style="font-size:11px;font-weight:700;color:var(--red);"> 2 (Half Rays)</div>
-<div style="font-size:10px;color:var(--muted);margin-top:3px;">Planet in Kavippu → reduces to half its base rays</div>
-</div>
-</div>
-<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px;">
-<div class="th-example">
-<div class="th-example-title">Example 1 — Vrischika Udayam</div>
-            Udayam: <b>Vrischika</b> (Scorpio)  Jupiter in Udayam  Mars in Leo (aspecting)<br><br>
-<table style="width:100%;border-collapse:collapse;font-size:10px;">
-<tr style="border-bottom:1px solid var(--bdr);"><td style="padding:3px 5px;color:var(--muted);">Jupiter in Udayam</td><td style="text-align:right;font-weight:700;color:#ffdd44;">10</td></tr>
-<tr style="border-bottom:1px solid var(--bdr);"><td style="padding:3px 5px;color:var(--muted);">Mars aspecting Udayam</td><td style="text-align:right;font-weight:700;color:#ffdd44;">8</td></tr>
-<tr><td style="padding:3px 5px;color:var(--muted);">Vrischika Rashi</td><td style="text-align:right;font-weight:700;color:#ffdd44;">4</td></tr>
-<tr style="border-top:2px solid var(--acc);"><td style="padding:4px 5px;font-weight:700;color:var(--acc2);">Total Rays</td><td style="text-align:right;font-size:14px;font-weight:700;color:var(--acc2);">22</td></tr>
-</table>
-</div>
-<div class="th-example">
-<div class="th-example-title">Example 2 — Moon + Jupiter in Vrischika Udayam</div>
-            Udayam: <b>Vrischika</b>  Moon (debilitated) + Jupiter in Udayam  Mars in Leo (aspecting)<br><br>
-<table style="width:100%;border-collapse:collapse;font-size:10px;">
-<tr style="border-bottom:1px solid var(--bdr);"><td style="padding:3px 5px;color:var(--muted);">Moon (debil → 2 = 10.5)</td><td style="text-align:right;font-weight:700;color:#ffdd44;">10.5</td></tr>
-<tr style="border-bottom:1px solid var(--bdr);"><td style="padding:3px 5px;color:var(--muted);">Jupiter in Udayam</td><td style="text-align:right;font-weight:700;color:#ffdd44;">10</td></tr>
-<tr style="border-bottom:1px solid var(--bdr);"><td style="padding:3px 5px;color:var(--muted);">Mars aspecting Udayam</td><td style="text-align:right;font-weight:700;color:#ffdd44;">8</td></tr>
-<tr><td style="padding:3px 5px;color:var(--muted);">Vrischika Rashi</td><td style="text-align:right;font-weight:700;color:#ffdd44;">4</td></tr>
-<tr style="border-top:2px solid var(--acc);"><td style="padding:4px 5px;font-weight:700;color:var(--acc2);">Total Rays</td><td style="text-align:right;font-size:14px;font-weight:700;color:var(--acc2);">32.5</td></tr>
-</table>
-</div>
-</div>
-</div>
-<div class="th-block full" style="border-color:#7799ff;background:#060818;">
-<div class="th-block-title" style="color:#7799ff;">🌙 Moon Timing — When Will the Event Occur?</div>
-<div style="font-size:10px;color:var(--muted);margin-bottom:10px;line-height:1.7;">
-          If <b style="color:#7799ff;">Moon touches the Udayam</b>, the event will take place. The number of days is calculated from Moon's rays and its distance to Udayam.
-        </div>
-<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px;">
-<div style="background:rgba(119,153,255,.07);border:1px solid #7799ff44;border-radius:7px;padding:10px 12px;">
-<div style="font-size:9px;font-weight:700;color:#7799ff;letter-spacing:1px;text-transform:uppercase;margin-bottom:6px;">Ÿ“ Formula</div>
-<div style="font-size:12px;font-weight:700;color:#ffdd44;text-align:center;padding:8px;background:rgba(0,0,0,.3);border-radius:6px;margin-bottom:8px;">
-              Days = Moon's Rays  Distance (Rashi count to Udayam)
-            </div>
-<div class="ci-val">
-              • Moon's base rays = <b style="color:#7799ff;">21</b><br>
-              • Count the number of rashis from Moon to Udayam<br>
-              • If Moon is <b>outside</b> Udayam → count <b style="color:var(--amber);">anti-clockwise</b><br>
-              • Multiply Moon's rays  rashi count = days until event
-            </div>
-</div>
-<div class="th-example">
-<div class="th-example-title">Example — Tula Udayam, Moon in Mithuna</div>
-            Moon is <b>outside</b> Udayam → count anti-clockwise<br><br>
-<table style="width:100%;border-collapse:collapse;font-size:10px;">
-<tr style="border-bottom:1px solid var(--bdr);"><td style="padding:3px 5px;color:var(--muted);">Moon's Rays</td><td style="text-align:right;font-weight:700;color:#7799ff;">21</td></tr>
-<tr style="border-bottom:1px solid var(--bdr);"><td style="padding:3px 5px;color:var(--muted);">Rashi count (Mithuna → Tula anti-clockwise)</td><td style="text-align:right;font-weight:700;color:#7799ff;">9</td></tr>
-<tr style="border-top:2px solid #7799ff;"><td style="padding:4px 5px;font-weight:700;color:#7799ff;">Days until event</td><td style="text-align:right;font-size:14px;font-weight:700;color:#7799ff;">189</td></tr>
-</table>
-<div style="font-size:9px;color:var(--muted);margin-top:6px;">21  9 = 189 days from Prasnam date</div>
-</div>
-</div>
-</div>
 
-</div>
-</div>
-</div>
 <div class="jm-tab-section" id="tab-ref">
 <div class="page">
 <div class="hero fi" style="background:linear-gradient(135deg,#080618 0%,#0c0820 50%,#080618 100%);border-color:#2a1a45;">
@@ -1004,6 +1002,8 @@
 </div>
 <div class="theory-grid">
 <div class="theory-grid">
+<div style="grid-column:1/-1;margin:18px 0 8px 0;padding:8px 14px;background:rgba(0,0,0,.3);border-left:4px solid var(--acc2);border-radius:0 6px 6px 0;"><div style="font-size:8px;color:var(--acc2);letter-spacing:2px;text-transform:uppercase;font-weight:700;margin-bottom:2px;">CHAPTER 1</div><div style="font-size:13px;font-weight:700;color:var(--acc2);font-family:var(--fD);">📖 Introduction</div></div>
+
 <div class="th-block full" style="border-color:var(--acc);background:#080600;">
 <div class="th-block-title" style="color:var(--acc2);">🌟 What is Jammakol Prasnam?</div>
 <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:4px;">
@@ -1028,6 +1028,71 @@
 </div>
 <div class="th-sub" style="margin-top:8px;">Validity of Prasnam question: <b>81 days</b>. Stambhana planets → indicate religious conversion or inter-caste marriage in family lineage.</div>
 </div>
+
+<div class="th-block" style="border-color:var(--acc);">
+<div class="th-block-title" style="color:var(--acc2);">🪐 8 Jammakol Planets &amp; 7th House Pairs</div>
+<div class="sh-sub">The eight Jammakol planets must always be taken in this order:</div>
+<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:5px;margin-bottom:10px;">
+<div style="text-align:center;padding:6px;background:var(--bg5);border-radius:6px;border:1px solid #ffaa2244;"><div style="font-size:16px;">☉</div><div style="font-size:9px;color:#ffaa22;font-weight:700;">Sun</div><div style="font-size:8px;color:var(--muted);">①</div></div>
+<div style="text-align:center;padding:6px;background:var(--bg5);border-radius:6px;border:1px solid #ff555544;"><div style="font-size:16px;">♂</div><div style="font-size:9px;color:#ff5555;font-weight:700;">Mars</div><div style="font-size:8px;color:var(--muted);">②</div></div>
+<div style="text-align:center;padding:6px;background:var(--bg5);border-radius:6px;border:1px solid #ffcc4444;"><div style="font-size:16px;">♃</div><div style="font-size:9px;color:#ffcc44;font-weight:700;">Jupiter</div><div style="font-size:8px;color:var(--muted);">③</div></div>
+<div style="text-align:center;padding:6px;background:var(--bg5);border-radius:6px;border:1px solid #44ddaa44;"><div style="font-size:16px;">☿</div><div style="font-size:9px;color:#44ddaa;font-weight:700;">Mercury</div><div style="font-size:8px;color:var(--muted);">④</div></div>
+<div style="text-align:center;padding:6px;background:var(--bg5);border-radius:6px;border:1px solid #ff88cc44;"><div style="font-size:16px;">♀</div><div style="font-size:9px;color:#ff88cc;font-weight:700;">Venus</div><div style="font-size:8px;color:var(--muted);">⑤</div></div>
+<div style="text-align:center;padding:6px;background:var(--bg5);border-radius:6px;border:1px solid #aaaacc44;"><div style="font-size:16px;">♄</div><div style="font-size:9px;color:#aaaacc;font-weight:700;">Saturn</div><div style="font-size:8px;color:var(--muted);">⑥</div></div>
+<div style="text-align:center;padding:6px;background:var(--bg5);border-radius:6px;border:1px solid #7799ff44;"><div style="font-size:16px;">☽</div><div style="font-size:9px;color:#7799ff;font-weight:700;">Moon</div><div style="font-size:8px;color:var(--muted);">⑦</div></div>
+<div style="text-align:center;padding:6px;background:var(--bg5);border-radius:6px;border:1px solid #cc88ff44;"><div style="font-size:16px;">🐍</div><div style="font-size:9px;color:#cc88ff;font-weight:700;">Snake</div><div style="font-size:8px;color:var(--muted);">⑧</div></div>
+</div>
+<div style="font-size:9px;font-weight:700;color:var(--acc2);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px;">Permanent 7th House Opposite Pairs</div>
+<div style="display:flex;flex-direction:column;gap:5px;">
+<div style="font-size:10px;padding:5px 9px;background:var(--bg5);border-radius:5px;display:flex;justify-content:space-between;align-items:center;">
+<span>☉ <b style="color:#ffaa22;">Sun</b></span><span style="color:var(--muted);font-size:9px;">↔ always 7th ↔</span><span>♀ <b style="color:#ff88cc;">Venus</b></span>
+</div>
+<div style="font-size:10px;padding:5px 9px;background:var(--bg5);border-radius:5px;display:flex;justify-content:space-between;align-items:center;">
+<span>♂ <b style="color:#ff5555;">Mars</b></span><span style="color:var(--muted);font-size:9px;">↔ always 7th ↔</span><span>♄ <b style="color:#aaaacc;">Saturn</b></span>
+</div>
+<div style="font-size:10px;padding:5px 9px;background:var(--bg5);border-radius:5px;display:flex;justify-content:space-between;align-items:center;">
+<span>♃ <b style="color:#ffcc44;">Jupiter</b></span><span style="color:var(--muted);font-size:9px;">↔ always 7th ↔</span><span>☽ <b style="color:#7799ff;">Moon</b></span>
+</div>
+<div style="font-size:10px;padding:5px 9px;background:var(--bg5);border-radius:5px;display:flex;justify-content:space-between;align-items:center;">
+<span>☿ <b style="color:#44ddaa;">Mercury</b></span><span style="color:var(--muted);font-size:9px;">↔ always 7th ↔</span><span>🐍 <b style="color:#cc88ff;">Snake</b></span>
+</div>
+</div>
+</div>
+
+<div class="th-block" style="border-color:var(--purple);">
+<div class="th-block-title purple">🌍 Inner &amp; Outer Planets</div>
+<div class="th-item"><div class="th-dot purple"></div><div><b style="color:var(--purple);">Inner planets</b> = Root (9 Gochara transit planets)</div></div>
+<div class="th-item"><div class="th-dot amber"></div><div><b style="color:var(--amber);">Outer planets</b> = Branch (8 Jammakol Jama planets)</div></div>
+<div class="th-item"><div class="th-dot green"></div><div>Inner planets indicate <b>real strength</b>. Only if inner transit planets are powerful can outer planets be considered powerful.</div></div>
+<div class="th-example" style="margin-top:8px;">
+<div class="th-example-title">Key Rule — Inner Always Overrides Outer</div>
+          If inner <b>Venus is debilitated</b> and outer Venus is exalted → Venus is still considered <b style="color:var(--red);">debilitated</b>. Inner always overrides outer.
+        </div>
+<div class="th-sub" style="margin-top:6px;">Validity of Prasnam question: <b>81 days</b>. Stambhana planets → inter-caste marriage or religious conversion in family lineage.</div>
+</div>
+
+<div class="th-block">
+<div class="th-block-title cyan">📖 Knowing the Question</div>
+<div class="th-item">
+<div class="th-dot cyan"></div>
+<div><b style="color:var(--cyan);">Udayam (Ascendant)</b> — the starting point of analysis</div>
+</div>
+<div class="th-item">
+<div class="th-dot amber"></div>
+<div><b style="color:var(--amber);">Lord of Udayam</b> — determines the <em>eligibility</em> of the question posted by the querent</div>
+</div>
+<div class="th-item">
+<div class="th-dot purple"></div>
+<div><b style="color:var(--purple);">Planets in Udayam</b> — whichever planet is posited in Udayam, the question will be concerned with the <em>karakatwas and bhava</em> of that planet</div>
+</div>
+<div class="th-item">
+<div class="th-dot green"></div>
+<div><b style="color:var(--green);">Kavippu</b> — indicates the <em>consequences</em> of the matter in question</div>
+</div>
+</div>
+
+<div style="grid-column:1/-1;margin:18px 0 8px 0;padding:8px 14px;background:rgba(0,0,0,.3);border-left:4px solid var(--green);border-radius:0 6px 6px 0;"><div style="font-size:8px;color:var(--green);letter-spacing:2px;text-transform:uppercase;font-weight:700;margin-bottom:2px;">CHAPTER 2</div><div style="font-size:13px;font-weight:700;color:var(--green);font-family:var(--fD);">🌅 Udayam — The Ascendant</div></div>
+
 <div class="th-block" style="border-color:var(--green);">
 <div class="th-block-title green">🌅 Udayam — The Ascendant</div>
 <div class="th-item"><div class="th-dot green"></div><div>Udayam indicates the <b>present and future</b>.</div></div>
@@ -1036,6 +1101,65 @@
 <div class="th-item"><div class="th-dot cyan"></div><div><b>Udayam Lagna lord sees Udayam</b> → Native will take <b>all efforts</b> to complete the matter.</div></div>
 <div class="th-item"><div class="th-dot amber"></div><div><b>Udayam lord retrograde</b> → Efforts will <b style="color:var(--amber);">not be successful</b>.</div></div>
 </div>
+
+<div class="th-block">
+<div class="th-block-title amber">⚖ Lord of Udayam — Eligibility</div>
+<div class="th-rule">The Udayam lord's position from Udayam reveals whether the querent's question is valid and achievable:</div>
+<div class="th-item"><div class="th-dot green"></div><div><b>6th or 10th house</b> from Udayam → <b style="color:var(--green);">Positive signal</b> for the matter</div></div>
+<div class="th-item"><div class="th-dot red"></div><div>Weak or debilitated placement → <b style="color:var(--red);">Negative signal</b></div></div>
+<div class="th-item"><div class="th-dot amber"></div><div><b>Retrograde Udayam lord</b> → efforts will <b style="color:var(--amber);">not be successful</b></div></div>
+<div class="th-item"><div class="th-dot cyan"></div><div>If <b>no planets in Udayam</b>, the Udayam lagna lord is taken — indicates the query is casual, no urgency</div></div>
+<div class="th-item"><div class="th-dot cyan"></div><div>If the <b>Udayam lagnam lord sees the Udayam</b>, the native will take all efforts to complete the concerned thing</div></div>
+</div>
+
+<div class="th-block full">
+<div class="th-block-title purple">⚠ Debilitated Planets in Udayam</div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+<div class="th-item"><div class="th-dot red"></div><div>The querent will ask questions about things he is <b style="color:var(--red);">incapable of performing</b>.</div></div>
+<div class="th-item"><div class="th-dot amber"></div><div>He will keep on talking <b style="color:var(--amber);">like a chatterbox</b> — all talk, no action.</div></div>
+</div>
+<div class="th-example">
+<div class="th-example-title">📊 Example Chart Illustration</div>
+<b style="color:var(--cyan);">Planets in Udayam:</b> Jupiter is in Udayam → lord of 2nd &amp; 5th bhava + natural significator of children → question is about <b>wealth and children</b>.<br>
+<b style="color:var(--amber);">Udayam Lord (Mars):</b> Posited in 6th and 10th house from Udayam → <b style="color:var(--green);">positive signal for wealth</b>, <b style="color:var(--red);">negative signal for progeny/childbirth</b>.<br>
+<b style="color:var(--green);">Kavippu in 3:</b> Querent has <b>not put any efforts</b> regarding childbirth.
+        </div>
+</div>
+
+<div class="th-block full">
+<div class="th-block-title cyan">🌀 Sirosodayam, Pristhodaya &amp; Siro Pristhodaya</div>
+<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:8px;">
+<div class="th-item"><div class="th-dot green"></div><div><b style="color:var(--green);">1 — Sirosodayam</b><div class="th-sub">Planets: Mercury, Jupiter, Venus, Rahu<br>Udayam → <b style="color:var(--green);">Success</b></div></div></div>
+<div class="th-item"><div class="th-dot red"></div><div><b style="color:var(--red);">2 — Pristhodaya</b><div class="th-sub">Planets: Sun, Mars, Saturn<br>Udayam → <b style="color:var(--red);">Failure</b></div></div></div>
+<div class="th-item"><div class="th-dot amber"></div><div><b style="color:var(--amber);">3 — Siro Pristhodaya</b><div class="th-sub">Planets: Kethu, Moon<br>Udayam → <b style="color:var(--amber);">Success after a delay</b></div></div></div>
+</div>
+<div class="th-rule">Siro planets in the Udayam → <b style="color:var(--green);">Success</b>. Pristhodaya planets in the Udayam → <b style="color:var(--red);">Failure</b>. Siro Pristhodaya planets → <b style="color:var(--amber);">Delay or success after delay</b>.</div>
+<div class="th-sub" style="margin-top:4px;">⚠ These predictions apply <b>only if there are no planets in the Udayam</b>.</div>
+<div style="margin-top:8px;font-size:9px;color:var(--muted);">
+<b style="color:var(--acc2);">Rashi Types:</b>
+          &nbsp;|&nbsp; <b>Two-legged/Biped:</b> Gemini, Virgo, Libra, Aquarius, Pisces
+          &nbsp;|&nbsp; <b>Four-legged/Quadruped:</b> Aries, Taurus, Leo
+          &nbsp;|&nbsp; <b>Multi-legged:</b> Scorpio, Cancer
+          &nbsp;|&nbsp; <b>Bird Rashis:</b> Capricorn, Pisces
+        </div>
+</div>
+
+<div class="th-block">
+<div class="th-block-title purple">🔱 Adomuka  Urdomuka  Triyangamuka</div>
+<div class="th-item"><div class="th-dot red"></div><div><b style="color:var(--red);">Adomuka</b> — Downward looking<div class="th-sub">Rashi where <b>Sun is posited</b> + its Kendras (4th, 7th, 10th from Sun)</div></div></div>
+<div class="th-item"><div class="th-dot green"></div><div><b style="color:var(--green);">Urdomuka</b> — Upward looking<div class="th-sub"><b>12th house from Sun</b> + its Kendras</div></div></div>
+<div class="th-item"><div class="th-dot amber"></div><div><b style="color:var(--amber);">Triyangamuka</b> — Both up and down<div class="th-sub"><b>2nd house from Sun</b> + its Kendras</div></div></div>
+<div class="th-example" style="margin-top:8px;">
+<div class="th-example-title">Verdict by Udayam Mukha</div>
+<span style="color:var(--green);">Udayam = Urdomuka</span> → Predict <b style="color:var(--green);">Success</b><br>
+<span style="color:var(--red);">Udayam = Adomuka</span> → Predict <b style="color:var(--red);">Failure</b><br>
+<span style="color:var(--amber);">Udayam = Triyangamuka</span> → Predict <b style="color:var(--amber);">Success after Failure</b><br>
+<span style="color:var(--muted);font-size:9px;">⚠ Apply only when there are no planets in the Udayam</span>
+</div>
+</div>
+
+<div style="grid-column:1/-1;margin:18px 0 8px 0;padding:8px 14px;background:rgba(0,0,0,.3);border-left:4px solid var(--cyan);border-radius:0 6px 6px 0;"><div style="font-size:8px;color:var(--cyan);letter-spacing:2px;text-transform:uppercase;font-weight:700;margin-bottom:2px;">CHAPTER 3</div><div style="font-size:13px;font-weight:700;color:var(--cyan);font-family:var(--fD);">🌀 Arudam — The Question Window</div></div>
+
 <div class="th-block" style="border-color:var(--cyan);">
 <div class="th-block-title cyan">🌀 Arudam — The Question Window</div>
 <div class="th-item"><div class="th-dot cyan"></div><div>Time duration of <b>5 minutes</b>. Neglect the hour hand — consider only the <b>minute hand</b> to cast the Arudam Lagna.</div></div>
@@ -1046,6 +1170,23 @@
 <span class="th-pill" style="color:var(--red);border-color:var(--red);">Arudam in 6th, 8th or 12th → Failure</span>
 </div>
 </div>
+
+<div class="th-block">
+<div class="th-block-title amber">☀ Subha Arudam &amp; Subha Udayam</div>
+<div class="th-item"><div class="th-dot amber"></div><div><b style="color:var(--amber);">Udayam = Lagna</b> → ruled by <b>Sun</b></div></div>
+<div class="th-item"><div class="th-dot cyan"></div><div><b style="color:var(--cyan);">Arudam = Lagnam</b> → ruled by <b>Moon</b></div></div>
+<div class="th-rule" style="margin-top:6px;"><b style="color:var(--amber);">Subha Udayam:</b> Houses Leo → Capricorn belong to Sun. If Udayam falls in any of these rashis → <b style="color:var(--green);">Subha Udayam</b>. Otherwise → <b style="color:var(--red);">Asubha Udayam</b>.</div>
+<div class="th-rule"><b style="color:var(--cyan);">Subha Arudam:</b> Houses Cancer → Aquarius belong to Moon. If Arudam falls in any of these rashis → <b style="color:var(--green);">Subha Arudam</b>. Otherwise → <b style="color:var(--red);">Asubha Arudam</b>.</div>
+<div class="th-example" style="margin-top:8px;">
+<div class="th-example-title">Verdict</div>
+          Both Udayam &amp; Arudam <b style="color:var(--green);">Subha</b> → <b style="color:var(--green);">Good / Favorable results</b><br>
+          Both Udayam &amp; Arudam <b style="color:var(--red);">Asubha</b> → <b style="color:var(--red);">Bad / Unfavorable results</b><br>
+<span style="color:var(--muted);font-size:9px;">⚠ Apply only when there are no planets in Arudam and Udayam</span>
+</div>
+</div>
+
+<div style="grid-column:1/-1;margin:18px 0 8px 0;padding:8px 14px;background:rgba(0,0,0,.3);border-left:4px solid var(--red);border-radius:0 6px 6px 0;"><div style="font-size:8px;color:var(--red);letter-spacing:2px;text-transform:uppercase;font-weight:700;margin-bottom:2px;">CHAPTER 4</div><div style="font-size:13px;font-weight:700;color:var(--red);font-family:var(--fD);">🔥 Kavippu — Supreme Authority</div></div>
+
 <div class="th-block danger" style="grid-column:1/-1;">
 <div class="th-block-title red">⚠ Kavippu — The Supreme Authority</div>
 <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:4px;">
@@ -1066,46 +1207,18 @@
 <span class="th-pill" style="color:var(--red);border-color:var(--red);">= 10 Rahus in strength</span>
 </div>
 </div>
-<div class="th-block" style="border-color:var(--acc);">
-<div class="th-block-title" style="color:var(--acc2);">Ÿ 8 Jammakol Planets &amp; 7th House Pairs</div>
-<div class="sh-sub">The eight Jammakol planets must always be taken in this order:</div>
-<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:5px;margin-bottom:10px;">
-<div style="text-align:center;padding:6px;background:var(--bg5);border-radius:6px;border:1px solid #ffaa2244;"><div style="font-size:16px;">☉</div><div style="font-size:9px;color:#ffaa22;font-weight:700;">Sun</div><div style="font-size:8px;color:var(--muted);">①</div></div>
-<div style="text-align:center;padding:6px;background:var(--bg5);border-radius:6px;border:1px solid #ff555544;"><div style="font-size:16px;">♂</div><div style="font-size:9px;color:#ff5555;font-weight:700;">Mars</div><div style="font-size:8px;color:var(--muted);">②</div></div>
-<div style="text-align:center;padding:6px;background:var(--bg5);border-radius:6px;border:1px solid #ffcc4444;"><div style="font-size:16px;">♃</div><div style="font-size:9px;color:#ffcc44;font-weight:700;">Jupiter</div><div style="font-size:8px;color:var(--muted);">③</div></div>
-<div style="text-align:center;padding:6px;background:var(--bg5);border-radius:6px;border:1px solid #44ddaa44;"><div style="font-size:16px;">☿</div><div style="font-size:9px;color:#44ddaa;font-weight:700;">Mercury</div><div style="font-size:8px;color:var(--muted);">④</div></div>
-<div style="text-align:center;padding:6px;background:var(--bg5);border-radius:6px;border:1px solid #ff88cc44;"><div style="font-size:16px;">♀</div><div style="font-size:9px;color:#ff88cc;font-weight:700;">Venus</div><div style="font-size:8px;color:var(--muted);">⑤</div></div>
-<div style="text-align:center;padding:6px;background:var(--bg5);border-radius:6px;border:1px solid #aaaacc44;"><div style="font-size:16px;">♄</div><div style="font-size:9px;color:#aaaacc;font-weight:700;">Saturn</div><div style="font-size:8px;color:var(--muted);">⑥</div></div>
-<div style="text-align:center;padding:6px;background:var(--bg5);border-radius:6px;border:1px solid #7799ff44;"><div style="font-size:16px;">☽</div><div style="font-size:9px;color:#7799ff;font-weight:700;">Moon</div><div style="font-size:8px;color:var(--muted);">⑦</div></div>
-<div style="text-align:center;padding:6px;background:var(--bg5);border-radius:6px;border:1px solid #cc88ff44;"><div style="font-size:16px;">Ÿ</div><div style="font-size:9px;color:#cc88ff;font-weight:700;">Snake</div><div style="font-size:8px;color:var(--muted);">⑧</div></div>
+
+<div class="th-block">
+<div class="th-block-title green">🌿 Kavippu — Consequences</div>
+<div class="th-rule">Kavippu indicates the <b>consequences</b> and effort level of the querent regarding the matter:</div>
+<div class="th-item"><div class="th-dot amber"></div><div><b>Kavippu in 3</b> → querent has <b style="color:var(--amber);">put no efforts</b> regarding the matter</div></div>
+<div class="th-item"><div class="th-dot red"></div><div>If the <b>question planet is in Kavippu</b> at the time of Prasnam → <b style="color:var(--red);">immediate NO</b></div></div>
+<div class="th-rule" style="margin-top:6px;"><b>Inner &amp; Outer Planets:</b> Inner = Root strength. Outer = Branch. Only if inner transit planets are powerful can outer planets be considered powerful. If inner Venus is debilitated and outer Venus is exalted, Venus is still considered <b style="color:var(--red);">debilitated</b>.</div>
+<div class="th-sub">Stambhana planets indicate religious conversion or inter-caste marriage in the family lineage. Validity of Prasnam question: <b>81 days</b>.</div>
 </div>
-<div style="font-size:9px;font-weight:700;color:var(--acc2);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px;">Permanent 7th House Opposite Pairs</div>
-<div style="display:flex;flex-direction:column;gap:5px;">
-<div style="font-size:10px;padding:5px 9px;background:var(--bg5);border-radius:5px;display:flex;justify-content:space-between;align-items:center;">
-<span>☉ <b style="color:#ffaa22;">Sun</b></span><span style="color:var(--muted);font-size:9px;">↔ always 7th ↔</span><span>♀ <b style="color:#ff88cc;">Venus</b></span>
-</div>
-<div style="font-size:10px;padding:5px 9px;background:var(--bg5);border-radius:5px;display:flex;justify-content:space-between;align-items:center;">
-<span>♂ <b style="color:#ff5555;">Mars</b></span><span style="color:var(--muted);font-size:9px;">↔ always 7th ↔</span><span>♄ <b style="color:#aaaacc;">Saturn</b></span>
-</div>
-<div style="font-size:10px;padding:5px 9px;background:var(--bg5);border-radius:5px;display:flex;justify-content:space-between;align-items:center;">
-<span>♃ <b style="color:#ffcc44;">Jupiter</b></span><span style="color:var(--muted);font-size:9px;">↔ always 7th ↔</span><span>☽ <b style="color:#7799ff;">Moon</b></span>
-</div>
-<div style="font-size:10px;padding:5px 9px;background:var(--bg5);border-radius:5px;display:flex;justify-content:space-between;align-items:center;">
-<span>☿ <b style="color:#44ddaa;">Mercury</b></span><span style="color:var(--muted);font-size:9px;">↔ always 7th ↔</span><span>Ÿ <b style="color:#cc88ff;">Snake</b></span>
-</div>
-</div>
-</div>
-<div class="th-block" style="border-color:var(--purple);">
-<div class="th-block-title purple">ŸŒ Inner &amp; Outer Planets</div>
-<div class="th-item"><div class="th-dot purple"></div><div><b style="color:var(--purple);">Inner planets</b> = Root (9 Gochara transit planets)</div></div>
-<div class="th-item"><div class="th-dot amber"></div><div><b style="color:var(--amber);">Outer planets</b> = Branch (8 Jammakol Jama planets)</div></div>
-<div class="th-item"><div class="th-dot green"></div><div>Inner planets indicate <b>real strength</b>. Only if inner transit planets are powerful can outer planets be considered powerful.</div></div>
-<div class="th-example" style="margin-top:8px;">
-<div class="th-example-title">Key Rule — Inner Always Overrides Outer</div>
-          If inner <b>Venus is debilitated</b> and outer Venus is exalted → Venus is still considered <b style="color:var(--red);">debilitated</b>. Inner always overrides outer.
-        </div>
-<div class="th-sub" style="margin-top:6px;">Validity of Prasnam question: <b>81 days</b>. Stambhana planets → inter-caste marriage or religious conversion in family lineage.</div>
-</div>
+
+<div style="grid-column:1/-1;margin:18px 0 8px 0;padding:8px 14px;background:rgba(0,0,0,.3);border-left:4px solid var(--purple);border-radius:0 6px 6px 0;"><div style="font-size:8px;color:var(--purple);letter-spacing:2px;text-transform:uppercase;font-weight:700;margin-bottom:2px;">CHAPTER 5</div><div style="font-size:13px;font-weight:700;color:var(--purple);font-family:var(--fD);">☠ Maandi</div></div>
+
 <div class="th-block danger">
 <div class="th-block-title red">☠ Uses of Maandi — Death &amp; Detriment</div>
 <div class="th-rule">If <b>Udayam and Maandi have a relationship</b>, or if <b>Maandi has a relationship with the bhava</b> concerned to the querent's question, the outcome is <b>detrimental</b>.</div>
@@ -1115,98 +1228,9 @@
 <span class="th-pill" style="color:var(--red);border-color:var(--red);">→ Conclude Detrimental</span>
 </div>
 </div>
-<div class="th-block">
-<div class="th-block-title cyan">Ÿ” Knowing the Question</div>
-<div class="th-item">
-<div class="th-dot cyan"></div>
-<div><b style="color:var(--cyan);">Udayam (Ascendant)</b> — the starting point of analysis</div>
-</div>
-<div class="th-item">
-<div class="th-dot amber"></div>
-<div><b style="color:var(--amber);">Lord of Udayam</b> — determines the <em>eligibility</em> of the question posted by the querent</div>
-</div>
-<div class="th-item">
-<div class="th-dot purple"></div>
-<div><b style="color:var(--purple);">Planets in Udayam</b> — whichever planet is posited in Udayam, the question will be concerned with the <em>karakatwas and bhava</em> of that planet</div>
-</div>
-<div class="th-item">
-<div class="th-dot green"></div>
-<div><b style="color:var(--green);">Kavippu</b> — indicates the <em>consequences</em> of the matter in question</div>
-</div>
-</div>
-<div class="th-block">
-<div class="th-block-title amber">⚖ Lord of Udayam — Eligibility</div>
-<div class="th-rule">The Udayam lord's position from Udayam reveals whether the querent's question is valid and achievable:</div>
-<div class="th-item"><div class="th-dot green"></div><div><b>6th or 10th house</b> from Udayam → <b style="color:var(--green);">Positive signal</b> for the matter</div></div>
-<div class="th-item"><div class="th-dot red"></div><div>Weak or debilitated placement → <b style="color:var(--red);">Negative signal</b></div></div>
-<div class="th-item"><div class="th-dot amber"></div><div><b>Retrograde Udayam lord</b> → efforts will <b style="color:var(--amber);">not be successful</b></div></div>
-<div class="th-item"><div class="th-dot cyan"></div><div>If <b>no planets in Udayam</b>, the Udayam lagna lord is taken — indicates the query is casual, no urgency</div></div>
-<div class="th-item"><div class="th-dot cyan"></div><div>If the <b>Udayam lagnam lord sees the Udayam</b>, the native will take all efforts to complete the concerned thing</div></div>
-</div>
-<div class="th-block">
-<div class="th-block-title green">🌿 Kavippu — Consequences</div>
-<div class="th-rule">Kavippu indicates the <b>consequences</b> and effort level of the querent regarding the matter:</div>
-<div class="th-item"><div class="th-dot amber"></div><div><b>Kavippu in 3</b> → querent has <b style="color:var(--amber);">put no efforts</b> regarding the matter</div></div>
-<div class="th-item"><div class="th-dot red"></div><div>If the <b>question planet is in Kavippu</b> at the time of Prasnam → <b style="color:var(--red);">immediate NO</b></div></div>
-<div class="th-rule" style="margin-top:6px;"><b>Inner &amp; Outer Planets:</b> Inner = Root strength. Outer = Branch. Only if inner transit planets are powerful can outer planets be considered powerful. If inner Venus is debilitated and outer Venus is exalted, Venus is still considered <b style="color:var(--red);">debilitated</b>.</div>
-<div class="th-sub">Stambhana planets indicate religious conversion or inter-caste marriage in the family lineage. Validity of Prasnam question: <b>81 days</b>.</div>
-</div>
-<div class="th-block full">
-<div class="th-block-title purple">⚠ Debilitated Planets in Udayam</div>
-<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
-<div class="th-item"><div class="th-dot red"></div><div>The querent will ask questions about things he is <b style="color:var(--red);">incapable of performing</b>.</div></div>
-<div class="th-item"><div class="th-dot amber"></div><div>He will keep on talking <b style="color:var(--amber);">like a chatterbox</b> — all talk, no action.</div></div>
-</div>
-<div class="th-example">
-<div class="th-example-title">📊 Example Chart Illustration</div>
-<b style="color:var(--cyan);">Planets in Udayam:</b> Jupiter is in Udayam → lord of 2nd &amp; 5th bhava + natural significator of children → question is about <b>wealth and children</b>.<br>
-<b style="color:var(--amber);">Udayam Lord (Mars):</b> Posited in 6th and 10th house from Udayam → <b style="color:var(--green);">positive signal for wealth</b>, <b style="color:var(--red);">negative signal for progeny/childbirth</b>.<br>
-<b style="color:var(--green);">Kavippu in 3:</b> Querent has <b>not put any efforts</b> regarding childbirth.
-        </div>
-</div>
-<div class="th-block full">
-<div class="th-block-title cyan">🌀 Sirosodayam, Pristhodaya &amp; Siro Pristhodaya</div>
-<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:8px;">
-<div class="th-item"><div class="th-dot green"></div><div><b style="color:var(--green);">1 — Sirosodayam</b><div class="th-sub">Planets: Mercury, Jupiter, Venus, Rahu<br>Udayam → <b style="color:var(--green);">Success</b></div></div></div>
-<div class="th-item"><div class="th-dot red"></div><div><b style="color:var(--red);">2 — Pristhodaya</b><div class="th-sub">Planets: Sun, Mars, Saturn<br>Udayam → <b style="color:var(--red);">Failure</b></div></div></div>
-<div class="th-item"><div class="th-dot amber"></div><div><b style="color:var(--amber);">3 — Siro Pristhodaya</b><div class="th-sub">Planets: Kethu, Moon<br>Udayam → <b style="color:var(--amber);">Success after a delay</b></div></div></div>
-</div>
-<div class="th-rule">Siro planets in the Udayam → <b style="color:var(--green);">Success</b>. Pristhodaya planets in the Udayam → <b style="color:var(--red);">Failure</b>. Siro Pristhodaya planets → <b style="color:var(--amber);">Delay or success after delay</b>.</div>
-<div class="th-sub" style="margin-top:4px;">⚠ These predictions apply <b>only if there are no planets in the Udayam</b>.</div>
-<div style="margin-top:8px;font-size:9px;color:var(--muted);">
-<b style="color:var(--acc2);">Rashi Types:</b>
-          &nbsp;|&nbsp; <b>Two-legged/Biped:</b> Gemini, Virgo, Libra, Aquarius, Pisces
-          &nbsp;|&nbsp; <b>Four-legged/Quadruped:</b> Aries, Taurus, Leo
-          &nbsp;|&nbsp; <b>Multi-legged:</b> Scorpio, Cancer
-          &nbsp;|&nbsp; <b>Bird Rashis:</b> Capricorn, Pisces
-        </div>
-</div>
-<div class="th-block">
-<div class="th-block-title purple">Ÿ‘ Adomuka  Urdomuka  Triyangamuka</div>
-<div class="th-item"><div class="th-dot red"></div><div><b style="color:var(--red);">Adomuka</b> — Downward looking<div class="th-sub">Rashi where <b>Sun is posited</b> + its Kendras (4th, 7th, 10th from Sun)</div></div></div>
-<div class="th-item"><div class="th-dot green"></div><div><b style="color:var(--green);">Urdomuka</b> — Upward looking<div class="th-sub"><b>12th house from Sun</b> + its Kendras</div></div></div>
-<div class="th-item"><div class="th-dot amber"></div><div><b style="color:var(--amber);">Triyangamuka</b> — Both up and down<div class="th-sub"><b>2nd house from Sun</b> + its Kendras</div></div></div>
-<div class="th-example" style="margin-top:8px;">
-<div class="th-example-title">Verdict by Udayam Mukha</div>
-<span style="color:var(--green);">Udayam = Urdomuka</span> → Predict <b style="color:var(--green);">Success</b><br>
-<span style="color:var(--red);">Udayam = Adomuka</span> → Predict <b style="color:var(--red);">Failure</b><br>
-<span style="color:var(--amber);">Udayam = Triyangamuka</span> → Predict <b style="color:var(--amber);">Success after Failure</b><br>
-<span style="color:var(--muted);font-size:9px;">⚠ Apply only when there are no planets in the Udayam</span>
-</div>
-</div>
-<div class="th-block">
-<div class="th-block-title amber">☀ Subha Arudam &amp; Subha Udayam</div>
-<div class="th-item"><div class="th-dot amber"></div><div><b style="color:var(--amber);">Udayam = Lagna</b> → ruled by <b>Sun</b></div></div>
-<div class="th-item"><div class="th-dot cyan"></div><div><b style="color:var(--cyan);">Arudam = Lagnam</b> → ruled by <b>Moon</b></div></div>
-<div class="th-rule" style="margin-top:6px;"><b style="color:var(--amber);">Subha Udayam:</b> Houses Leo → Capricorn belong to Sun. If Udayam falls in any of these rashis → <b style="color:var(--green);">Subha Udayam</b>. Otherwise → <b style="color:var(--red);">Asubha Udayam</b>.</div>
-<div class="th-rule"><b style="color:var(--cyan);">Subha Arudam:</b> Houses Cancer → Aquarius belong to Moon. If Arudam falls in any of these rashis → <b style="color:var(--green);">Subha Arudam</b>. Otherwise → <b style="color:var(--red);">Asubha Arudam</b>.</div>
-<div class="th-example" style="margin-top:8px;">
-<div class="th-example-title">Verdict</div>
-          Both Udayam &amp; Arudam <b style="color:var(--green);">Subha</b> → <b style="color:var(--green);">Good / Favorable results</b><br>
-          Both Udayam &amp; Arudam <b style="color:var(--red);">Asubha</b> → <b style="color:var(--red);">Bad / Unfavorable results</b><br>
-<span style="color:var(--muted);font-size:9px;">⚠ Apply only when there are no planets in Arudam and Udayam</span>
-</div>
-</div>
+
+<div style="grid-column:1/-1;margin:18px 0 8px 0;padding:8px 14px;background:rgba(0,0,0,.3);border-left:4px solid var(--amber);border-radius:0 6px 6px 0;"><div style="font-size:8px;color:var(--amber);letter-spacing:2px;text-transform:uppercase;font-weight:700;margin-bottom:2px;">CHAPTER 6</div><div style="font-size:13px;font-weight:700;color:var(--amber);font-family:var(--fD);">💎 Rules & Prediction</div></div>
+
 <div class="th-block full" style="border-color:var(--acc);background:#0e0a00;">
 <div class="th-block-title" style="color:var(--acc2);">💎 Diamond Rules of Jammakol Prasnam — Detailed</div>
 <div class="th-pill-row" style="margin-bottom:14px;">
@@ -1256,7 +1280,7 @@
 <div class="ci-val">Mother, mother-in-law, food items, water, extra marital affair, blood related disorders</div>
 </div>
 <div class="ci">
-<div class="ci-lbl r">Ÿ Paambu</div>
+<div class="ci-lbl r">🐍 Paambu</div>
 <div class="ci-val">Pregnancy, foreign travel, black magic, devil, alcohol, witches, spirits, poison</div>
 </div>
 </div>
@@ -1377,11 +1401,11 @@
 <div class="ci-val">If question is related to <b>job</b> → <b style="color:var(--red);">Negative answer</b></div>
 </div>
 <div class="ci kav">
-<div class="ci-lbl r">Ÿ Paambu + Kavippu</div>
+<div class="ci-lbl r">🐍 Paambu + Kavippu</div>
 <div class="ci-val">If question is about <b>grandfather/grandmother</b> → <b style="color:var(--red);">Negative</b><br>If about <b>evil spirits / black magic</b> → <b style="color:var(--green);">Yes, will be affected</b></div>
 </div>
 </div>
-<div style="font-size:9px;font-weight:700;color:var(--acc2);letter-spacing:1px;text-transform:uppercase;margin-bottom:7px;">Ÿ Bhava + Kavippu — Mesha Udayam Examples</div>
+<div style="font-size:9px;font-weight:700;color:var(--acc2);letter-spacing:1px;text-transform:uppercase;margin-bottom:7px;">⚡ Bhava + Kavippu — Mesha Udayam Examples</div>
 <div class="ga w210">
 <div style="background:var(--bg5);border:1px solid #4a2a00;border-radius:6px;padding:7px 10px;">
 <div class="ci-lbl ac">Kavippu in Mesha (1st)</div>
@@ -1447,7 +1471,7 @@
 <div class="th-sub" style="margin-top:4px;">⚠ Always check Kavippu — exaltation loses effect if planet is inside Kavippu.</div>
 </div>
 <div>
-<div style="font-size:9px;font-weight:700;color:var(--red);margin-bottom:5px;text-transform:uppercase;">Œ Debilitated Planets</div>
+<div style="font-size:9px;font-weight:700;color:var(--red);margin-bottom:5px;text-transform:uppercase;">❌ Debilitated Planets</div>
 <div class="th-rule">The querent asks questions about things he is <b>incapable of performing</b>. He will keep talking <b>like a chatterbox</b> — all words, no action.</div>
 </div>
 </div>
@@ -1508,7 +1532,66 @@
 </div>
 </div>
 </div>
+
+<div class="th-block full">
+<div class="th-block-title green">📋 Predictions of Success &amp; Failure in Jammakol Prasnam</div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+<div>
+<div style="font-size:9px;font-weight:700;color:var(--green);margin-bottom:6px;text-transform:uppercase;letter-spacing:1px;">✅ Indicators of Success</div>
+<div class="th-item"><div class="th-dot green"></div><div>Udayam and <b>10th lord getting connected</b> → Success</div></div>
+<div class="th-item"><div class="th-dot green"></div><div>Udayam and <b>11th lord getting connected</b> → Success</div></div>
+<div class="th-item"><div class="th-dot green"></div><div><b>Exchange between Udayam and 10th lord</b> → Success</div></div>
+<div class="th-item"><div class="th-dot green"></div><div><b>Exchange between Udayam and 11th lord</b> → Success</div></div>
 </div>
+<div>
+<div style="font-size:9px;font-weight:700;color:var(--red);margin-bottom:6px;text-transform:uppercase;letter-spacing:1px;">❌ Indicators of Failure</div>
+<div class="th-item"><div class="th-dot red"></div><div>Arudam in <b>6th, 8th or 12th</b> from Udayam → Failure</div></div>
+<div class="th-item"><div class="th-dot red"></div><div><b>Udayam lord debilitated</b> → Failure</div></div>
+<div class="th-item"><div class="th-dot red"></div><div><b>Kavippu in 2nd</b> to Udayam → Failure or Obstacle</div></div>
+</div>
+</div>
+</div>
+
+<div class="th-block full" style="border-color:var(--amber);background:#0e0600;">
+<div class="th-block-title" style="color:var(--amber);">☠ Dosha Percentage at Time of Prasnam</div>
+<div style="font-size:9px;color:var(--muted);margin-bottom:10px;">At the time of Prasnam, the Dosha level is determined by which malefic occupies the Rashi of Mandhi:</div>
+<div style="display:flex;flex-direction:column;gap:7px;">
+<div style="display:flex;align-items:center;gap:12px;background:var(--bg5);border:1px solid #5a2a00;border-radius:6px;padding:9px 13px;">
+<div style="font-size:22px;flex-shrink:0;">☠</div>
+<div style="flex:1;">
+<div style="font-size:10px;font-weight:700;color:var(--red);margin-bottom:2px;">Mandhi in Rashi</div>
+<div style="font-size:10px;color:var(--txt);">Dosha = <b style="color:var(--red);font-size:13px;">100%</b></div>
+</div>
+</div>
+<div style="display:flex;align-items:center;gap:12px;background:var(--bg5);border:1px solid #5a2a00;border-radius:6px;padding:9px 13px;">
+<div style="font-size:22px;flex-shrink:0;">🐍</div>
+<div style="flex:1;">
+<div style="font-size:10px;font-weight:700;color:var(--amber);margin-bottom:2px;">Paambu in Rashi</div>
+<div style="font-size:10px;color:var(--txt);">Dosha = <b style="color:var(--amber);font-size:13px;">75%</b></div>
+</div>
+</div>
+<div style="display:flex;align-items:center;gap:12px;background:var(--bg5);border:1px solid #5a2a00;border-radius:6px;padding:9px 13px;">
+<div style="font-size:22px;flex-shrink:0;">☊☋</div>
+<div style="flex:1;">
+<div style="font-size:10px;font-weight:700;color:var(--cyan);margin-bottom:2px;">Rahu / Ketu in Rashi</div>
+<div style="font-size:10px;color:var(--txt);">Dosha = <b style="color:var(--cyan);font-size:13px;">50%</b></div>
+</div>
+</div>
+<div style="display:flex;align-items:center;gap:12px;background:#1a0800;border:2px solid var(--red);border-radius:6px;padding:9px 13px;">
+<div style="font-size:22px;flex-shrink:0;">☠️</div>
+<div style="flex:1;">
+<div style="font-size:10px;font-weight:700;color:var(--red);margin-bottom:2px;">Mandhi + Paambu combined</div>
+<div style="font-size:10px;color:var(--txt);">Dosha = <b style="color:var(--red);font-size:15px;">175%</b> <span style="font-size:9px;color:var(--muted);">(most severe)</span></div>
+</div>
+</div>
+</div>
+<div style="margin-top:8px;font-size:9px;color:var(--muted);padding:6px 8px;background:var(--bg5);border-radius:5px;">
+          ⚠️ Higher Dosha % indicates greater malefic intensity. A 175% Dosha (Mandhi + Paambu combined) is the most severe — the Prasnam outcome is strongly negative or harmful.
+        </div>
+</div>
+
+<div style="grid-column:1/-1;margin:18px 0 8px 0;padding:8px 14px;background:rgba(0,0,0,.3);border-left:4px solid var(--cyan);border-radius:0 6px 6px 0;"><div style="font-size:8px;color:var(--cyan);letter-spacing:2px;text-transform:uppercase;font-weight:700;margin-bottom:2px;">CHAPTER 7</div><div style="font-size:13px;font-weight:700;color:var(--cyan);font-family:var(--fD);">🧭 Directions, Durations & Heights</div></div>
+
 <div class="th-block full" style="border-color:var(--cyan);background:#00101a;">
 <div class="th-block-title cyan">🧭 Direction of Jama Planets</div>
 <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:8px;margin-top:4px;">
@@ -1548,7 +1631,7 @@
 <div style="font-size:10px;color:var(--cyan);margin-top:2px;">⬅ West</div>
 </div>
 <div style="background:var(--bg5);border:1px solid var(--bdr);border-radius:6px;padding:8px 10px;text-align:center;">
-<div style="font-size:18px;margin-bottom:3px;">Ÿ</div>
+<div style="font-size:18px;margin-bottom:3px;">🐍</div>
 <div style="font-size:11px;font-weight:700;color:var(--acc2);">Paambu (Rahu)</div>
 <div style="font-size:10px;color:var(--cyan);margin-top:2px;">↙ South-West</div>
 </div>
@@ -1557,6 +1640,7 @@
           💡 The direction from which a querent arrives or faces during Prasnam can indicate the ruling Jama planet for that question.
         </div>
 </div>
+
 <div class="th-block full" style="border-color:var(--amber);background:#0e0a00;">
 <div class="th-block-title amber">⏱ Duration of Jama Planets</div>
 <div style="overflow-x:auto;margin-top:4px;">
@@ -1576,7 +1660,7 @@
 <tr><td>♂ Mars</td><td style="color:var(--amber);font-weight:700;">1 Day</td><td style="color:var(--muted);">Daily cycle</td></tr>
 <tr><td>🌙 Moon</td><td style="color:var(--amber);font-weight:700;">1 Muhurtha</td><td style="color:var(--muted);">~48 minutes</td></tr>
 <tr><td>♄ Saturn</td><td style="color:var(--amber);font-weight:700;">1 Year</td><td style="color:var(--muted);">Annual cycle</td></tr>
-<tr><td>Ÿ Paambu (Rahu/Ketu)</td><td style="color:var(--amber);font-weight:700;">1 Year</td><td style="color:var(--muted);">Annual cycle</td></tr>
+<tr><td>🐍 Paambu (Rahu/Ketu)</td><td style="color:var(--amber);font-weight:700;">1 Year</td><td style="color:var(--muted);">Annual cycle</td></tr>
 </tbody>
 </table>
 </div>
@@ -1584,17 +1668,9 @@
           💡 The duration indicates how long the influence of that planet's Jama period lasts. Longer durations suggest sustained effects on the matter in question.
         </div>
 </div>
-<div class="th-block" style="border-color:var(--purple);background:#0a0018;">
-<div class="th-block-title purple">☿ Mercury &amp; Planetary Combinations</div>
-<div class="sh-sub">What Mercury in combination with another planet signifies in Jammakol:</div>
-<div class="th-item"><div class="th-dot" style="background:var(--red);"></div><div><b style="color:var(--acc2);">Mercury + Mars</b> — <span style="color:var(--txt);">Royal palaces, big land, grand structures</span></div></div>
-<div class="th-item"><div class="th-dot" style="background:var(--cyan);"></div><div><b style="color:var(--acc2);">Mercury + Moon</b> — <span style="color:var(--txt);">Waves, water bodies, flowing things</span></div></div>
-<div class="th-item"><div class="th-dot" style="background:var(--muted);"></div><div><b style="color:var(--acc2);">Mercury + Saturn</b> — <span style="color:var(--txt);">Wind, smoke, air currents</span></div></div>
-<div class="th-item"><div class="th-dot" style="background:var(--amber);"></div><div><b style="color:var(--acc2);">Mercury + Sun</b> — <span style="color:var(--txt);">Hot air, scorching heat, fire-air</span></div></div>
-<div class="th-item"><div class="th-dot" style="background:var(--green);"></div><div><b style="color:var(--acc2);">Mercury + Jupiter</b> — <span style="color:var(--txt);">Clouds, overcast sky, rain-bearing conditions</span></div></div>
-</div>
+
 <div class="th-block" style="border-color:var(--green);background:#001408;">
-<div class="th-block-title green">Ÿ“ Planetary Heights</div>
+<div class="th-block-title green">📍 Planetary Heights</div>
 <div style="font-size:9px;color:var(--muted);margin-bottom:10px;">Physical stature or height indicated by each planet in Jammakol Prasnam:</div>
 <div style="display:flex;flex-direction:column;gap:8px;">
 <div style="background:var(--bg5);border:1px solid #3a5a3a;border-radius:6px;padding:9px 12px;">
@@ -1623,117 +1699,11 @@
 </div>
 </div>
 </div>
-<div class="th-block full">
-<div class="th-block-title green">📋 Predictions of Success &amp; Failure in Jammakol Prasnam</div>
-<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
-<div>
-<div style="font-size:9px;font-weight:700;color:var(--green);margin-bottom:6px;text-transform:uppercase;letter-spacing:1px;">✅ Indicators of Success</div>
-<div class="th-item"><div class="th-dot green"></div><div>Udayam and <b>10th lord getting connected</b> → Success</div></div>
-<div class="th-item"><div class="th-dot green"></div><div>Udayam and <b>11th lord getting connected</b> → Success</div></div>
-<div class="th-item"><div class="th-dot green"></div><div><b>Exchange between Udayam and 10th lord</b> → Success</div></div>
-<div class="th-item"><div class="th-dot green"></div><div><b>Exchange between Udayam and 11th lord</b> → Success</div></div>
-</div>
-<div>
-<div style="font-size:9px;font-weight:700;color:var(--red);margin-bottom:6px;text-transform:uppercase;letter-spacing:1px;">Œ Indicators of Failure</div>
-<div class="th-item"><div class="th-dot red"></div><div>Arudam in <b>6th, 8th or 12th</b> from Udayam → Failure</div></div>
-<div class="th-item"><div class="th-dot red"></div><div><b>Udayam lord debilitated</b> → Failure</div></div>
-<div class="th-item"><div class="th-dot red"></div><div><b>Kavippu in 2nd</b> to Udayam → Failure or Obstacle</div></div>
-</div>
-</div>
-</div>
-<div class="th-block full" style="border-color:var(--red);background:#150304;">
-<div class="th-block-title red">⚔ Results of Saturn &amp; Mars Aspect — By House</div>
-<div style="font-size:9px;color:var(--muted);margin-bottom:10px;">When Saturn and Mars jointly aspect or occupy a house, the following results are indicated:</div>
-<div class="ga w220 mb">
-<div class="ci kav">
-<div style="font-size:9px;font-weight:700;color:var(--red);letter-spacing:1px;margin-bottom:4px;">Ÿ 1st House</div>
-<div class="ci-val">Accidents, danger situations, operations on head, <em>Gandam</em>, serious illness to native</div>
-</div>
-<div class="ci kav">
-<div style="font-size:9px;font-weight:700;color:var(--red);letter-spacing:1px;margin-bottom:4px;">Ÿ 2nd House</div>
-<div class="ci-val">Family heavily affected, delay in marriage or marital problems, eye problems</div>
-</div>
-<div class="ci kav">
-<div style="font-size:9px;font-weight:700;color:var(--red);letter-spacing:1px;margin-bottom:4px;">Ÿ 3rd House</div>
-<div class="ci-val">Problems to brothers, injuries to shoulder/throat, operations, thyroid issues</div>
-</div>
-<div class="ci kav">
-<div style="font-size:9px;font-weight:700;color:var(--red);letter-spacing:1px;margin-bottom:4px;">Ÿ 4th House</div>
-<div class="ci-val">Problems to mother, land disputes, obstacles in education, loss of comfort</div>
-</div>
-<div class="ci kav">
-<div style="font-size:9px;font-weight:700;color:var(--red);letter-spacing:1px;margin-bottom:4px;">Ÿ 5th House</div>
-<div class="ci-val">Problems to children, affected by love affairs, stomach operations</div>
-</div>
-<div class="ci kav">
-<div style="font-size:9px;font-weight:700;color:var(--red);letter-spacing:1px;margin-bottom:4px;">Ÿ 6th House</div>
-<div class="ci-val">Dissatisfaction in job, disease, money problems, operations etc.</div>
-</div>
-<div class="ci kav">
-<div style="font-size:9px;font-weight:700;color:var(--red);letter-spacing:1px;margin-bottom:4px;">Ÿ 7th House</div>
-<div class="ci-val">Delay in marriage, conflict between wife and husband, uterus operation, kidney stone</div>
-</div>
-<div class="ci kav">
-<div style="font-size:9px;font-weight:700;color:var(--red);letter-spacing:1px;margin-bottom:4px;">Ÿ 8th House</div>
-<div class="ci-val">Danger to longevity, fear of arrest, serious threats to life</div>
-</div>
-<div class="ci kav">
-<div style="font-size:9px;font-weight:700;color:var(--red);letter-spacing:1px;margin-bottom:4px;">Ÿ 9th House</div>
-<div class="ci-val">Father's health affected, problems due to long journeys</div>
-</div>
-<div class="ci kav">
-<div style="font-size:9px;font-weight:700;color:var(--red);letter-spacing:1px;margin-bottom:4px;">Ÿ 10th House</div>
-<div class="ci-val">Problems in profession, career obstacles, setbacks at workplace</div>
-</div>
-<div class="ci kav">
-<div style="font-size:9px;font-weight:700;color:var(--red);letter-spacing:1px;margin-bottom:4px;">Ÿ 11th House</div>
-<div class="ci-val">Problems to elder brother, no profit in business, knee problems</div>
-</div>
-<div class="ci kav">
-<div style="font-size:9px;font-weight:700;color:var(--red);letter-spacing:1px;margin-bottom:4px;">Ÿ 12th House</div>
-<div class="ci-val">No bed comforts, heavy medical expenses, frequent operations</div>
-</div>
-</div>
-</div>
-<div class="th-block full" style="border-color:var(--amber);background:#0e0600;">
-<div class="th-block-title" style="color:var(--amber);">☠ Dosha Percentage at Time of Prasnam</div>
-<div style="font-size:9px;color:var(--muted);margin-bottom:10px;">At the time of Prasnam, the Dosha level is determined by which malefic occupies the Rashi of Mandhi:</div>
-<div style="display:flex;flex-direction:column;gap:7px;">
-<div style="display:flex;align-items:center;gap:12px;background:var(--bg5);border:1px solid #5a2a00;border-radius:6px;padding:9px 13px;">
-<div style="font-size:22px;flex-shrink:0;">☠</div>
-<div style="flex:1;">
-<div style="font-size:10px;font-weight:700;color:var(--red);margin-bottom:2px;">Mandhi in Rashi</div>
-<div style="font-size:10px;color:var(--txt);">Dosha = <b style="color:var(--red);font-size:13px;">100%</b></div>
-</div>
-</div>
-<div style="display:flex;align-items:center;gap:12px;background:var(--bg5);border:1px solid #5a2a00;border-radius:6px;padding:9px 13px;">
-<div style="font-size:22px;flex-shrink:0;">Ÿ</div>
-<div style="flex:1;">
-<div style="font-size:10px;font-weight:700;color:var(--amber);margin-bottom:2px;">Paambu in Rashi</div>
-<div style="font-size:10px;color:var(--txt);">Dosha = <b style="color:var(--amber);font-size:13px;">75%</b></div>
-</div>
-</div>
-<div style="display:flex;align-items:center;gap:12px;background:var(--bg5);border:1px solid #5a2a00;border-radius:6px;padding:9px 13px;">
-<div style="font-size:22px;flex-shrink:0;">☊☋</div>
-<div style="flex:1;">
-<div style="font-size:10px;font-weight:700;color:var(--cyan);margin-bottom:2px;">Rahu / Ketu in Rashi</div>
-<div style="font-size:10px;color:var(--txt);">Dosha = <b style="color:var(--cyan);font-size:13px;">50%</b></div>
-</div>
-</div>
-<div style="display:flex;align-items:center;gap:12px;background:#1a0800;border:2px solid var(--red);border-radius:6px;padding:9px 13px;">
-<div style="font-size:22px;flex-shrink:0;">☠Ÿ</div>
-<div style="flex:1;">
-<div style="font-size:10px;font-weight:700;color:var(--red);margin-bottom:2px;">Mandhi + Paambu combined</div>
-<div style="font-size:10px;color:var(--txt);">Dosha = <b style="color:var(--red);font-size:15px;">175%</b> <span style="font-size:9px;color:var(--muted);">(most severe)</span></div>
-</div>
-</div>
-</div>
-<div style="margin-top:8px;font-size:9px;color:var(--muted);padding:6px 8px;background:var(--bg5);border-radius:5px;">
-          ⚠️ Higher Dosha % indicates greater malefic intensity. A 175% Dosha (Mandhi + Paambu combined) is the most severe — the Prasnam outcome is strongly negative or harmful.
-        </div>
-</div>
+
+<div style="grid-column:1/-1;margin:18px 0 8px 0;padding:8px 14px;background:rgba(0,0,0,.3);border-left:4px solid var(--acc2);border-radius:0 6px 6px 0;"><div style="font-size:8px;color:var(--acc2);letter-spacing:2px;text-transform:uppercase;font-weight:700;margin-bottom:2px;">CHAPTER 8</div><div style="font-size:13px;font-weight:700;color:var(--acc2);font-family:var(--fD);">✨ Significations</div></div>
+
 <div class="th-block full" style="border-color:var(--acc);background:#0a0800;">
-<div class="th-block-title" style="color:var(--acc2);">Ÿ Graha Karakatwas — Planet Significations</div>
+<div class="th-block-title" style="color:var(--acc2);">✨ Graha Karakatwas — Planet Significations</div>
 <div class="ga w260">
 <div style="background:var(--bg5);border:1px solid #ffaa2244;border-radius:7px;padding:10px 12px;">
 <div style="font-size:11px;font-weight:700;color:#ffaa22;margin-bottom:6px;border-bottom:1px solid #ffaa2233;padding-bottom:5px;">☀️ Sun</div>
@@ -1743,7 +1713,7 @@
 <div style="display:flex;flex-wrap:wrap;gap:4px;">
 <span style="background:#2a1500;border:1px solid #ffaa22;border-radius:4px;padding:2px 7px;font-size:9px;color:#ffaa22;">🎨 Orange dress</span>
 <span style="background:#2a1500;border:1px solid #ffaa22;border-radius:4px;padding:2px 7px;font-size:9px;color:#ffaa22;">🌾 Hot food, wheat rice</span>
-<span style="background:#2a1500;border:1px solid #ffaa22;border-radius:4px;padding:2px 7px;font-size:9px;color:#ffaa22;">Ÿ Pitta, eyes, heart, bones</span>
+<span style="background:#2a1500;border:1px solid #ffaa22;border-radius:4px;padding:2px 7px;font-size:9px;color:#ffaa22;">🩺 Pitta, eyes, heart, bones</span>
 <span style="background:#2a1500;border:1px solid #ffaa22;border-radius:4px;padding:2px 7px;font-size:9px;color:#ffaa22;">🕉 Shiva</span>
 </div>
 </div>
@@ -1754,8 +1724,8 @@
 <div class="ci-cat">Relationship</div><div style="font-size:10px;color:var(--txt);line-height:1.7;margin-bottom:6px;">Mother, mother-in-law, elder sister</div>
 <div style="display:flex;flex-wrap:wrap;gap:4px;">
 <span style="background:#0a0a2a;border:1px solid #7799ff;border-radius:4px;padding:2px 7px;font-size:9px;color:#7799ff;">🎨 White dress</span>
-<span style="background:#0a0a2a;border:1px solid #7799ff;border-radius:4px;padding:2px 7px;font-size:9px;color:#7799ff;">Ÿš Rice, milk, fruits</span>
-<span style="background:#0a0a2a;border:1px solid #7799ff;border-radius:4px;padding:2px 7px;font-size:9px;color:#7799ff;">Ÿ Uterus, kidney, pneumonia, blood</span>
+<span style="background:#0a0a2a;border:1px solid #7799ff;border-radius:4px;padding:2px 7px;font-size:9px;color:#7799ff;">🍚 Rice, milk, fruits</span>
+<span style="background:#0a0a2a;border:1px solid #7799ff;border-radius:4px;padding:2px 7px;font-size:9px;color:#7799ff;">🩸 Uterus, kidney, pneumonia, blood</span>
 <span style="background:#0a0a2a;border:1px solid #7799ff;border-radius:4px;padding:2px 7px;font-size:9px;color:#7799ff;">Moon+Rahu: diagnosable  Moon+Ketu: undiagnosable</span>
 <span style="background:#0a0a2a;border:1px solid #7799ff;border-radius:4px;padding:2px 7px;font-size:9px;color:#7799ff;">🕉 Parvathi</span>
 </div>
@@ -1768,7 +1738,7 @@
 <div style="display:flex;flex-wrap:wrap;gap:4px;">
 <span style="background:#1a0505;border:1px solid #ff5555;border-radius:4px;padding:2px 7px;font-size:9px;color:#ff5555;">🎨 Reddish-yellow, red, striped</span>
 <span style="background:#1a0505;border:1px solid #ff5555;border-radius:4px;padding:2px 7px;font-size:9px;color:#ff5555;">🌶 Hot, spicy, tomato, pulses, coffee</span>
-<span style="background:#1a0505;border:1px solid #ff5555;border-radius:4px;padding:2px 7px;font-size:9px;color:#ff5555;">Ÿ Blood, heart</span>
+<span style="background:#1a0505;border:1px solid #ff5555;border-radius:4px;padding:2px 7px;font-size:9px;color:#ff5555;">🩸 Blood, heart</span>
 <span style="background:#1a0505;border:1px solid #ff5555;border-radius:4px;padding:2px 7px;font-size:9px;color:#ff5555;">🕉 Lord Subramanya  Mars+Rahu: Pratyangara/Varahi</span>
 </div>
 </div>
@@ -1779,8 +1749,8 @@
 <div class="ci-cat">Relationship</div><div style="font-size:10px;color:var(--txt);line-height:1.7;margin-bottom:6px;">Maternal uncle, younger brother, friends, lovers</div>
 <div style="display:flex;flex-wrap:wrap;gap:4px;">
 <span style="background:#001a12;border:1px solid #44ddaa;border-radius:4px;padding:2px 7px;font-size:9px;color:#44ddaa;">🎨 Casual (ethnic, shorts)</span>
-<span style="background:#001a12;border:1px solid #44ddaa;border-radius:4px;padding:2px 7px;font-size:9px;color:#44ddaa;">Ÿ Kids food, green gram</span>
-<span style="background:#001a12;border:1px solid #44ddaa;border-radius:4px;padding:2px 7px;font-size:9px;color:#44ddaa;">Ÿ Nervous, Autism</span>
+<span style="background:#001a12;border:1px solid #44ddaa;border-radius:4px;padding:2px 7px;font-size:9px;color:#44ddaa;">🍱 Kids food, green gram</span>
+<span style="background:#001a12;border:1px solid #44ddaa;border-radius:4px;padding:2px 7px;font-size:9px;color:#44ddaa;">🧠 Nervous, Autism</span>
 <span style="background:#001a12;border:1px solid #44ddaa;border-radius:4px;padding:2px 7px;font-size:9px;color:#44ddaa;">🕉 Vishnu &amp; avatars</span>
 </div>
 </div>
@@ -1791,8 +1761,8 @@
 <div class="ci-cat">Relationship</div><div style="font-size:10px;color:var(--txt);line-height:1.7;margin-bottom:6px;">Children, native himself</div>
 <div style="display:flex;flex-wrap:wrap;gap:4px;">
 <span style="background:#1a1400;border:1px solid #ffcc44;border-radius:4px;padding:2px 7px;font-size:9px;color:#ffcc44;">🎨 Decent, yellow/gold</span>
-<span style="background:#1a1400;border:1px solid #ffcc44;border-radius:4px;padding:2px 7px;font-size:9px;color:#ffcc44;">Ÿ Sweet, proteins, fat-containing</span>
-<span style="background:#1a1400;border:1px solid #ffcc44;border-radius:4px;padding:2px 7px;font-size:9px;color:#ffcc44;">Ÿ Liver, spleen, loss of sleep</span>
+<span style="background:#1a1400;border:1px solid #ffcc44;border-radius:4px;padding:2px 7px;font-size:9px;color:#ffcc44;">🍯 Sweet, proteins, fat-containing</span>
+<span style="background:#1a1400;border:1px solid #ffcc44;border-radius:4px;padding:2px 7px;font-size:9px;color:#ffcc44;">💊 Liver, spleen, loss of sleep</span>
 <span style="background:#1a1400;border:1px solid #ffcc44;border-radius:4px;padding:2px 7px;font-size:9px;color:#ffcc44;">🕉 Any Guru &amp; Shiva</span>
 </div>
 </div>
@@ -1803,8 +1773,8 @@
 <div class="ci-cat">Relationship</div><div style="font-size:10px;color:var(--txt);line-height:1.7;margin-bottom:6px;">Wife, daughter, younger sister</div>
 <div style="display:flex;flex-wrap:wrap;gap:4px;">
 <span style="background:#1a0514;border:1px solid #ff88cc;border-radius:4px;padding:2px 7px;font-size:9px;color:#ff88cc;">🎨 Shining clothes</span>
-<span style="background:#1a0514;border:1px solid #ff88cc;border-radius:4px;padding:2px 7px;font-size:9px;color:#ff88cc;">Ÿ Cold food, costly, gulab jamun</span>
-<span style="background:#1a0514;border:1px solid #ff88cc;border-radius:4px;padding:2px 7px;font-size:9px;color:#ff88cc;">Ÿ Diabetes, kidney failure, uterus disorder</span>
+<span style="background:#1a0514;border:1px solid #ff88cc;border-radius:4px;padding:2px 7px;font-size:9px;color:#ff88cc;">🧊 Cold food, costly, gulab jamun</span>
+<span style="background:#1a0514;border:1px solid #ff88cc;border-radius:4px;padding:2px 7px;font-size:9px;color:#ff88cc;">💊 Diabetes, kidney failure, uterus disorder</span>
 <span style="background:#1a0514;border:1px solid #ff88cc;border-radius:4px;padding:2px 7px;font-size:9px;color:#ff88cc;">🕉 Kamakshi, Meenakshi</span>
 </div>
 </div>
@@ -1815,8 +1785,8 @@
 <div class="ci-cat">Relationship</div><div style="font-size:10px;color:var(--txt);line-height:1.7;margin-bottom:6px;">Servant, uncle</div>
 <div style="display:flex;flex-wrap:wrap;gap:4px;">
 <span style="background:#0a0a14;border:1px solid #aaaacc;border-radius:4px;padding:2px 7px;font-size:9px;color:#aaaacc;">🎨 Shabby clothes, black</span>
-<span style="background:#0a0a14;border:1px solid #aaaacc;border-radius:4px;padding:2px 7px;font-size:9px;color:#aaaacc;">Ÿš Rice porridge, spoilt food</span>
-<span style="background:#0a0a14;border:1px solid #aaaacc;border-radius:4px;padding:2px 7px;font-size:9px;color:#aaaacc;">Ÿ Food poison, dust allergy</span>
+<span style="background:#0a0a14;border:1px solid #aaaacc;border-radius:4px;padding:2px 7px;font-size:9px;color:#aaaacc;">🍚 Rice porridge, spoilt food</span>
+<span style="background:#0a0a14;border:1px solid #aaaacc;border-radius:4px;padding:2px 7px;font-size:9px;color:#aaaacc;">🤢 Food poison, dust allergy</span>
 <span style="background:#0a0a14;border:1px solid #aaaacc;border-radius:4px;padding:2px 7px;font-size:9px;color:#aaaacc;">🕉 Sastha, Aiyappa</span>
 </div>
 </div>
@@ -1827,8 +1797,8 @@
 <div class="ci-cat">Relationship</div><div style="font-size:10px;color:var(--txt);line-height:1.7;margin-bottom:6px;">Strangers, grandparents</div>
 <div style="display:flex;flex-wrap:wrap;gap:4px;">
 <span style="background:#140a1a;border:1px solid #cc88ff;border-radius:4px;padding:2px 7px;font-size:9px;color:#cc88ff;">🎨 Stripped dress</span>
-<span style="background:#140a1a;border:1px solid #cc88ff;border-radius:4px;padding:2px 7px;font-size:9px;color:#cc88ff;">Ÿœ Noodles, semiya, junk food</span>
-<span style="background:#140a1a;border:1px solid #cc88ff;border-radius:4px;padding:2px 7px;font-size:9px;color:#cc88ff;">Ÿ Brain stroke, accidents (diagnosable not visible)</span>
+<span style="background:#140a1a;border:1px solid #cc88ff;border-radius:4px;padding:2px 7px;font-size:9px;color:#cc88ff;">🍜 Noodles, semiya, junk food</span>
+<span style="background:#140a1a;border:1px solid #cc88ff;border-radius:4px;padding:2px 7px;font-size:9px;color:#cc88ff;">🧠 Brain stroke, accidents (diagnosable not visible)</span>
 <span style="background:#140a1a;border:1px solid #cc88ff;border-radius:4px;padding:2px 7px;font-size:9px;color:#cc88ff;">🕉 Narasimha, Bhairavar</span>
 </div>
 </div>
@@ -1839,13 +1809,14 @@
 <div class="ci-cat">Relationship</div><div style="font-size:10px;color:var(--txt);line-height:1.7;margin-bottom:6px;">Grandparents</div>
 <div style="display:flex;flex-wrap:wrap;gap:4px;">
 <span style="background:#1a0a05;border:1px solid #ff8855;border-radius:4px;padding:2px 7px;font-size:9px;color:#ff8855;">🎨 Checkered dress</span>
-<span style="background:#1a0a05;border:1px solid #ff8855;border-radius:4px;padding:2px 7px;font-size:9px;color:#ff8855;">Ÿœ Noodles, semiya, momos, street food</span>
-<span style="background:#1a0a05;border:1px solid #ff8855;border-radius:4px;padding:2px 7px;font-size:9px;color:#ff8855;">Ÿ Undiagnosable diseases, tumors</span>
+<span style="background:#1a0a05;border:1px solid #ff8855;border-radius:4px;padding:2px 7px;font-size:9px;color:#ff8855;">🍜 Noodles, semiya, momos, street food</span>
+<span style="background:#1a0a05;border:1px solid #ff8855;border-radius:4px;padding:2px 7px;font-size:9px;color:#ff8855;">🔬 Undiagnosable diseases, tumors</span>
 <span style="background:#1a0a05;border:1px solid #ff8855;border-radius:4px;padding:2px 7px;font-size:9px;color:#ff8855;">🕉 Vinayaka, Anjaneya</span>
 </div>
 </div>
 </div>
 </div>
+
 <div class="th-block full" style="border-color:var(--purple);background:#080014;">
 <div class="th-block-title purple">♈ Rashi Karakatwas — Sign Significations</div>
 <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:7px;margin-top:6px;">
@@ -1864,6 +1835,73 @@
 </div>
 </div>
 
+<div style="grid-column:1/-1;margin:18px 0 8px 0;padding:8px 14px;background:rgba(0,0,0,.3);border-left:4px solid var(--muted);border-radius:0 6px 6px 0;"><div style="font-size:8px;color:var(--muted);letter-spacing:2px;text-transform:uppercase;font-weight:700;margin-bottom:2px;">CHAPTER 9</div><div style="font-size:13px;font-weight:700;color:var(--muted);font-family:var(--fD);">📎 Appendix</div></div>
+
+<div class="th-block" style="border-color:var(--purple);background:#0a0018;">
+<div class="th-block-title purple">☿ Mercury &amp; Planetary Combinations</div>
+<div class="sh-sub">What Mercury in combination with another planet signifies in Jammakol:</div>
+<div class="th-item"><div class="th-dot" style="background:var(--red);"></div><div><b style="color:var(--acc2);">Mercury + Mars</b> — <span style="color:var(--txt);">Royal palaces, big land, grand structures</span></div></div>
+<div class="th-item"><div class="th-dot" style="background:var(--cyan);"></div><div><b style="color:var(--acc2);">Mercury + Moon</b> — <span style="color:var(--txt);">Waves, water bodies, flowing things</span></div></div>
+<div class="th-item"><div class="th-dot" style="background:var(--muted);"></div><div><b style="color:var(--acc2);">Mercury + Saturn</b> — <span style="color:var(--txt);">Wind, smoke, air currents</span></div></div>
+<div class="th-item"><div class="th-dot" style="background:var(--amber);"></div><div><b style="color:var(--acc2);">Mercury + Sun</b> — <span style="color:var(--txt);">Hot air, scorching heat, fire-air</span></div></div>
+<div class="th-item"><div class="th-dot" style="background:var(--green);"></div><div><b style="color:var(--acc2);">Mercury + Jupiter</b> — <span style="color:var(--txt);">Clouds, overcast sky, rain-bearing conditions</span></div></div>
+</div>
+
+<div class="th-block full" style="border-color:var(--red);background:#150304;">
+<div class="th-block-title red">⚔ Results of Saturn &amp; Mars Aspect — By House</div>
+<div style="font-size:9px;color:var(--muted);margin-bottom:10px;">When Saturn and Mars jointly aspect or occupy a house, the following results are indicated:</div>
+<div class="ga w220 mb">
+<div class="ci kav">
+<div style="font-size:9px;font-weight:700;color:var(--red);letter-spacing:1px;margin-bottom:4px;">🏠 1st House</div>
+<div class="ci-val">Accidents, danger situations, operations on head, <em>Gandam</em>, serious illness to native</div>
+</div>
+<div class="ci kav">
+<div style="font-size:9px;font-weight:700;color:var(--red);letter-spacing:1px;margin-bottom:4px;">🏠 2nd House</div>
+<div class="ci-val">Family heavily affected, delay in marriage or marital problems, eye problems</div>
+</div>
+<div class="ci kav">
+<div style="font-size:9px;font-weight:700;color:var(--red);letter-spacing:1px;margin-bottom:4px;">🏠 3rd House</div>
+<div class="ci-val">Problems to brothers, injuries to shoulder/throat, operations, thyroid issues</div>
+</div>
+<div class="ci kav">
+<div style="font-size:9px;font-weight:700;color:var(--red);letter-spacing:1px;margin-bottom:4px;">🏠 4th House</div>
+<div class="ci-val">Problems to mother, land disputes, obstacles in education, loss of comfort</div>
+</div>
+<div class="ci kav">
+<div style="font-size:9px;font-weight:700;color:var(--red);letter-spacing:1px;margin-bottom:4px;">🏠 5th House</div>
+<div class="ci-val">Problems to children, affected by love affairs, stomach operations</div>
+</div>
+<div class="ci kav">
+<div style="font-size:9px;font-weight:700;color:var(--red);letter-spacing:1px;margin-bottom:4px;">🏠 6th House</div>
+<div class="ci-val">Dissatisfaction in job, disease, money problems, operations etc.</div>
+</div>
+<div class="ci kav">
+<div style="font-size:9px;font-weight:700;color:var(--red);letter-spacing:1px;margin-bottom:4px;">🏠 7th House</div>
+<div class="ci-val">Delay in marriage, conflict between wife and husband, uterus operation, kidney stone</div>
+</div>
+<div class="ci kav">
+<div style="font-size:9px;font-weight:700;color:var(--red);letter-spacing:1px;margin-bottom:4px;">🏠 8th House</div>
+<div class="ci-val">Danger to longevity, fear of arrest, serious threats to life</div>
+</div>
+<div class="ci kav">
+<div style="font-size:9px;font-weight:700;color:var(--red);letter-spacing:1px;margin-bottom:4px;">🏠 9th House</div>
+<div class="ci-val">Father's health affected, problems due to long journeys</div>
+</div>
+<div class="ci kav">
+<div style="font-size:9px;font-weight:700;color:var(--red);letter-spacing:1px;margin-bottom:4px;">🏠 10th House</div>
+<div class="ci-val">Problems in profession, career obstacles, setbacks at workplace</div>
+</div>
+<div class="ci kav">
+<div style="font-size:9px;font-weight:700;color:var(--red);letter-spacing:1px;margin-bottom:4px;">🏠 11th House</div>
+<div class="ci-val">Problems to elder brother, no profit in business, knee problems</div>
+</div>
+<div class="ci kav">
+<div style="font-size:9px;font-weight:700;color:var(--red);letter-spacing:1px;margin-bottom:4px;">🏠 12th House</div>
+<div class="ci-val">No bed comforts, heavy medical expenses, frequent operations</div>
+</div>
+</div>
+</div>
+
 <div class="th-block full" style="border-color:#cc88ff;background:#0a0015;">
 <div class="th-block-title" style="color:#cc88ff;">🔮 Black Magic — Identification in Prasnam</div>
 <div style="font-size:10px;color:var(--muted);margin-bottom:10px;line-height:1.7;">
@@ -1871,7 +1909,7 @@
         </div>
 <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:12px;">
 <div style="background:rgba(204,136,255,.08);border:1px solid #cc88ff44;border-radius:7px;padding:10px;text-align:center;">
-<div style="font-size:22px;margin-bottom:4px;">Ÿ</div>
+<div style="font-size:22px;margin-bottom:4px;">🐍</div>
 <div style="font-size:10px;font-weight:700;color:#cc88ff;">Ascendant Lord</div>
 <div style="font-size:9px;color:var(--muted);margin-top:3px;">1st house lord (the person)</div>
 </div>
@@ -1891,16 +1929,19 @@
           When all three — <b>Ascendant lord + 6th lord + Badakadhipathi</b> — are connected in any of these ways → <b style="color:var(--red);">person is affected by black magic / evil eye</b>.
         </div>
 </div>
+
+<div style="grid-column:1/-1;margin:18px 0 8px 0;padding:8px 14px;background:rgba(0,0,0,.3);border-left:4px solid var(--purple);border-radius:0 6px 6px 0;"><div style="font-size:8px;color:var(--purple);letter-spacing:2px;text-transform:uppercase;font-weight:700;margin-bottom:2px;">CHAPTER 10</div><div style="font-size:13px;font-weight:700;color:var(--purple);font-family:var(--fD);">🔮 Prasnam Types</div></div>
+
 <div class="th-block full" style="border-color:var(--acc);background:#080600;">
 <div class="th-block-title" style="color:var(--acc2);">📋 Prasnam Types — Select to View</div>
 <div style="font-size:10px;color:var(--muted);margin-bottom:12px;">Select the type of question to see specific rules, indicators and guidance.</div>
 <div class="ptype-selector">
-<button class="ptype-pill ptype-active" style="--ptc:#ffaa44;" onclick="showPType('theft')" data-ptype="theft">Ÿ” Theft</button>
+<button class="ptype-pill ptype-active" style="--ptc:#ffaa44;" onclick="showPType('theft')" data-ptype="theft">📖 Theft</button>
 <button class="ptype-pill" style="--ptc:#55ddff;" onclick="showPType('missing')" data-ptype="missing">🔎 Missing Person</button>
 <button class="ptype-pill" style="--ptc:#55ddff;" onclick="showPType('water')" data-ptype="water">💧 Water / Borewell</button>
 <button class="ptype-pill" style="--ptc:#ff88cc;" onclick="showPType('child')" data-ptype="child">👶 Male / Female Child</button>
 <button class="ptype-pill" style="--ptc:#44ddaa;" onclick="showPType('education')" data-ptype="education">📚 Educational</button>
-<button class="ptype-pill" style="--ptc:#ff88cc;" onclick="showPType('marriage')" data-ptype="marriage">Ÿ’ Marriage</button>
+<button class="ptype-pill" style="--ptc:#ff88cc;" onclick="showPType('marriage')" data-ptype="marriage">💍 Marriage</button>
 <button class="ptype-pill" style="--ptc:#ffaa44;" onclick="showPType('profession')" data-ptype="profession">💼 Profession / Job</button>
 <button class="ptype-pill" style="--ptc:#e8b84a;" onclick="showPType('casestudy')" data-ptype="casestudy">📖 Case Study: Promotion</button>
 <button class="ptype-pill" style="--ptc:#ff88cc;" onclick="showPType('vehicle')" data-ptype="vehicle">🚗 Vehicle</button>
@@ -1914,12 +1955,12 @@
 <div class="ptype-content">
 <div class="ptype-panel" id="ptype-theft" style="display:block;">
 <div class="th-block full" style="border-color:var(--amber);background:#0e0800;">
-<div class="th-block-title" style="color:var(--amber);">Ÿ” Theft Prasnam — Identifying Theft, Thief &amp; Recovery</div>
+<div class="th-block-title" style="color:var(--amber);">📖 Theft Prasnam — Identifying Theft, Thief &amp; Recovery</div>
 <div style="font-size:10px;color:var(--muted);margin-bottom:12px;line-height:1.7;">
           In theft-related Prasnam, different bhavas reveal specific aspects of the theft.
           <b>Udayam</b> = the person who lost the article.
         </div>
-<div class="sh a">Ÿ Bhava Roles in Theft Prasnam</div>
+<div class="sh a">🔍 Bhava Roles in Theft Prasnam</div>
 <div class="ga mb">
 <div class="ci theft">
 <div style="font-size:9px;font-weight:700;color:var(--amber);">🔑 8th Bhava</div>
@@ -1938,11 +1979,11 @@
 <div class="ci-val"><b>Short distance</b> — theft happened nearby</div>
 </div>
 <div class="ci theft">
-<div style="font-size:9px;font-weight:700;color:var(--amber);">ŸŒ 9th Bhava</div>
+<div style="font-size:9px;font-weight:700;color:var(--amber);">🌍 9th Bhava</div>
 <div class="ci-val"><b>Long distance</b> — theft happened far away</div>
 </div>
 <div class="ci theft">
-<div style="font-size:9px;font-weight:700;color:var(--red);">Œ 12th Bhava</div>
+<div style="font-size:9px;font-weight:700;color:var(--red);">❌ 12th Bhava</div>
 <div class="ci-val"><b>Will not be recovered</b> (loss, expenditure)</div>
 </div>
 <div class="ci theft">
@@ -2055,7 +2096,7 @@
 <span style="font-size:9px;font-weight:700;color:var(--green);">™ Kanya</span>
 <span style="font-size:9px;font-weight:700;color:var(--green);">™ Dhanus</span>
 </div>
-<div style="font-size:10px;color:var(--txt);">Ÿ️ 2-wheeler</div>
+<div style="font-size:10px;color:var(--txt);">🍽️ 2-wheeler</div>
 </div>
 <div class="ci theft">
 <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:4px;">
@@ -2094,7 +2135,7 @@
 <div class="ci-val">Check the <b>nakshatra</b> of the sign where the <b>7th lord is deposited</b> — the syllable of that nakshatra reveals the first letter of the thief's name</div>
 </div>
 <div class="ci theft">
-<div class="ci-lbl r">Ÿ Paambu (Snake)</div>
+<div class="ci-lbl r">🐍 Paambu (Snake)</div>
 <div class="ci-val"><b>Short name</b> (single-syllable or brief name)</div>
 </div>
 <div class="ci theft">
@@ -2126,17 +2167,17 @@
 <div style="font-size:10px;color:var(--muted);margin-bottom:12px;line-height:1.7;">
           In missing person cases each bhava reveals a specific clue. <b>Udayam</b> = the missing person.
         </div>
-<div class="sh c">Ÿ Bhava Meanings — Missing Person</div>
+<div class="sh c">🔎 Bhava Meanings — Missing Person</div>
 <div class="ga w210 mb">
-<div style="background:var(--bg5);border:1px solid #005a5a;border-radius:6px;padding:8px 11px;"><div style="font-size:9px;font-weight:700;color:var(--cyan);">Ÿ 1st House</div><div class="ci-val">The <b>missing person</b> themselves</div></div>
+<div style="background:var(--bg5);border:1px solid #005a5a;border-radius:6px;padding:8px 11px;"><div style="font-size:9px;font-weight:700;color:var(--cyan);">🏠 1st House</div><div class="ci-val">The <b>missing person</b> themselves</div></div>
 <div style="background:var(--bg5);border:1px solid #005a5a;border-radius:6px;padding:8px 11px;"><div style="font-size:9px;font-weight:700;color:var(--cyan);">➡️ 2nd House</div><div class="ci-val"><b>Where they are heading</b></div></div>
 <div style="background:var(--bg5);border:1px solid #005a5a;border-radius:6px;padding:8px 11px;"><div style="font-size:9px;font-weight:700;color:var(--cyan);">📡 3rd House</div><div class="ci-val"><b>Information &amp; communication</b> regarding them</div></div>
-<div style="background:var(--bg5);border:1px solid #005a5a;border-radius:6px;padding:8px 11px;"><div style="font-size:9px;font-weight:700;color:var(--cyan);">Ÿ“ 4th House</div><div class="ci-val"><b>Distance</b> from their residence</div></div>
+<div style="background:var(--bg5);border:1px solid #005a5a;border-radius:6px;padding:8px 11px;"><div style="font-size:9px;font-weight:700;color:var(--cyan);">📍 4th House</div><div class="ci-val"><b>Distance</b> from their residence</div></div>
 <div style="background:var(--bg5);border:1px solid #005a5a;border-radius:6px;padding:8px 11px;"><div style="font-size:9px;font-weight:700;color:var(--cyan);">💭 5th House</div><div class="ci-val"><b>Their intention / mindset</b></div></div>
 <div style="background:var(--bg5);border:1px solid #005a5a;border-radius:6px;padding:8px 11px;"><div style="font-size:9px;font-weight:700;color:var(--cyan);">⚠️ 6th House</div><div class="ci-val"><b>Problems faced</b> before leaving (at their place)</div></div>
 <div style="background:var(--bg5);border:1px solid #005a5a;border-radius:6px;padding:8px 11px;"><div style="font-size:9px;font-weight:700;color:var(--cyan);">🔄 7th House</div><div class="ci-val"><b>When they will return</b> &amp; whether someone accompanied them</div></div>
 <div style="background:var(--bg5);border:1px solid #005a5a;border-radius:6px;padding:8px 11px;"><div style="font-size:9px;font-weight:700;color:var(--red);">“ 8th House</div><div class="ci-val"><b>Why they are missing</b> — theft, humiliation, emotional problems</div></div>
-<div style="background:var(--bg5);border:1px solid #005a5a;border-radius:6px;padding:8px 11px;"><div style="font-size:9px;font-weight:700;color:var(--cyan);">ŸŒ 9th House</div><div class="ci-val"><b>Outside person</b> (external influence or far location)</div></div>
+<div style="background:var(--bg5);border:1px solid #005a5a;border-radius:6px;padding:8px 11px;"><div style="font-size:9px;font-weight:700;color:var(--cyan);">🌍 9th House</div><div class="ci-val"><b>Outside person</b> (external influence or far location)</div></div>
 <div style="background:var(--bg5);border:1px solid #005a5a;border-radius:6px;padding:8px 11px;"><div style="font-size:9px;font-weight:700;color:var(--cyan);">🎯 10th House</div><div class="ci-val"><b>Their goal / intention</b></div></div>
 <div style="background:var(--bg5);border:1px solid #005a5a;border-radius:6px;padding:8px 11px;"><div style="font-size:9px;font-weight:700;color:var(--cyan);">👥 11th House</div><div class="ci-val"><b>Will they come alone</b> or will someone else come along?</div></div>
 <div style="background:var(--bg5);border:1px solid #005a5a;border-radius:6px;padding:8px 11px;"><div style="font-size:9px;font-weight:700;color:var(--red);">📉 12th House</div><div class="ci-val"><b>What is lost</b> after the person goes missing</div></div>
@@ -2165,7 +2206,7 @@
 <b style="color:var(--cyan);">Number of planets in Udayam</b> → Indicates the <b>number of persons</b> who went along with the missing person
           </div>
 </div>
-<div class="sh g">Ÿ• When Will They Return? — Planet in Udayam</div>
+<div class="sh g">🕐 When Will They Return? — Planet in Udayam</div>
 <div class="ga">
 <div style="background:var(--bg5);border:1px solid #ffaa2244;border-radius:6px;padding:8px 11px;">
 <div class="ci-lbl sun">☀️ Sun in Udayam</div>
@@ -2254,7 +2295,7 @@
 <div class="ci-val"><b style="color:var(--amber);">Little water</b> — modest yield</div>
 </div>
 <div style="background:var(--bg5);border:1px solid #cc88ff44;border-radius:6px;padding:8px 11px;">
-<div style="font-size:9px;font-weight:700;color:#cc88ff;margin-bottom:3px;">☊ Rahu / ☋ Kethu / Ÿ Paambu</div>
+<div style="font-size:9px;font-weight:700;color:#cc88ff;margin-bottom:3px;">☊ Rahu / ☋ Kethu / 🐍 Paambu</div>
 <div class="ci-val"><b style="color:var(--amber);">Obstruction</b> in water flow — but after putting ore/casing they will not obstruct. <b style="color:var(--green);">Rahu alone → rebore 100% water</b></div>
 </div>
 </div>
@@ -2379,7 +2420,7 @@
 <div class="ci kav"><div style="font-size:9px;font-weight:700;color:var(--red);">Kavippu in 11th</div><div class="ci-val">Education will have <b>problems</b> (failure — 11th from Udayam)</div></div>
 <div class="ci kav"><div style="font-size:9px;font-weight:700;color:var(--red);">Kavippu in 12th</div><div class="ci-val">Problems due to <b>health</b> or <b>change of place</b></div></div>
 </div>
-<div class="sh ac">Ÿ Hostel / Boarding Rules</div>
+<div class="sh ac">🏨 Hostel / Boarding Rules</div>
 <div class="fc6">
 <div class="rr r">
 <b style="color:var(--red);">Paambu in Udayam</b> OR <b style="color:var(--red);">Kavippu in 4th house</b> → Will study in <b>hostel / boarding</b>
@@ -2399,14 +2440,14 @@
 </div>
 <div class="ptype-panel" id="ptype-marriage" style="display:none;">
 <div class="th-block full" style="border-color:#ff88cc;background:#180410;">
-<div class="th-block-title" style="color:#ff88cc;">Ÿ’ Marriage Prasnam</div>
+<div class="th-block-title" style="color:#ff88cc;">💍 Marriage Prasnam</div>
 <div style="font-size:10px;color:var(--muted);margin-bottom:10px;line-height:1.7;">
 <b style="color:#ff88cc;">Udayam</b> = Male side &nbsp;&nbsp; <b style="color:#7799ff;">Arudam</b> = Female side. All rules below apply from Udayam for males; substitute Arudam for females.
         </div>
-<div class="sh pk">Ÿ Planet in Udayam — Marriage Nature</div>
+<div class="sh pk">💍 Planet in Udayam — Marriage Nature</div>
 <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:6px;margin-bottom:14px;">
 <div style="background:var(--bg5);border:1px solid #aaaacc44;border-radius:6px;padding:8px 11px;"><div class="ci-lbl sat">♄ Saturn in Udayam</div><div class="ci-val"><b>Marriage is delayed</b></div></div>
-<div style="background:var(--bg5);border:1px solid #cc88ff44;border-radius:6px;padding:8px 11px;"><div style="font-size:9px;font-weight:700;color:#cc88ff;margin-bottom:3px;">Ÿ Paambu in Udayam</div><div class="ci-val">Marriage will have <b>severe difficulties</b></div></div>
+<div style="background:var(--bg5);border:1px solid #cc88ff44;border-radius:6px;padding:8px 11px;"><div style="font-size:9px;font-weight:700;color:#cc88ff;margin-bottom:3px;">🐍 Paambu in Udayam</div><div class="ci-val">Marriage will have <b>severe difficulties</b></div></div>
 <div style="background:var(--bg5);border:1px solid #44ddaa44;border-radius:6px;padding:8px 11px;"><div class="ci-lbl mer">☿ Mercury in Udayam</div><div class="ci-val">Marriage will take place <b>peacefully through broker, uncle, or matrimony</b></div></div>
 <div style="background:var(--bg5);border:1px solid #ffcc4444;border-radius:6px;padding:8px 11px;"><div class="ci-lbl jup">♃ Jupiter in Udayam</div><div class="ci-val">Partner will be <b>bulkier in appearance</b></div></div>
 <div style="background:var(--bg5);border:1px solid #7799ff44;border-radius:6px;padding:8px 11px;"><div class="ci-lbl b">🌙 Moon in Udayam</div><div class="ci-val">Marriage will happen <b>quickly</b> — if Kavippu in 5th or 7th, they will <b>elope and get married</b></div></div>
@@ -2470,7 +2511,7 @@
 <div class="rr r"><b style="color:var(--red);">Udaya lord connected to Ashtamadhipathi + Kavippu</b> → Will <b>never find success in job</b> throughout life</div>
 <div class="th-example" style="margin:0;"><div class="th-example-title">Example — Mithuna Udayam</div>Jama Mercury in Meena (debilitated) → Mercury is Udayadipathi (lord of Mithuna) and debilitated → <b>Advised not to do business</b>.</div>
 </div>
-<div class="sh g">Ÿ Employment vs Self-Employment — Udaya Lord Rules</div>
+<div class="sh g">💼 Employment vs Self-Employment — Udaya Lord Rules</div>
 <div class="fc6 mb">
 <div class="rr g"><b style="color:var(--green);">Arudam in 6th + Kavippu</b> → Can take up <b>a profession / employment</b></div>
 <div class="rr g"><b style="color:var(--green);">Arudam in 10th without Kavippu</b> → May take up <b>self-employment or business</b></div>
@@ -2571,7 +2612,7 @@
 </tr>
 </table>
 </div>
-<div class="sh ac">Ÿ” Analysis — Why No Promotion?</div>
+<div class="sh ac">📖 Analysis — Why No Promotion?</div>
 <div style="display:flex;flex-direction:column;gap:6px;margin-bottom:10px;">
 <div class="rr a">
 <b style="color:var(--amber);">Udayam = Pristhodaya</b> → Failure signal from Udayam itself
@@ -2597,7 +2638,7 @@
         </div>
 </div>
 <div class="th-block full" style="border-color:#ff6655;background:#180808;">
-<div class="th-block-title" style="color:#ff6655;">Ÿ Rogaprasannam — Disease &amp; Health Prediction</div>
+<div class="th-block-title" style="color:#ff6655;">🏥 Rogaprasannam — Disease &amp; Health Prediction</div>
 <div style="font-size:10px;color:var(--muted);margin-bottom:12px;line-height:1.7;">
           Jammakol rules for predicting disease severity, recovery, organ affliction, and death from the placement of <b style="color:#ff6655;">Kavippu</b>, <b style="color:var(--acc2);">Paambu</b>, and karaka planets.
         </div>
@@ -2661,7 +2702,7 @@
 <div class="ci-val">Disease will get cured at <b>fast rate</b></div>
 </div>
 <div class="ci">
-<div class="ci-lbl ac">Ÿ Other Planets</div>
+<div class="ci-lbl ac">🪐 Other Planets</div>
 <div class="ci-val">Disease related to the <b>karaka organ/system</b> of that planet (see Graha Karakatwas)</div>
 </div>
 </div>
@@ -2688,7 +2729,7 @@
 </div>
 </div>
 <div class="th-block full" style="border-color:#44ddaa;background:#030e0a;">
-<div class="th-block-title" style="color:#44ddaa;">Ÿ Purchase of Land / House</div>
+<div class="th-block-title" style="color:#44ddaa;">🏠 Purchase of Land / House</div>
 <div style="display:flex;flex-direction:column;gap:6px;margin-bottom:10px;">
 <div class="rr ac">
 <b style="color:var(--acc2);">Arudam in 4th from Udayam</b> → Question is related to <b>house/land</b>
@@ -2776,7 +2817,7 @@
 </div>
 </div>
 <div class="th-block full" style="border-color:#ffaa22;background:#0e0a00;">
-<div class="th-block-title" style="color:#ffaa22;">Ÿ›️ Political Success &amp; Professions</div>
+<div class="th-block-title" style="color:#ffaa22;">🏛️ Political Success &amp; Professions</div>
 <div class="fc6 mb">
 <div class="rr g">
 <b style="color:var(--green);">Udayadipathi exalted + Sun exalted + no Kavippu in 5th or 10th</b> → <b>Political success</b> will be attained
@@ -2917,6 +2958,7 @@
 </div>
 </div>
 </div>
+
 </div>
 </div>
 </div>
@@ -2932,14 +2974,12 @@ function updateLiveRays() {
   var panel = document.getElementById('live-rays-panel');
   if (!panel) return;
   
-  // Check if a chart has been calculated
   var resultDiv = document.getElementById('result');
   if (!resultDiv || resultDiv.style.display === 'none') {
     panel.innerHTML = '<div style="padding:14px;background:rgba(0,0,0,.3);border-radius:8px;border:1px solid #ffdd4422;text-align:center;"><div style="font-size:20px;margin-bottom:6px;">🔮</div><div style="font-size:11px;color:var(--muted);">No chart calculated yet.</div><div style="font-size:10px;color:var(--muted);margin-top:4px;">Go to <b style="color:var(--acc2);">Prasnam tab</b>, enter date/time and calculate.</div></div>';
     return;
   }
 
-  // Get current chart data from global state
   if (!window._lastJams || !window._lastUdh) {
     panel.innerHTML = '<div style="padding:14px;background:rgba(0,0,0,.3);border-radius:8px;border:1px solid #ffdd4422;text-align:center;"><div style="font-size:20px;margin-bottom:6px;">🔮</div><div style="font-size:11px;color:var(--muted);">No chart calculated yet.</div><div style="font-size:10px;color:var(--muted);margin-top:4px;">Go to <b style=\'color:var(--acc2);\'>Prasnam tab</b>, enter date/time and calculate.</div></div>';
     return;
@@ -2947,86 +2987,141 @@ function updateLiveRays() {
   
   var jams = window._lastJams;
   var udh = window._lastUdh;
-  var j1 = jams[0]; // first jama = sunrise jama
-  // Find current/prasnam jama
+  var j1 = jams[0];
   var cjam = jams[0];
   for (var ci=0; ci<jams.length; ci++) { if (jams[ci].isCurrent) { cjam = jams[ci]; break; } }
   
   var udayamRI = udh ? udh.ri : (j1.planets[0] ? j1.planets[0].ri : 0);
-  var RS_EN = ["Aries","Taurus","Gemini","Cancer","Leo","Virgo","Libra","Scorpio","Sagittarius","Capricorn","Aquarius","Pisces"];
+  var RS_EN = ["Mesha","Vrishabha","Mithuna","Kataka","Simha","Kanya","Tula","Vrischika","Dhanu","Makara","Kumbha","Meena"];
+  var RS_SIGN = ["♈","♉","♊","♋","♌","™","♎","™","™","♑","♒","♓"];
   var udayamRashi = RS_EN[udayamRI] || "";
-  
-  // Get planets in udayam from current jama
-  var PLANET_RAYS_MAP = {Sun:5,Moon:21,Mars:8,Mercury:16,Jupiter:10,Venus:20,Saturn:4,Rahu:4,Kethu:4,Snake:4};
-  var EXALT_RI = {Sun:0,Moon:1,Mars:9,Mercury:5,Jupiter:3,Venus:11,Saturn:6,Rahu:1,Kethu:7};
-  var DEBIL_RI = {Sun:6,Moon:7,Mars:3,Mercury:11,Jupiter:9,Venus:5,Saturn:0,Rahu:7,Kethu:1};
-  var PLANET_OWN = {Sun:[4],Moon:[3],Mars:[0,7],Mercury:[5,11],Jupiter:[8,11],Venus:[1,6],Saturn:[9,10]};
 
-  var planetsInUdayam = [];
+  // Correct RASHI_RAYS matching the reference table: [Mesha, Vrishabha, Mithuna, Kataka, Simha, Kanya, Tula, Vrischika, Dhanu, Makara, Kumbha, Meena]
+  var RASHI_RAYS_ARR = [8, 8, 5, 3, 8, 11, 12, 4, 6, 8, 8, 27];
+  var PLANET_RAYS_MAP = {Sun:5, Moon:21, Mars:8, Mercury:16, Jupiter:10, Venus:20, Saturn:4, Rahu:4, Kethu:4, Snake:4};
+  var EXALT_RI  = {Sun:0, Moon:1, Mars:9, Mercury:5, Jupiter:3, Venus:11, Saturn:6, Rahu:1, Kethu:7};
+  var DEBIL_RI  = {Sun:6, Moon:7, Mars:3, Mercury:11, Jupiter:9, Venus:5, Saturn:0, Rahu:7, Kethu:1};
+  var OWN_RI    = {Sun:[4], Moon:[3], Mars:[0,7], Mercury:[5,2], Jupiter:[8,11], Venus:[1,6], Saturn:[9,10]};
+
+  // JM planet name from jmIdx
+  var JM_NAMES = ["Sun","Mars","Jupiter","Mercury","Venus","Saturn","Moon","Snake"];
+
   var allPlanets = cjam.planets || j1.planets || [];
+
+  // --- Planets IN Udayam ---
+  var planetsInUdayam = [];
   allPlanets.forEach(function(p) {
     if (p.ri === udayamRI) {
-      var pname = p.name || '';
-      var exalted = EXALT_RI[pname] === p.ri;
-      var debilitated = DEBIL_RI[pname] === p.ri;
-      var own = (PLANET_OWN[pname]||[]).indexOf(p.ri) >= 0;
-      planetsInUdayam.push({ name: pname, exalted: exalted, debilitated: debilitated, ownSign: own, kavippu: false });
+      var pname = JM_NAMES[p.jmIdx] || '';
+      if (!pname) return;
+      var base = PLANET_RAYS_MAP[pname] || 0;
+      var exalted    = EXALT_RI[pname] === p.ri;
+      var debilitated= DEBIL_RI[pname] === p.ri;
+      var ownSign    = (OWN_RI[pname]||[]).indexOf(p.ri) >= 0;
+      var kavippu    = window._lastKavRi !== undefined && p.ri === window._lastKavRi;
+      // Retrograde not tracked in Jama planets — omit for auto; user can use manual calculator
+      var rays = base;
+      var mod = 'normal'; var modClr = '#ffdd44';
+      if (exalted)     { rays = base * 3;   mod = '×3 Exalted';     modClr = 'var(--green)'; }
+      else if (ownSign){ rays = base * 2;   mod = '×2 Own House';   modClr = 'var(--green)'; }
+      else if (debilitated){ rays = base/2; mod = '÷2 Debilitated'; modClr = 'var(--red)'; }
+      if (kavippu)     { rays = rays / 2;   mod += ' ÷2 Kavippu';   modClr = 'var(--red)'; }
+      planetsInUdayam.push({ name: pname, rays: rays, base: base, mod: mod, modClr: modClr });
     }
   });
-  
-  var d = { udayamRashi: udayamRashi, planetsInUdayam: planetsInUdayam };
-  var PLANET_RAYS_MAP = {Sun:5,Moon:21,Mars:8,Mercury:16,Jupiter:10,Venus:20,Saturn:4,Rahu:4,Kethu:4,Snake:4};
-  var RASHI_RAYS_MAP = {Aries:10,Taurus:5,Gemini:7,Cancer:6,Leo:9,Virgo:8,Libra:11,Scorpio:8,Sagittarius:9,Capricorn:3,Aquarius:8,Pisces:7};
-  
-  var udayamRashi = d.udayamRashi || '';
-  var planetsInUdayam = d.planetsInUdayam || [];
-  var rashiRays = RASHI_RAYS_MAP[udayamRashi] || 0;
-  
+
+  // --- Planets ASPECTING Udayam (7th aspect: opposite rashi, i.e. ri+6 mod 12) ---
+  var aspectingRI = (udayamRI + 6) % 12;
+  var planetsAspecting = [];
+  allPlanets.forEach(function(p) {
+    if (p.ri === aspectingRI) {
+      var pname = JM_NAMES[p.jmIdx] || '';
+      if (!pname) return;
+      var base = PLANET_RAYS_MAP[pname] || 0;
+      var exalted    = EXALT_RI[pname] === p.ri;
+      var debilitated= DEBIL_RI[pname] === p.ri;
+      var ownSign    = (OWN_RI[pname]||[]).indexOf(p.ri) >= 0;
+      var rays = base;
+      var mod = 'normal'; var modClr = '#ffdd44';
+      if (exalted)     { rays = base * 3;   mod = '×3 Exalted';     modClr = 'var(--green)'; }
+      else if (ownSign){ rays = base * 2;   mod = '×2 Own House';   modClr = 'var(--green)'; }
+      else if (debilitated){ rays = base/2; mod = '÷2 Debilitated'; modClr = 'var(--red)'; }
+      planetsAspecting.push({ name: pname, rays: rays, base: base, mod: mod, modClr: modClr });
+    }
+  });
+
+  // --- Rashi Rays ---
+  var rashiRays = RASHI_RAYS_ARR[udayamRI] || 0;
+
+  // --- Total ---
   var totalRays = rashiRays;
   var breakdown = [];
-  breakdown.push('<tr><td style="padding:4px 8px;color:var(--muted);">Udayam Rashi (' + udayamRashi + ')</td><td style="text-align:right;padding:4px 8px;color:#ffdd44;font-weight:700;">' + rashiRays + '</td><td style="text-align:right;padding:4px 8px;color:var(--muted);">base</td></tr>');
-  
+
   planetsInUdayam.forEach(function(p) {
-    var base = PLANET_RAYS_MAP[p.name] || 0;
-    var rays = base;
-    var mod = 'normal';
-    if (p.exalted) { rays = base * 3; mod = '3 exalted'; }
-    else if (p.debilitated) { rays = Math.round(base / 2); mod = '2 debil.'; }
-    else if (p.ownSign) { rays = base * 2; mod = '2 own sign'; }
-    if (p.kavippu) { rays = Math.round(rays / 2); mod += ' 2 kavippu'; }
-    totalRays += rays;
-    var clr = p.exalted ? 'var(--green)' : p.debilitated ? 'var(--red)' : 'var(--acc2)';
-    breakdown.push('<tr style="border-top:1px solid var(--bdr);"><td style="padding:4px 8px;">' + p.name + ' in Udayam</td><td style="text-align:right;padding:4px 8px;color:' + clr + ';font-weight:700;">' + rays + '</td><td style="text-align:right;padding:4px 8px;color:var(--muted);font-size:9px;">' + mod + '</td></tr>');
+    totalRays += p.rays;
+    breakdown.push('<tr style="border-top:1px solid var(--bdr);"><td style="padding:4px 8px;">'+p.name+' in Udayam</td><td style="text-align:right;padding:4px 8px;color:'+p.modClr+';font-weight:700;">'+p.rays+'</td><td style="text-align:right;padding:4px 8px;color:var(--muted);font-size:9px;">base '+p.base+' '+p.mod+'</td></tr>');
   });
-  
-  // Timing estimate
-  var timingDays = totalRays;
-  var timingWeeks = (totalRays / 7).toFixed(1);
-  
+  planetsAspecting.forEach(function(p) {
+    totalRays += p.rays;
+    breakdown.push('<tr style="border-top:1px solid var(--bdr);"><td style="padding:4px 8px;">'+p.name+' aspecting</td><td style="text-align:right;padding:4px 8px;color:'+p.modClr+';font-weight:700;">'+p.rays+'</td><td style="text-align:right;padding:4px 8px;color:var(--muted);font-size:9px;">base '+p.base+' '+p.mod+'</td></tr>');
+  });
+  breakdown.push('<tr style="border-top:1px solid var(--bdr);"><td style="padding:4px 8px;color:var(--muted);">'+RS_SIGN[udayamRI]+' '+udayamRashi+' Rashi</td><td style="text-align:right;padding:4px 8px;color:#ffdd44;font-weight:700;">'+rashiRays+'</td><td style="text-align:right;padding:4px 8px;color:var(--muted);font-size:9px;">rashi rays</td></tr>');
+
+  // --- Moon Timing ---
+  var moonRi = -1;
+  allPlanets.forEach(function(p){ if((JM_NAMES[p.jmIdx]||'')==='Moon'){ moonRi = p.ri; } });
+  var moonTimingHTML = '';
+  if (moonRi >= 0) {
+    // Count anti-clockwise from Moon to Udayam
+    var dist = (moonRi - udayamRI + 12) % 12;
+    if (dist === 0) dist = 12; // already in udayam = full cycle
+    var moonBase = PLANET_RAYS_MAP['Moon'] || 21;
+    // Apply moon modifiers
+    var moonExalted = EXALT_RI['Moon'] === moonRi;
+    var moonDebil   = DEBIL_RI['Moon'] === moonRi;
+    var moonOwn     = (OWN_RI['Moon']||[]).indexOf(moonRi) >= 0;
+    var moonRays = moonExalted ? moonBase*3 : moonOwn ? moonBase*2 : moonDebil ? moonBase/2 : moonBase;
+    var moonMod = moonExalted ? '×3 Exalted' : moonOwn ? '×2 Own' : moonDebil ? '÷2 Debilitated' : 'Normal';
+    var moonDays = moonRays * dist;
+
+    moonTimingHTML = '<div style="margin-top:12px;padding:11px 13px;background:rgba(119,153,255,.08);border:1px solid #7799ff44;border-radius:8px;">';
+    moonTimingHTML += '<div style="font-size:9px;font-weight:700;color:#7799ff;letter-spacing:1px;text-transform:uppercase;margin-bottom:8px;">🌙 Moon Timing — Days Until Event</div>';
+    moonTimingHTML += '<table style="width:100%;border-collapse:collapse;font-size:10px;">';
+    moonTimingHTML += '<tr><td style="padding:3px 6px;color:var(--muted);">Moon in '+RS_SIGN[moonRi]+' '+RS_EN[moonRi]+'</td><td style="text-align:right;font-weight:700;color:#7799ff;">'+moonRays+' rays</td></tr>';
+    moonTimingHTML += '<tr style="border-top:1px solid var(--bdr);"><td style="padding:3px 6px;color:var(--muted);">Rashi count → Udayam ('+RS_EN[udayamRI]+') anti-clockwise</td><td style="text-align:right;font-weight:700;color:#7799ff;">'+dist+'</td></tr>';
+    moonTimingHTML += '<tr style="border-top:2px solid #7799ff;"><td style="padding:4px 6px;font-weight:700;color:#7799ff;">Days until event</td><td style="text-align:right;font-size:14px;font-weight:700;color:#7799ff;">'+moonDays+'</td></tr>';
+    moonTimingHTML += '</table>';
+    moonTimingHTML += '<div style="font-size:9px;color:var(--muted);margin-top:5px;">'+moonRays+' (Moon rays, '+moonMod+') × '+dist+' (rashis) = <b style="color:#7799ff;">'+moonDays+' days</b> ≈ <b style="color:#7799ff;">'+(moonDays/30).toFixed(1)+' months</b></div>';
+    moonTimingHTML += '</div>';
+  }
+
+  // --- Render ---
   var html = '<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px;">';
   html += '<div style="background:rgba(255,221,68,.08);border:1px solid #ffdd4444;border-radius:8px;padding:12px;text-align:center;">';
   html += '<div style="font-size:9px;color:#ffdd44;letter-spacing:1px;text-transform:uppercase;margin-bottom:4px;">Total Rays</div>';
-  html += '<div style="font-size:28px;font-weight:700;color:#ffdd44;">' + totalRays + '</div>';
-  html += '<div style="font-size:9px;color:var(--muted);margin-top:2px;">Udayam: ' + udayamRashi + '</div>';
+  html += '<div style="font-size:28px;font-weight:700;color:#ffdd44;">'+totalRays+'</div>';
+  html += '<div style="font-size:9px;color:var(--muted);margin-top:2px;">'+RS_SIGN[udayamRI]+' '+udayamRashi+' Udayam</div>';
   html += '</div>';
   html += '<div style="background:rgba(68,255,136,.08);border:1px solid #44ff8844;border-radius:8px;padding:12px;text-align:center;">';
-  html += '<div style="font-size:9px;color:var(--green);letter-spacing:1px;text-transform:uppercase;margin-bottom:4px;">Timing Estimate</div>';
-  html += '<div style="font-size:22px;font-weight:700;color:var(--green);">' + timingDays + ' days</div>';
-  html += '<div style="font-size:9px;color:var(--muted);margin-top:2px;">≈ ' + timingWeeks + ' weeks</div>';
+  html += '<div style="font-size:9px;color:var(--green);letter-spacing:1px;text-transform:uppercase;margin-bottom:4px;">Planets in Udayam</div>';
+  html += '<div style="font-size:22px;font-weight:700;color:var(--green);">'+(planetsInUdayam.length||'None')+'</div>';
+  html += '<div style="font-size:9px;color:var(--muted);margin-top:2px;">'+(planetsInUdayam.map(function(p){return p.name;}).join(', ')||'—')+'</div>';
   html += '</div>';
   html += '</div>';
-  
+
   html += '<table style="width:100%;border-collapse:collapse;font-size:11px;margin-bottom:10px;">';
   html += '<tr><th style="text-align:left;padding:4px 8px;font-size:9px;color:var(--muted);border-bottom:1px solid var(--bdr);">Component</th>';
   html += '<th style="text-align:right;padding:4px 8px;font-size:9px;color:var(--muted);border-bottom:1px solid var(--bdr);">Rays</th>';
   html += '<th style="text-align:right;padding:4px 8px;font-size:9px;color:var(--muted);border-bottom:1px solid var(--bdr);">Modifier</th></tr>';
   html += breakdown.join('');
-  html += '<tr style="border-top:2px solid var(--acc);"><td style="padding:5px 8px;font-weight:700;color:var(--acc2);">Total</td><td style="text-align:right;padding:5px 8px;font-weight:700;color:#ffdd44;font-size:13px;">' + totalRays + '</td><td></td></tr>';
+  html += '<tr style="border-top:2px solid var(--acc);"><td style="padding:5px 8px;font-weight:700;color:var(--acc2);">Total</td><td style="text-align:right;padding:5px 8px;font-weight:700;color:#ffdd44;font-size:13px;">'+totalRays+'</td><td></td></tr>';
   html += '</table>';
-  
-  html += '<div style="font-size:9px;color:var(--muted);line-height:1.7;padding:8px 10px;background:rgba(0,0,0,.2);border-radius:6px;">';
-  html += '⚠️ Rays indicate <b style="color:#ffdd44;">relative timing strength</b> — higher rays = faster/stronger result. ';
-  html += 'Unit depends on question: days for short-term, weeks or months for long-term events.';
+
+  html += moonTimingHTML;
+
+  html += '<div style="font-size:9px;color:var(--muted);line-height:1.7;padding:8px 10px;background:rgba(0,0,0,.2);border-radius:6px;margin-top:10px;">';
+  html += '✨ Formula: Planets in Udayam + Aspecting Planets + Rashi Rays = Total. ';
+  html += 'Exalted ×3 &nbsp;|&nbsp; Own House ×2 &nbsp;|&nbsp; Debilitated ÷2 &nbsp;|&nbsp; Retrograde ÷2 &nbsp;|&nbsp; Kavippu ÷2';
   html += '</div>';
   
   panel.innerHTML = html;
@@ -3591,7 +3686,7 @@ function getVerdict(jam,aruRi,udhRi,kavRi,qPlanet){
   else if(onAru.length>0){
     keyPl=onAru[0];var b=ben(keyPl.jmIdx);
     verdict=b?(T?"கேள்வி ஆற்றல் பெற்றுள்ளது":"QUESTION ENERGISED"):(T?"கேள்வி அழுத்தத்தில்":"QUESTION UNDER STRESS");
-    cls=b?"v-yes":"v-no";icon=b?"✅":"Œ";
+    cls=b?"v-yes":"v-no";icon=b?"✅":"❌";
     detail=jN(keyPl.jmIdx)+(T?" அருடம் ராசி "+rN(aruRi)+"இல் உள்ளது. ":
       " sits on Arudam sign "+rN(aruRi)+". ")+
       (b?(T?"கேள்வியைச் சுற்றி நேர்மறை ஆற்றல்.":"Positive energy around the matter."):
@@ -3599,7 +3694,7 @@ function getVerdict(jam,aruRi,udhRi,kavRi,qPlanet){
   }
   else if(onKav.length>0){
     keyPl=onKav[0];
-    verdict=T?"மறைந்த தடை செயலில் உள்ளது":"HIDDEN FACTOR ACTIVE";cls="v-delay";icon="Ÿ”";
+    verdict=T?"மறைந்த தடை செயலில் உள்ளது":"HIDDEN FACTOR ACTIVE";cls="v-delay";icon="📖";
     detail=jN(keyPl.jmIdx)+(T?" கவிப்பு ராசியில் ("+rN(kavRi)+") நிற்கிறது. ஒரு மறைந்த இரகசியம் இந்த நிலைமையை தடுக்கிறது.":
       " stands on Kavippu ("+rN(kavRi)+"). A hidden secret or obstacle is influencing this situation.");
   }
@@ -3624,8 +3719,8 @@ function getVerdict(jam,aruRi,udhRi,kavRi,qPlanet){
         "No strong planetary influence on Udhayam or Arudam now. Try at a different hour.";
     }
   }
-  if(keyPl&&keyPl.jmIdx===7) detail+=" "+(T?"Ÿ பாம்பு கலந்துள்ளது — முடிவு திடீரென்றும் திட்டவட்டமாகவும் இருக்கும்.":
-    "Ÿ Snake active — result will be sudden and definitive.");
+  if(keyPl&&keyPl.jmIdx===7) detail+=" "+(T?"🐍 பாம்பு கலந்துள்ளது — முடிவு திடீரென்றும் திட்டவட்டமாகவும் இருக்கும்.":
+    "🐍 Snake active — result will be sudden and definitive.");
   return{verdict,cls,icon,detail,keyPl,onUdh,onAru,onKav,apprUdh,kavippuOverride:false,qPlanet:qPlanet};
 }
 var GRID6 = (function(){
@@ -3693,7 +3788,7 @@ function chartBlank(){
   return '<td class="jm-outer" style="border-color:#1a1030;background:#040210;"></td>';
 }
 
-function buildDualChart(jamPlanets, gochPlanets, aruRi, udhRi, kavRi, curJam, sunRi, kavObj, aru, udh){
+function buildDualChart(jamPlanets, gochPlanets, aruRi, udhRi, kavRi, curJam, sunRi, kavObj, aru, udh, prasnamDate, prasnamTime){
   var jmMap={}, goMap={}, goDegMap={};
   jamPlanets.forEach(function(p){if(!jmMap[p.ri])jmMap[p.ri]=[];jmMap[p.ri].push(p);});
   gochPlanets.forEach(function(p){if(!goMap[p.ri])goMap[p.ri]=[];goMap[p.ri].push(p);goDegMap[p.pi]=p.sidDeg;});
@@ -3754,11 +3849,20 @@ function buildDualChart(jamPlanets, gochPlanets, aruRi, udhRi, kavRi, curJam, su
   }
 
   function ctrCell(){
-    var d=new Date();
     var days=[T?'ஞாயிறு':'Sun',T?'திங்கள்':'Mon',T?'செவ்வாய்':'Tue',
               T?'புதன்':'Wed',T?'வியாழன்':'Thu',T?'வெள்ளி':'Fri',T?'சனி':'Sat'];
-    var dateStr=d.getDate().toString().padStart(2,'0')+'/'+(d.getMonth()+1).toString().padStart(2,'0')+'/'+d.getFullYear();
-    var timeStr=d.getHours().toString().padStart(2,'0')+':'+d.getMinutes().toString().padStart(2,'0');
+    var d, dateStr, timeStr;
+    if(prasnamDate && prasnamTime){
+      // Use prasnam input date/time
+      var parts=prasnamDate.split('-'); // yyyy-mm-dd
+      d=new Date(parseInt(parts[0]),parseInt(parts[1])-1,parseInt(parts[2]));
+      dateStr=parts[2]+'/'+parts[1]+'/'+parts[0];
+      timeStr=prasnamTime.substring(0,5);
+    } else {
+      d=new Date();
+      dateStr=d.getDate().toString().padStart(2,'0')+'/'+(d.getMonth()+1).toString().padStart(2,'0')+'/'+d.getFullYear();
+      timeStr=d.getHours().toString().padStart(2,'0')+':'+d.getMinutes().toString().padStart(2,'0');
+    }
     var plList=curJam?curJam.planets.map(function(p){
       return '<div class="jm-cinfo" style="font-size:8px;line-height:1.5;">'+
         '<span style="color:'+JM_CLR2[p.jmIdx]+';font-weight:700;">'+(T?JM_STA[p.jmIdx]:JM_SEN[p.jmIdx])+'</span>'+
@@ -3854,12 +3958,11 @@ function calculate(){
   var tMonth =parseInt(document.getElementById("inp-tm").value);
   var tDate  =parseInt(document.getElementById("inp-td").value);
   var qText  =document.getElementById("inp-q").value||"";
-  var qPlanet=parseInt(document.getElementById("inp-qpl").value); // -1 = none
+  var qPlanet=-1; // Question planet input removed
 
   if(!dateStr||!timeStr){alert("Enter Prasnam Date and Time.");return;}
   var pMin=toMin(timeStr),srMin=toMin(srStr),ssMin=toMin(ssStr);
   if(ssMin<=srMin){alert("Sunset must be after sunrise.");return;}
-  if(isNaN(tDate)||tDate<1||tDate>32){alert("Tamil date must be 1–32.");return;}
 
   var d=new Date(dateStr);
   var hr=Math.floor(pMin/60),mn=pMin%60;
@@ -3920,7 +4023,7 @@ function renderResult(D){
     { name:"Venus",  icon:"♀",  topics:["Wife (for male)","Money","Vehicles","Luxury","Comforts"] },
     { name:"Saturn", icon:"♄",  topics:["Job","Longevity","Servants","Profession","Chronic illness"] },
     { name:"Moon",   icon:"🌙", topics:["Mother","Mother-in-law","Food items","Water","Extra-marital affair","Blood related disorders"] },
-    { name:"Snake",  icon:"Ÿ", topics:["Pregnancy","Foreign travel","Black magic","Devil","Alcohol","Witches","Spirits","Poison"] }
+    { name:"Snake",  icon:"🐍", topics:["Pregnancy","Foreign travel","Black magic","Devil","Alcohol","Witches","Spirits","Poison"] }
   ];
 
   var ARUDAM_BHAVA = [
@@ -4002,7 +4105,7 @@ function renderResult(D){
   }
 
   if(arudamHouse === 6 || arudamHouse === 8 || arudamHouse === 12){
-    rb += '<div class="rb-no">Œ Arudam in '+arudamHouse+'th from Udayam → <b>Indicates Failure/Obstacle</b></div>';
+    rb += '<div class="rb-no">❌ Arudam in '+arudamHouse+'th from Udayam → <b>Indicates Failure/Obstacle</b></div>';
   }
   rb += '</div>';
 
@@ -4037,7 +4140,7 @@ function renderResult(D){
       foundExDeb = true;
     }
     if(DEBIL[p.jmIdx] !== undefined && p.ri === DEBIL[p.jmIdx]){
-      rb += '<div style="font-size:10px;color:var(--red);line-height:1.8;margin-bottom:3px;">Œ <b>'+k.icon+' '+k.name+' is DEBILITATED in '+rN(p.ri)+'</b> → Querent asks about things they <b>cannot perform</b> — all talk, no action</div>';
+      rb += '<div style="font-size:10px;color:var(--red);line-height:1.8;margin-bottom:3px;">❌ <b>'+k.icon+' '+k.name+' is DEBILITATED in '+rN(p.ri)+'</b> → Querent asks about things they <b>cannot perform</b> — all talk, no action</div>';
       foundExDeb = true;
     }
   });
@@ -4077,23 +4180,23 @@ function renderResult(D){
     rb += '<div style="font-size:10px;color:var(--amber);line-height:1.8;margin-bottom:4px;">⚠ Kavippu in '+kavipHouse+' from Udayam → <b>Obstacles present</b> in the concerned matter</div>';
   }
   if(arudamHouse === 6 || arudamHouse === 8 || arudamHouse === 12){
-    rb += '<div style="font-size:10px;color:var(--red);line-height:1.8;margin-bottom:4px;">Œ Arudam in '+arudamHouse+' from Udayam → <b>Failure / Unfavourable</b></div>';
+    rb += '<div style="font-size:10px;color:var(--red);line-height:1.8;margin-bottom:4px;">❌ Arudam in '+arudamHouse+' from Udayam → <b>Failure / Unfavourable</b></div>';
   }
 
   var debFound = false;
   D.cj.planets.forEach(function(p){
     if(DEBIL[p.jmIdx] !== undefined && p.ri === DEBIL[p.jmIdx]){
       debFound = true;
-      rb += '<div style="font-size:10px;color:var(--red);line-height:1.8;margin-bottom:4px;">Œ <b>'+PLANET_KARAKATWAS[p.jmIdx].name+' is debilitated</b> → Karaka graha weak → Gives <b>negative answer</b> for related questions</div>';
+      rb += '<div style="font-size:10px;color:var(--red);line-height:1.8;margin-bottom:4px;">❌ <b>'+PLANET_KARAKATWAS[p.jmIdx].name+' is debilitated</b> → Karaka graha weak → Gives <b>negative answer</b> for related questions</div>';
     }
   });
   if(inKavippu.length > 0){
-    rb += '<div style="font-size:10px;color:var(--red);line-height:1.8;margin-bottom:4px;">Œ <b>Planet in Kavippu</b> → Karaka graha in Kavippu → <b>Negative answer</b> for related questions</div>';
+    rb += '<div style="font-size:10px;color:var(--red);line-height:1.8;margin-bottom:4px;">❌ <b>Planet in Kavippu</b> → Karaka graha in Kavippu → <b>Negative answer</b> for related questions</div>';
   }
 
   var paambuApproaching = D.cj.planets.filter(function(p){ return p.jmIdx === 7 && ccwStep(p.ri,1) === D.udhRi; });
   if(paambuApproaching.length > 0){
-    rb += '<div style="font-size:10px;color:var(--purple);line-height:1.8;margin-bottom:4px;">Ÿ <b>Paambu (Snake) is approaching Udayam</b> → The problem might be because of a <b>third person</b>, or the person might be having talks related to <b>foreign journey / travel abroad</b></div>';
+    rb += '<div style="font-size:10px;color:var(--purple);line-height:1.8;margin-bottom:4px;">🐍 <b>Paambu (Snake) is approaching Udayam</b> → The problem might be because of a <b>third person</b>, or the person might be having talks related to <b>foreign journey / travel abroad</b></div>';
   }
 
   if(!inEleventh.length && arudamHouse!==3 && arudamHouse!==11 && !debFound && !inKavippu.length && kavipHouse!==2 && kavipHouse!==11 && !paambuApproaching.length){
@@ -4190,13 +4293,13 @@ function renderResult(D){
   if(!noUdhAndAru){
     rb += '<div style="font-size:10px;color:var(--muted);font-style:italic;">⚠ Planet(s) present in Udayam or Arudam — this rule applies only when both are empty.</div>';
   } else {
-    var uTag = isSubhaUdh ? '✅ <b style="color:var(--green);">Subha Udayam</b> ('+rN(D.udhRi)+' — Sun\'s zone)' : 'Œ <b style="color:var(--red);">Asubha Udayam</b> ('+rN(D.udhRi)+' — outside Sun\'s zone)';
-    var aTag = isSubhaAru ? '✅ <b style="color:var(--green);">Subha Arudam</b> ('+rN(D.aruRi)+' — Moon\'s zone)' : 'Œ <b style="color:var(--red);">Asubha Arudam</b> ('+rN(D.aruRi)+' — outside Moon\'s zone)';
+    var uTag = isSubhaUdh ? '✅ <b style="color:var(--green);">Subha Udayam</b> ('+rN(D.udhRi)+' — Sun\'s zone)' : '❌ <b style="color:var(--red);">Asubha Udayam</b> ('+rN(D.udhRi)+' — outside Sun\'s zone)';
+    var aTag = isSubhaAru ? '✅ <b style="color:var(--green);">Subha Arudam</b> ('+rN(D.aruRi)+' — Moon\'s zone)' : '❌ <b style="color:var(--red);">Asubha Arudam</b> ('+rN(D.aruRi)+' — outside Moon\'s zone)';
     rb += '<div style="font-size:10px;line-height:2;margin-bottom:6px;">'+uTag+'<br>'+aTag+'</div>';
     if(isSubhaUdh && isSubhaAru)
       rb += '<div class="rb-verdict g">✅ Both Subha → <span style="font-weight:400;">Favourable — Good result predicted.</span></div>';
     else if(!isSubhaUdh && !isSubhaAru)
-      rb += '<div class="rb-verdict r">Œ Both Asubha → <span style="font-weight:400;">Unfavourable — Negative result predicted.</span></div>';
+      rb += '<div class="rb-verdict r">❌ Both Asubha → <span style="font-weight:400;">Unfavourable — Negative result predicted.</span></div>';
     else
       rb += '<div class="rb-verdict a">⚠ Mixed → <span style="font-weight:400;">One Subha, one Asubha — partial or uncertain outcome.</span></div>';
   }
@@ -4209,7 +4312,7 @@ function renderResult(D){
       (T?"வெளி ஓரம் = ஜாமம் கிரகங்கள் (CCW சுழற்சி)  உள்ளே = கோச்சாரம் + மாந்தி + 3 புள்ளிகள்":
          "Outer rim = Jamam planets (CCW rotation)  Inner = Gochara + Mandi + 3 Points")+'</div>'+
     '<div class="jm-chart-wrap">'+
-      buildDualChart(cj.planets,gPlanets,D.aruRi,D.udhRi,D.kavRi,cj,D.sunRi,D.kav,D.aru,D.udh)+
+      buildDualChart(cj.planets,gPlanets,D.aruRi,D.udhRi,D.kavRi,cj,D.sunRi,D.kav,D.aru,D.udh,D.dateStr,D.timeStr)+
     '</div>'+
 
     '<div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:8px;font-size:9px;color:var(--muted);">'+
@@ -4234,7 +4337,17 @@ function renderResult(D){
     ptPill("var(--acc)","#0e0800",T?"சூரியன் வீதி":"Sun Veedhi",
       (T?D.kav.veedhi.nameTA:D.kav.veedhi.name),(T?"சூ:":"Sun:")+rN(D.sunRi))+
     '</div>'+
-    calcBox(D,T)+
+    (function(){
+      var id='calc-breakdown-'+Date.now();
+      var lbl=T?'📊 முழு கணக்கீடு':'📊 Full Calculation Breakdown';
+      return '<div style="margin-top:10px;">'+
+        '<button onclick="var el=document.getElementById(\''+id+'\');var btn=this;el.style.display=(el.style.display===\'none\'?\'\':\'none\');btn.textContent=(el.style.display===\'none\'?(T?\'📊 முழு கணக்கீடு காட்டு\':\'📊 Show Full Calculation Breakdown\'):(T?\'📊 முழு கணக்கீடு மறை\':\'📊 Hide Full Calculation Breakdown\'));" '+
+          'style="background:transparent;border:1px solid var(--bdr);border-radius:6px;color:var(--muted);cursor:pointer;font-size:11px;padding:6px 12px;font-family:var(--fB);width:100%;text-align:left;">'+
+          '📊 '+(T?'முழு கணக்கீடு காட்டு':'Show Full Calculation Breakdown')+
+        '</button>'+
+        '<div id="'+id+'" style="display:none;">'+calcBox(D,T)+'</div>'+
+      '</div>';
+    })()+
   '</div>';
   var UDH_PLANET_DATA = [
     { // Sun (jmIdx 0)
@@ -4287,7 +4400,7 @@ function renderResult(D){
       ta_topics:["மங்கல நிகழ்வுகள் (திருமணம், விழாக்கள்)","குழந்தை விஷயம்","குறுகிய காலத்தில் முடிவு கிடைக்கும்","பயணம் அல்லது யாத்திரை","மனம், தாய் அல்லது உணர்வு","சந்திரனின் காரக/பாவம் கேள்வியை நிர்ணயிக்கும்"]
     },
     { // Snake (jmIdx 7)
-      icon:"Ÿ", color:"#cc88ff",
+      icon:"🐍", color:"#cc88ff",
       en_title:"Snake (Rahu) in Udayam",
       en_topics:["Medical matters — positive only for medical questions","IVF or assisted childbirth","Pregnancy confirmation","Taking loans or debts","Considered unfavourable for marriage and other houses","Hidden matters, sudden events, foreign connection"],
       ta_title:"பாம்பு (ராகு) உதயத்தில்",
@@ -4371,9 +4484,8 @@ function renderResult(D){
       " | "+(T?"ஆட்சியாளர்: ":"Ruler: ")+jN(cj.planets[0].jmIdx)+"</div>"+
     '<table class="dt"><thead><tr>'+
       '<th>'+(T?"ஜாமம் கிரகம்":"Jamam Planet")+'</th>'+
-      '<th>'+(T?"இணை":"Pair")+'</th>'+
-      '<th>'+(T?"ராசி + டிகிரி":"Sign + Degree")+'</th>'+
-      '<th>'+(T?"குறிப்பு":"Note")+'</th>'+
+      '<th>'+(T?"ராசி":"Sign")+'</th>'+
+      '<th>'+(T?"டிகிரி":"Degree")+'</th>'+
     '</tr></thead><tbody>'+
     cj.planets.map(function(p){
       var partner=JM_PARTNER[p.jmIdx];
@@ -4385,9 +4497,8 @@ function renderResult(D){
       if(ccwStep(p.ri,1)===D.udhRi) notes.push('<span style="color:var(--amber);">→'+(T?"உதயம் நோக்கி":"→Udhayam")+'</span>');
       return '<tr>'+
         '<td style="color:'+JM_UNIFORM+';font-weight:700;">'+jN(p.jmIdx)+'</td>'+
-        '<td style="color:'+JM_UNIFORM+';font-size:10px;">'+jS(partner)+(partnerRi?(' @ '+rN(partnerRi.ri)):'')+'</td>'+
-        '<td style="color:var(--acc);">'+rN(p.ri)+'<span style="color:var(--muted);font-size:9px;margin-left:4px;">'+(p.absDeg!==undefined?p.absDeg:p.deg)+''+String(p.absMin!==undefined?p.absMin:p.min).padStart(2,'0')+"'"+'</span></td>'+
-        '<td>'+notes.join(' ')+'</td>'+
+        '<td style="color:var(--acc);">'+rN(p.ri)+'</td>'+
+        '<td style="color:var(--muted);font-size:10px;">'+(p.absDeg!==undefined?p.absDeg:p.deg)+'°'+String(p.absMin!==undefined?p.absMin:p.min).padStart(2,'0')+"'"+'</td>'+
       '</tr>';
     }).join("")+
     '</tbody></table></div>';
@@ -4397,7 +4508,7 @@ function renderResult(D){
       '<table class="dt"><thead><tr>'+
         '<th>'+(T?"கிரகம்":"Planet")+'</th>'+
         '<th>'+(T?"ராசி":"Sign")+'</th>'+
-        '<th>'+(T?"குறிப்பு":"Note")+'</th>'+
+        '<th>'+(T?"டிகிரி":"Degree")+'</th>'+
       '</tr></thead><tbody>'+
       gPlanets.map(function(p){
         var notes=[];
@@ -4409,10 +4520,13 @@ function renderResult(D){
         if(jmInSameSign.length>0){
           notes.push('<span style="color:var(--purple);font-size:9px;">⊕'+(T?"ஜாமம் உறுதி":"JM confirm")+'</span>');
         }
+        var sidDeg=p.sidDeg!==undefined?p.sidDeg:0;
+        var gDeg=Math.floor(sidDeg%30);
+        var gMin=Math.floor((sidDeg%30-gDeg)*60);
         return '<tr>'+
           '<td style="color:'+GP_UNIFORM+';font-weight:700;">'+gN(p.pi)+'</td>'+
           '<td style="color:var(--acc);">'+rN(p.ri)+'</td>'+
-          '<td>'+notes.join(' ')+'</td>'+
+          '<td style="color:var(--muted);font-size:10px;">'+gDeg+'°'+String(gMin).padStart(2,'0')+"'"+'</td>'+
         '</tr>';
       }).join("")+
       '</tbody></table>'+
@@ -4423,47 +4537,36 @@ function renderResult(D){
   }
 
   h+='<div class="card"><div class="ctitle">'+(T?"16 ஜாமம் அட்டவணை":"16-Jamam Timeline")+'</div>';
-  D.jams.forEach(function(jm){
+  h+='<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">';
+  // Day column
+  h+='<div>';
+  h+='<div style="font-size:9px;font-weight:700;color:var(--acc2);text-align:center;padding:4px;border-bottom:1px solid var(--bdrG);margin-bottom:2px;">☀️ '+(T?"பகல்":"Day")+'</div>';
+  D.jams.filter(function(jm){return !jm.isNight;}).forEach(function(jm){
     var cur=jm.num===cj.num;
-    h+='<div class="tl-row'+(cur?" tl-now":"")+""+'"'+'>'+
-      '<span class="tl-jn">'+(cur?"▶ ":"")+jm.num+'</span>'+
-      '<span class="tl-tm">'+toHM(jm.start)+'–'+toHM(jm.end)+'</span>'+
-      '<span class="tl-ic">'+(jm.isNight?"🌙":"☀️")+'</span>'+
-      '<span class="tl-pl">'+jm.planets.map(function(p){
-        var isUdh=(p.ri===D.udhRi), isAru=(p.ri===D.aruRi), isKav=(p.ri===D.kavRi);
-        var isSnake=(p.jmIdx===7);
-        var signClr=isUdh?'var(--green)':isAru?'var(--cyan)':isKav?'var(--red)':'';
-        var signStyle=signClr?'color:'+signClr+';font-weight:700;':'color:var(--muted);';
-        var plClr=isSnake?'#cc88ff':JM_UNIFORM;
-        return '<span style="color:'+plClr+';font-weight:'+(isUdh||isAru||isKav||isSnake?'700':'400')+';">'+
-          jS(p.jmIdx)+'</span>'+
-          '<span style="'+signStyle+'">:'+RS_SH[p.ri]+'</span>';
-      }).join(' ')+'</span>'+
+    h+='<div style="display:flex;align-items:center;gap:6px;padding:3px 6px;font-size:9px;'+
+      (cur?'background:var(--bg4);border-left:2px solid var(--purple);font-weight:700;':'border-left:2px solid transparent;')+
+      'border-bottom:1px solid var(--bdr);">'+
+      '<span style="width:14px;color:'+(cur?'var(--purple)':'var(--muted)')+';font-weight:700;flex-shrink:0;">'+(cur?"▶":jm.num)+'</span>'+
+      '<span style="color:var(--muted);">'+toHM(jm.start)+'–'+toHM(jm.end)+'</span>'+
     '</div>';
   });
   h+='</div>';
+  // Night column
+  h+='<div>';
+  h+='<div style="font-size:9px;font-weight:700;color:var(--acc2);text-align:center;padding:4px;border-bottom:1px solid var(--bdrG);margin-bottom:2px;">🌙 '+(T?"இரவு":"Night")+'</div>';
+  D.jams.filter(function(jm){return jm.isNight;}).forEach(function(jm){
+    var cur=jm.num===cj.num;
+    h+='<div style="display:flex;align-items:center;gap:6px;padding:3px 6px;font-size:9px;'+
+      (cur?'background:var(--bg4);border-left:2px solid var(--purple);font-weight:700;':'border-left:2px solid transparent;')+
+      'border-bottom:1px solid var(--bdr);">'+
+      '<span style="width:14px;color:'+(cur?'var(--purple)':'var(--muted)')+';font-weight:700;flex-shrink:0;">'+(cur?"▶":jm.num)+'</span>'+
+      '<span style="color:var(--muted);">'+toHM(jm.start)+'–'+toHM(jm.end)+'</span>'+
+    '</div>';
+  });
+  h+='</div>';
+  h+='</div></div>';
 
-  h+='<div class="card"><div class="ctitle">'+(T?"விளக்க பகுப்பாய்வு":"Detailed Analysis")+'</div>'+
-    '<div class="agrid">'+
-    abox("var(--purple)",T?"ஜாமம் — 8 கிரக நியதிகள்":"Jamam — 8 Planet Rules",
-      (T?'• வரிசை: சூ,செ,கு,பு,சுக்,சனி,சந்,பாம்பு<br/>• நிலையான ராசிகளை (ரி,சி,விரு,கும்) தவிர்க்கும்<br/>• பகல் ஆட்சியாளர்: '+jN(D.jams[0].planets[0].jmIdx)+'<br/>• இரவு ஆட்சியாளர்: '+jN(D.jams[8].planets[0].jmIdx)+'<br/>• 1 ஜாமம் = 90 நிமிடம் | 1 = 2 நிமிடம் | slot = 45<br/>• தற்போதைய ஜாமம்: 90 நிமிடம்':
-      '• Sequence: Su,Ma,Ju,Me,Ve,Sa,Mo,Snake<br/>• Fixed signs (Ta,Le,Sc,Aq) always skipped<br/>• Day ruler: '+jN(D.jams[0].planets[0].jmIdx)+'<br/>• Night ruler: '+jN(D.jams[8].planets[0].jmIdx)+'<br/>• 1 Jama = 90 min | 1 = 2 min | slot = 45<br/>• Current Jama duration: 90 min'))+
-    abox("var(--acc2)",T?"1-7 இணை கிரகங்கள்":"1-7 Paired Planets",
-      (T?'• சூ↔சுக்: அரசு & செழிப்பு<br/>• செ↔சனி: தளபதி & படை<br/>• கு↔சந்: சுபர்கள் இணை<br/>• பு↔பாம்பு: அறிவு & இரசாயனம்':
-       '• Su↔Ve: Royal & Abundance<br/>• Ma↔Sa: Commander & Army<br/>• Ju↔Mo: Natural benefic pair<br/>• Me↔Snake: Intellect & Reaction'))+
-    abox("var(--green)",T?"உதயம் கணக்கு":"Udhayam Calculation",
-      (T?'• சூரியன் தீர்க்க: '+D.udh.sunSidDeg.toFixed(1)+' ('+rN(D.sunRi)+')<br/>• Factor A: '+D.udh.factorA.toFixed(4)+' நிமிட/<br/>• Factor B (கடந்தது): '+D.udh.factorB.toFixed(1)+' நிமிடம்<br/>• Factor C: '+D.udh.factorC.toFixed(1)+' | மொத்தம்: '+D.udh.rawDeg.toFixed(1)+' → '+rN(D.udhRi):
-       '• Sun sidereal: '+D.udh.sunSidDeg.toFixed(1)+' ('+rN(D.sunRi)+')<br/>• Factor A: '+D.udh.factorA.toFixed(4)+' min/<br/>• Factor B (elapsed): '+D.udh.factorB.toFixed(1)+' min<br/>• Factor C: '+D.udh.factorC.toFixed(1)+' | Raw: '+D.udh.rawDeg.toFixed(1)+' → '+rN(D.udhRi)))+
-    abox("var(--red)",T?"கவிப்பு கணக்கு":"Kavippu Calculation",
-      (T?'• வீதி: '+D.kav.veedhi.nameTA+' | வீதி அடி: '+rN(D.kav.veedhi.start)+'<br/>'+
-          '• அருடம் ('+rN(D.aruRi)+') → வீதி அடி ('+rN(D.kav.veedhi.start)+') CW = '+D.kav.dist+' படிகள்<br/>'+
-          '• உதயம் ('+rN(D.udhRi)+') + '+D.kav.dist+' CW = <b>'+rN(D.kavRi)+'</b><br/>'+
-          '• கவிப்பு எதிர் திசையில் (CCW) நகர்கிறது — ஜாமம் கிரகங்கள் போல்':
-       '• Veedhi: '+D.kav.veedhi.name+' | Base: '+rN(D.kav.veedhi.start)+'<br/>'+
-          '• Arudam ('+rN(D.aruRi)+') → Veedhi base ('+rN(D.kav.veedhi.start)+') CW = '+D.kav.dist+' steps<br/>'+
-          '• Udhayam ('+rN(D.udhRi)+') + '+D.kav.dist+' CW = <b>'+rN(D.kavRi)+'</b><br/>'+
-          '• Kavippu moves anti-clockwise (CCW) — same direction as Jama planets'))+
-    '</div></div>';
+
 
   var KAV_GUIDE=[
     {ji:0,icon:"☀️",topics:T?"அதிகாரம், அரசு, தந்தை, ஆரோக்கியம், ஆத்மா":"Authority, Govt, Father, Health, Soul"},
@@ -4473,31 +4576,10 @@ function renderResult(D){
     {ji:4,icon:"♀",topics:T?"திருமணம், காதல், வாகனம், ஆடம்பரம்":"Marriage, Love, Vehicles, Luxury, Relationship"},
     {ji:5,icon:"♄",topics:T?"தாமதம், சேவை, ஆயுள், கர்மா, உழைப்பு":"Delays, Service, Longevity, Karma, Labour"},
     {ji:6,icon:"☽",topics:T?"மனம், தாய், தண்ணீர், உணர்வு, சாந்தி":"Mind, Mother, Water, Emotions, Peace"},
-    {ji:7,icon:"Ÿ",topics:T?"மறைவான காரியம், வெளிநாடு, விஷம், திடீர் நிகழ்வு":"Hidden matters, Foreign, Poison, Sudden events"}
+    {ji:7,icon:"🐍",topics:T?"மறைவான காரியம், வெளிநாடு, விஷம், திடீர் நிகழ்வு":"Hidden matters, Foreign, Poison, Sudden events"}
   ];
   var kavPl=D.qPlanet;
-  h+='<div class="card"><div class="ctitle">'+(T?"கவிப்பு கிரக வழிகாட்டி — எந்த கிரகம் உங்கள் கேள்விக்கு?":"Kavippu Planet Guide — Which Planet Rules Your Question?")+'</div>'+
-    '<div style="font-size:10px;color:var(--muted);margin-bottom:8px;">'+
-      (T?"உங்கள் கேள்விக்கு உரிய கிரகம் கவிப்பு ராசியில் இருந்தால் — நேரடி இல்லை என்பதே இறுதி முடிவு.":
-         "If the planet of your question occupies Kavippu ("+rN(D.kavRi)+") → answer is an immediate NO, final.")+
-    '</div>'+
-    '<div class="kav-pl-guide">'+
-    KAV_GUIDE.map(function(k){
-      var pInKav=D.cj.planets.find(function(p){return p.jmIdx===k.ji && p.ri===D.kavRi;});
-      var isQPl=(kavPl===k.ji);
-      var isOverride=(isQPl && pInKav);
-      return '<div class="kav-pl-item'+(pInKav?' active-kav':'')+'">'+
-        '<span style="font-size:14px;">'+k.icon+'</span>'+
-        '<div>'+
-          '<div style="font-weight:700;color:'+(isOverride?'var(--red)':pInKav?'var(--amber)':'var(--txt)')+';">'+
-            jN(k.ji)+(pInKav?' <span style="color:var(--red);font-weight:700;">⚠ IN KAVIPPU</span>':'')+
-            (isQPl?' <span style="font-size:8px;background:var(--purple);color:#fff;border-radius:3px;padding:1px 4px;">YOUR Q</span>':'')+
-          '</div>'+
-          '<div style="font-size:9px;color:var(--muted);">'+k.topics+'</div>'+
-        '</div>'+
-      '</div>';
-    }).join('')+
-    '</div></div>';
+
 
   h+='<div class="card" style="border-color:var(--bdrG);"><div class="ctitle">'+(T?"கிளாசிக்கல் குறிப்புகள்":"Classical Notes — Jammakol System")+'</div>'+
     '<div style="font-size:11px;color:var(--txt);line-height:1.9;">'+
@@ -4580,7 +4662,7 @@ function calcBox(D,T){
 
     '<div>→ <b>S7 '+(T?'ராசி':'Rashi')+':</b> floor('+udh.rawDeg.toFixed(2)+'  30) = <b style="color:var(--green);">'+rN(D.udhRi)+'</b> &nbsp; '+udh.deg+''+String(udh.min).padStart(2,'0')+"' in sign</div>"+
 
-    '<div style="margin:8px 0 2px;font-weight:700;color:var(--acc2);">Ÿ '+(T?'ஜாமம் கிரக டிகிரி கணக்கு':'Jammam Planet Degree Calculation')+'</div>'+
+    '<div style="margin:8px 0 2px;font-weight:700;color:var(--acc2);">🔢 '+(T?'ஜாமம் கிரக டிகிரி கணக்கு':'Jammam Planet Degree Calculation')+'</div>'+
     '<div class="sh-sub">'+(T?'(8 non-fixed slots  45 = 360 | 1 ஜாமம் = 90 நிமிடம் | 1 = 2 நிமிடம் | slot-உள் deg = 45 − floor(elapsed2))':'(8 slots  45 = 360 | 1 Jamam = 90 min | 1 = 2 min | degInSlot = 45 − floor(elapsed2))')+'</div>'+
     (function(){
       var cj=D.cj, T2=T;
@@ -4616,7 +4698,7 @@ function calcBox(D,T){
       var rulerInPi=(j1.planets[0].ri===11);
       return '<div style="background:var(--bg5);border-radius:5px;padding:6px 8px;border:1px solid var(--bdr);">'+
         '<div style="font-size:9px;font-weight:700;margin-bottom:3px;color:'+(rulerInPi?'var(--green)':'var(--red)')+';">'+
-          (rulerInPi?'✅ ':'Œ ')+jN(j1.planets[0].jmIdx)+' ('+(T?'பகல் ஆட்சியாளர்':'Day Ruler')+') @ '+rN(j1.planets[0].ri)+
+          (rulerInPi?'✅ ':'❌ ')+jN(j1.planets[0].jmIdx)+' ('+(T?'பகல் ஆட்சியாளர்':'Day Ruler')+') @ '+rN(j1.planets[0].ri)+
           (rulerInPi?' — '+(T?'சரி! மீன ராசியில் தொடங்குகிறது':'Correct! Starts in Pisces'):'  — '+(T?'தவறு — மீனத்தில் இருக்க வேண்டும்':'Error — should be Pisces'))+'</div>'+
         rows+
       '</div>';
@@ -4810,6 +4892,17 @@ function selectCity(lat,lon,name){
   autoFillSunTimes();
 }
 
+var userEditedTime = false;
+var userEditedDate = false;
+function resetToCurrentTime(){
+  var now=new Date();
+  document.getElementById("inp-date").value=now.getFullYear()+"-"+String(now.getMonth()+1).padStart(2,'0')+"-"+String(now.getDate()).padStart(2,'0');
+  document.getElementById("inp-time").value=String(now.getHours()).padStart(2,'0')+":"+String(now.getMinutes()).padStart(2,'0')+":"+String(now.getSeconds()).padStart(2,'0');
+  document.getElementById("inp-tm").value=String(sunSignFromDate(document.getElementById("inp-date").value));
+  userEditedTime=false;
+  userEditedDate=false;
+  autoFillSunTimes();
+}
 window.addEventListener("DOMContentLoaded",function(){
 
   var def=lmGetDefault();
@@ -4821,13 +4914,23 @@ window.addEventListener("DOMContentLoaded",function(){
   } else {
     document.getElementById("inp-loc").value="Chennai, Tamil Nadu, India";
   }
+  var userEditedTime = false;
+  var userEditedDate = false;
+  document.getElementById("inp-time").addEventListener("change", function(){ userEditedTime = true; });
+  document.getElementById("inp-time").addEventListener("input",  function(){ userEditedTime = true; });
+  document.getElementById("inp-date").addEventListener("change", function(){ userEditedDate = true; });
+  document.getElementById("inp-date").addEventListener("input",  function(){ userEditedDate = true; });
   function updateTime(){
+    if(userEditedTime && userEditedDate) return;
     var now=new Date();
     var y=now.getFullYear(),m=String(now.getMonth()+1).padStart(2,'0'),dy=String(now.getDate()).padStart(2,'0');
-    document.getElementById("inp-date").value=y+"-"+m+"-"+dy;
-    document.getElementById("inp-time").value=String(now.getHours()).padStart(2,'0')+":"+String(now.getMinutes()).padStart(2,'0')+":"+String(now.getSeconds()).padStart(2,'0');
-    document.getElementById("inp-tm").value=String(sunSignFromDate(y+"-"+m+"-"+dy));
-
+    if(!userEditedDate){
+      document.getElementById("inp-date").value=y+"-"+m+"-"+dy;
+      document.getElementById("inp-tm").value=String(sunSignFromDate(y+"-"+m+"-"+dy));
+    }
+    if(!userEditedTime){
+      document.getElementById("inp-time").value=String(now.getHours()).padStart(2,'0')+":"+String(now.getMinutes()).padStart(2,'0')+":"+String(now.getSeconds()).padStart(2,'0');
+    }
   }
   updateTime();          // populate date first
   autoFillSunTimes();   // then calculate sunrise/sunset with correct date + coords
@@ -5089,7 +5192,7 @@ var KK_PLANETS = {
             "Maandi in Kavippu → extremely dangerous / irreversible outcome"],
     direction:"—", duration:"—", height:"—",
     udayam:""},
-  "Snake":   {sym:"Ÿ",clr:"#88ffaa",bg:"linear-gradient(135deg,#001408,#0a0a18)",
+  "Snake":   {sym:"🐍",clr:"#88ffaa",bg:"linear-gradient(135deg,#001408,#0a0a18)",
     general:"Sudden events, secretive, hidden karma",
     job:"Occult, astrology, secret work",
     rel:"Pregnancy-related, foreign connections",
@@ -5200,7 +5303,7 @@ function showKKPlanet(name){
     b += '</div>';
     b += '<div style="text-align:center;">';
     b += '<div style="font-size:8px;text-transform:uppercase;letter-spacing:1px;color:'+d.clr+';opacity:.7;margin-bottom:4px;">Height</div>';
-    b += '<div style="font-size:18px;margin-bottom:2px;">'+(d.height==='Tall'?'Ÿ”️':d.height==='Medium'?'🌳':'🌿')+'</div>';
+    b += '<div style="font-size:18px;margin-bottom:2px;">'+(d.height==='Tall'?'📖️':d.height==='Medium'?'🌳':'🌿')+'</div>';
     b += '<div style="font-size:11px;font-weight:700;color:'+hClr+';">'+d.height+'</div>';
     b += '</div>';
     b += '</div>';
@@ -5238,9 +5341,9 @@ function showKKPlanet(name){
   b+=row('💼','Job / Profession',d.job);
   b+=row('👥','Relationship',d.rel);
   b+=row('👕','Dress',d.dress);
-  b+=row('Ÿ️','Food',d.food);
-  b+=row('Ÿ','Diseases',d.disease);
-  b+=row('Ÿ™','Deity',d.god);
+  b+=row('🍽️','Food',d.food);
+  b+=row('🦠','Diseases',d.disease);
+  b+=row('🛕','Deity',d.god);
 
   if(d.udayam){
     b+='<div style="margin-top:10px;padding:9px 11px;background:rgba(0,0,0,.25);border:1px solid '+d.clr+'33;border-left:3px solid '+d.clr+';border-radius:6px;">';
@@ -5274,9 +5377,9 @@ function showKKRashi(name){
   function row(icon,lbl,val){return '<div class="kk-row"><span class="kk-icon">'+icon+'</span><div><div class="kk-lbl">'+lbl+'</div><div class="kk-val">'+val+'</div></div></div>';}
   b+=row('✦','Nature / Type',d.nature);
   b+=row('🎨','Color',d.colr);
-  b+=row('Ÿ“','Places',d.places);
+  b+=row('📍','Places',d.places);
   b+=row('🧬','Body Part',d.body);
-  b+=row('Ÿ“','Notes',d.notes);
+  b+=row('📍','Notes',d.notes);
 
   var ri2 = RASHI_RAYS_NAMES.indexOf(name);
   if(ri2 !== -1){
@@ -5298,6 +5401,27 @@ function showKKByJmIdx(ji){
 function showKKByRasi(ri){
   var name=KK_RS_NAMES[ri]; if(name) showKKRashi(name);
 }
+function applyRaysCond(base, cond){
+  if(cond==='exalted')     return base * 3;
+  if(cond==='own')         return base * 2;
+  if(cond==='debilitated') return base / 2;
+  if(cond==='retrograde')  return base / 2;
+  if(cond==='kavippu')     return base / 2;
+  return base; // normal
+}
+function condLabel(cond){
+  if(cond==='exalted')     return '×3 Exalted';
+  if(cond==='own')         return '×2 Own House';
+  if(cond==='debilitated') return '÷2 Debilitated';
+  if(cond==='retrograde')  return '÷2 Retrograde';
+  if(cond==='kavippu')     return '÷2 Kavippu';
+  return 'Normal';
+}
+function condColor(cond){
+  if(cond==='exalted'||cond==='own') return 'var(--green)';
+  if(cond==='debilitated'||cond==='retrograde'||cond==='kavippu') return 'var(--red)';
+  return '#ffdd44';
+}
 function calcRays(){
   var pName=document.getElementById('rc-planet').value;
   var pCond=document.getElementById('rc-cond').value;
@@ -5308,10 +5432,10 @@ function calcRays(){
   if(!pName && !aName && rashiVal===''){document.getElementById('rc-result').style.display='none';return;}
 
   var pBase=pName?PLANET_RAYS[pName]||0:0;
-  var pRays=pCond==='exalted'?pBase*3:pCond==='debilitated'?0:pBase;
+  var pRays=pName?applyRaysCond(pBase,pCond):0;
 
   var aBase=aName?PLANET_RAYS[aName]||0:0;
-  var aRays=aCond==='exalted'?aBase*3:aCond==='debilitated'?0:aBase;
+  var aRays=aName?applyRaysCond(aBase,aCond):0;
 
   var rRays=rashiVal!==''?RASHI_RAYS[parseInt(rashiVal)]:0;
 
@@ -5322,11 +5446,24 @@ function calcRays(){
   document.getElementById('rc-r-rays').textContent=rashiVal!==''?rRays:'0';
   document.getElementById('rc-total').textContent=total;
 
-  var bd='';
-  if(pName) bd+='<b>'+pName+'</b> (base '+pBase+', '+pCond+'): <b style="color:#ffdd44;">'+pRays+' rays</b><br>';
-  if(aName) bd+='<b>'+aName+'</b> aspecting (base '+aBase+', '+aCond+'): <b style="color:#ffdd44;">'+aRays+' rays</b><br>';
-  if(rashiVal!=='') bd+='Rashi '+RASHI_RAYS_NAMES[parseInt(rashiVal)]+': <b style="color:#ffdd44;">'+rRays+' rays</b><br>';
-  bd+='<b style="color:var(--acc2);">Total = '+total+' rays</b>';
+  var bd='<table style="width:100%;border-collapse:collapse;font-size:10px;margin-top:4px;">';
+  if(pName){
+    bd+='<tr><td style="padding:3px 0;color:var(--txt);">'+pName+' in Udayam</td>';
+    bd+='<td style="text-align:center;color:var(--muted);font-size:9px;">base '+pBase+' '+condLabel(pCond)+'</td>';
+    bd+='<td style="text-align:right;font-weight:700;color:'+condColor(pCond)+';">'+pRays+'</td></tr>';
+  }
+  if(aName){
+    bd+='<tr><td style="padding:3px 0;color:var(--txt);">'+aName+' aspecting</td>';
+    bd+='<td style="text-align:center;color:var(--muted);font-size:9px;">base '+aBase+' '+condLabel(aCond)+'</td>';
+    bd+='<td style="text-align:right;font-weight:700;color:'+condColor(aCond)+';">'+aRays+'</td></tr>';
+  }
+  if(rashiVal!==''){
+    bd+='<tr><td style="padding:3px 0;color:var(--txt);">Rashi: '+RASHI_RAYS_NAMES[parseInt(rashiVal)]+'</td>';
+    bd+='<td></td><td style="text-align:right;font-weight:700;color:#ffdd44;">'+rRays+'</td></tr>';
+  }
+  bd+='<tr style="border-top:1px solid var(--bdr);"><td style="padding:4px 0;font-weight:700;color:var(--acc2);">Total Rays</td>';
+  bd+='<td></td><td style="text-align:right;font-size:14px;font-weight:700;color:var(--acc2);">'+total+'</td></tr>';
+  bd+='</table>';
   document.getElementById('rc-breakdown').innerHTML=bd;
   document.getElementById('rc-result').style.display='block';
 }
